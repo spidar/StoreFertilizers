@@ -1,0 +1,94 @@
+@model StoreFertilizers.Models.InvoiceDetails
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>InvoiceDetails</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="InvoiceDetailsID" />
+        <div class="form-group">
+            <label asp-for="Article" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Article" class="form-control" />
+                <span asp-validation-for="Article" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="InvoiceID" class="control-label col-md-2">InvoiceID</label>
+            <div class="col-md-10">
+                <select asp-for="InvoiceID" class="form-control" />
+                <span asp-validation-for="InvoiceID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Qty" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Qty" class="form-control" />
+                <span asp-validation-for="Qty" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TimeStamp" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TimeStamp" class="form-control" />
+                <span asp-validation-for="TimeStamp" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Total" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Total" class="form-control" />
+                <span asp-validation-for="Total" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TotalPlusVAT" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TotalPlusVAT" class="form-control" />
+                <span asp-validation-for="TotalPlusVAT" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="VAT" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="VAT" class="form-control" />
+                <span asp-validation-for="VAT" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="VATAmount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="VATAmount" class="form-control" />
+                <span asp-validation-for="VATAmount" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

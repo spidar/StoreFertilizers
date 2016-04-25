@@ -1,0 +1,110 @@
+@model IEnumerable<StoreFertilizers.Models.Invoice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AdvancePaymentTax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdvancePaymentTaxAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsProposal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProposalDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalToPay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalWithVAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VATAmount)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdvancePaymentTax)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AdvancePaymentTaxAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DueDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvoiceNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsProposal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NetTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Paid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProposalDetails)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalToPay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalWithVAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VATAmount)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.InvoiceID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.InvoiceID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.InvoiceID">Delete</a>
+        </td>
+    </tr>
+}
+</table>

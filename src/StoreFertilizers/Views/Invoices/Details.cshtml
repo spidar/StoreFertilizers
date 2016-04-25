@@ -1,0 +1,102 @@
+@model StoreFertilizers.Models.Invoice
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Invoice</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdvancePaymentTax)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdvancePaymentTax)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AdvancePaymentTaxAmount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AdvancePaymentTaxAmount)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InvoiceNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsProposal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsProposal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NetTotal)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NetTotal)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Paid)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Paid)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProposalDetails)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProposalDetails)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalToPay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalToPay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalWithVAT)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalWithVAT)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VATAmount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VATAmount)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.InvoiceID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

@@ -1,0 +1,66 @@
+@model StoreFertilizers.Models.InvoiceDetails
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>InvoiceDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Article)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Article)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Qty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalPlusVAT)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalPlusVAT)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VAT)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VAT)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VATAmount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VATAmount)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.InvoiceDetailsID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>
