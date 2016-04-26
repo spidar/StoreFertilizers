@@ -10,6 +10,8 @@ namespace StoreFertilizers.Models
 
         public int EmployeeID { get; set; }
 
+        public string EmployeeNumber { get; set; }
+
         [Required(ErrorMessage = "Name required")]
         //[DisplayName("Name")]
         public string Name { get; set; }

@@ -37,7 +37,7 @@ namespace StoreFertilizers.Models
         [Range(0.00, 100, ErrorMessage = "ต้องเป็นค่า % ระหว่าง 0 ถึง 100")]
         public decimal Discount { get; set; }
 
-        [Display(Name = "เปอร์เซ็นต์คาดหวังกำไร")]
+        [Display(Name = "เปอร์เซ็นต์กำไร")]
         [Range(0.00, 100, ErrorMessage = "ต้องเป็นค่า % ระหว่าง 0 ถึง 100")]
         public decimal ExpectedProfit { get; set; }
 
