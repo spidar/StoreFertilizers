@@ -13,24 +13,70 @@
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="InvoiceID" />
         <div class="form-group">
-            <label asp-for="AdvancePaymentTax" class="col-md-2 control-label"></label>
+            <label asp-for="BankBranch" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="AdvancePaymentTax" class="form-control" />
-                <span asp-validation-for="AdvancePaymentTax" class="text-danger" />
+                <input asp-for="BankBranch" class="form-control" />
+                <span asp-validation-for="BankBranch" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="AdvancePaymentTaxAmount" class="col-md-2 control-label"></label>
+            <label asp-for="BankID" class="control-label col-md-2">BankID</label>
             <div class="col-md-10">
-                <input asp-for="AdvancePaymentTaxAmount" class="form-control" />
-                <span asp-validation-for="AdvancePaymentTaxAmount" class="text-danger" />
+                <select asp-for="BankID" asp-items="ViewBag.BankID" class="form-control">
+                    <option disabled selected> </option>
+                </select>
+                <span asp-validation-for="BankID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ChequeNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ChequeNumber" class="form-control" />
+                <span asp-validation-for="ChequeNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="CreatedDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
             <label asp-for="CustomerID" class="control-label col-md-2">CustomerID</label>
             <div class="col-md-10">
-                <select asp-for="CustomerID" class="form-control" />
+                <select asp-for="CustomerID" asp-items="ViewBag.CustomerID" class="form-control">
+                    <option disabled selected> </option>
+                </select>
                 <span asp-validation-for="CustomerID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DeliveryByCarNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DeliveryByCarNumber" class="form-control" />
+                <span asp-validation-for="DeliveryByCarNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DeliveryByPerson" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DeliveryByPerson" class="form-control" />
+                <span asp-validation-for="DeliveryByPerson" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DeliveryDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="DeliveryDate" class="form-control" />
+                <span asp-validation-for="DeliveryDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Discount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -41,18 +87,19 @@
             </div>
         </div>
         <div class="form-group">
+            <label asp-for="EmployeeID" class="control-label col-md-2">EmployeeID</label>
+            <div class="col-md-10">
+                <select asp-for="EmployeeID" asp-items="ViewBag.EmployeeID" class="form-control">
+                    <option disabled selected> </option>
+                </select>
+                <span asp-validation-for="EmployeeID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="InvoiceNumber" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="InvoiceNumber" class="form-control" />
                 <span asp-validation-for="InvoiceNumber" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="IsProposal" />
-                    <label asp-for="IsProposal"></label>
-                </div>
             </div>
         </div>
         <div class="form-group">
@@ -85,38 +132,96 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="ProposalDetails" class="col-md-2 control-label"></label>
+            <label asp-for="PaidAmount" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="ProposalDetails" class="form-control" />
-                <span asp-validation-for="ProposalDetails" class="text-danger" />
+                <input asp-for="PaidAmount" class="form-control" />
+                <span asp-validation-for="PaidAmount" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="TimeStamp" class="col-md-2 control-label"></label>
+            <label asp-for="PaidCollectedDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="TimeStamp" class="form-control" />
-                <span asp-validation-for="TimeStamp" class="text-danger" />
+                <input asp-for="PaidCollectedDate" class="form-control" />
+                <span asp-validation-for="PaidCollectedDate" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="TotalToPay" class="col-md-2 control-label"></label>
+            <label asp-for="PaidCollector" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="TotalToPay" class="form-control" />
-                <span asp-validation-for="TotalToPay" class="text-danger" />
+                <input asp-for="PaidCollector" class="form-control" />
+                <span asp-validation-for="PaidCollector" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="TotalWithVAT" class="col-md-2 control-label"></label>
+            <label asp-for="PaidDate" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="TotalWithVAT" class="form-control" />
-                <span asp-validation-for="TotalWithVAT" class="text-danger" />
+                <input asp-for="PaidDate" class="form-control" />
+                <span asp-validation-for="PaidDate" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="VATAmount" class="col-md-2 control-label"></label>
+            <label asp-for="PaymentTypeID" class="control-label col-md-2">PaymentTypeID</label>
             <div class="col-md-10">
-                <input asp-for="VATAmount" class="form-control" />
-                <span asp-validation-for="VATAmount" class="text-danger" />
+                <select asp-for="PaymentTypeID" asp-items="ViewBag.PaymentTypeID" class="form-control">
+                    <option disabled selected> </option>
+                </select>
+                <span asp-validation-for="PaymentTypeID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReceivedByPerson" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ReceivedByPerson" class="form-control" />
+                <span asp-validation-for="ReceivedByPerson" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReceivedProductDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ReceivedProductDate" class="form-control" />
+                <span asp-validation-for="ReceivedProductDate" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReferencePONumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ReferencePONumber" class="form-control" />
+                <span asp-validation-for="ReferencePONumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ShipBy" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ShipBy" class="form-control" />
+                <span asp-validation-for="ShipBy" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ShipTo" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ShipTo" class="form-control" />
+                <span asp-validation-for="ShipTo" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="SubTotal" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SubTotal" class="form-control" />
+                <span asp-validation-for="SubTotal" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TermOfPayment" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TermOfPayment" class="form-control" />
+                <span asp-validation-for="TermOfPayment" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="VAT" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="VAT" class="form-control" />
+                <span asp-validation-for="VAT" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

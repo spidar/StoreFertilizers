@@ -13,10 +13,31 @@
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="InvoiceDetailsID" />
         <div class="form-group">
+            <label asp-for="Amount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Article" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Article" class="form-control" />
                 <span asp-validation-for="Article" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Discount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Discount" class="form-control" />
+                <span asp-validation-for="Discount" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ExpectedProfit" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ExpectedProfit" class="form-control" />
+                <span asp-validation-for="ExpectedProfit" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -27,10 +48,17 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Price" class="col-md-2 control-label"></label>
+            <label asp-for="PricePerUnit" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger" />
+                <input asp-for="PricePerUnit" class="form-control" />
+                <span asp-validation-for="PricePerUnit" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductID" class="control-label col-md-2">ProductID</label>
+            <div class="col-md-10">
+                <select asp-for="ProductID" class="form-control" />
+                <span asp-validation-for="ProductID" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -41,38 +69,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="TimeStamp" class="col-md-2 control-label"></label>
+            <label asp-for="UnitTypeID" class="control-label col-md-2">UnitTypeID</label>
             <div class="col-md-10">
-                <input asp-for="TimeStamp" class="form-control" />
-                <span asp-validation-for="TimeStamp" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Total" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="TotalPlusVAT" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="TotalPlusVAT" class="form-control" />
-                <span asp-validation-for="TotalPlusVAT" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="VAT" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="VAT" class="form-control" />
-                <span asp-validation-for="VAT" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="VATAmount" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="VATAmount" class="form-control" />
-                <span asp-validation-for="VATAmount" class="text-danger" />
+                <select asp-for="UnitTypeID" class="form-control" />
+                <span asp-validation-for="UnitTypeID" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

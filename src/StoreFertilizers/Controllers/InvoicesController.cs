@@ -18,7 +18,7 @@ namespace StoreFertilizers.Controllers
         // GET: Invoices
         public IActionResult Index()
         {
-            var applicationDbContext = _context.Invoices.Include(i => i.Customer);
+            var applicationDbContext = _context.Invoices.Include(i => i.Bank).Include(i => i.Customer).Include(i => i.Employee).Include(i => i.PaymentType);
             return View(applicationDbContext.ToList());
         }
 
@@ -42,7 +42,10 @@ namespace StoreFertilizers.Controllers
         // GET: Invoices/Create
         public IActionResult Create()
         {
+            ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name");
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name");
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name");
+            ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name");
             return View();
         }
 
@@ -57,7 +60,10 @@ namespace StoreFertilizers.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer", invoice.CustomerID);
+            ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
+            ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
             return View(invoice);
         }
 
@@ -74,7 +80,10 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpNotFound();
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer", invoice.CustomerID);
+            ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
+            ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
             return View(invoice);
         }
 
@@ -89,7 +98,10 @@ namespace StoreFertilizers.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer", invoice.CustomerID);
+            ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
+            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
+            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
+            ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
             return View(invoice);
         }
 

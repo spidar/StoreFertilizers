@@ -12,19 +12,31 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.AdvancePaymentTax)
+            @Html.DisplayNameFor(model => model.BankBranch)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AdvancePaymentTaxAmount)
+            @Html.DisplayNameFor(model => model.ChequeNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeliveryByCarNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeliveryByPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeliveryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discount)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DueDate)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InvoiceNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsProposal)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
@@ -39,19 +51,40 @@
             @Html.DisplayNameFor(model => model.Paid)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProposalDetails)
+            @Html.DisplayNameFor(model => model.PaidAmount)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeStamp)
+            @Html.DisplayNameFor(model => model.PaidCollectedDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalToPay)
+            @Html.DisplayNameFor(model => model.PaidCollector)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalWithVAT)
+            @Html.DisplayNameFor(model => model.PaidDate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VATAmount)
+            @Html.DisplayNameFor(model => model.ReceivedByPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivedProductDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReferencePONumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TermOfPayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VAT)
         </th>
         <th></th>
     </tr>
@@ -59,19 +92,31 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.AdvancePaymentTax)
+            @Html.DisplayFor(modelItem => item.BankBranch)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AdvancePaymentTaxAmount)
+            @Html.DisplayFor(modelItem => item.ChequeNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeliveryByCarNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeliveryByPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeliveryDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discount)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DueDate)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InvoiceNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsProposal)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -86,19 +131,40 @@
             @Html.DisplayFor(modelItem => item.Paid)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProposalDetails)
+            @Html.DisplayFor(modelItem => item.PaidAmount)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TimeStamp)
+            @Html.DisplayFor(modelItem => item.PaidCollectedDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TotalToPay)
+            @Html.DisplayFor(modelItem => item.PaidCollector)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TotalWithVAT)
+            @Html.DisplayFor(modelItem => item.PaidDate)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.VATAmount)
+            @Html.DisplayFor(modelItem => item.ReceivedByPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivedProductDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReferencePONumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TermOfPayment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VAT)
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.InvoiceID">Edit</a> |

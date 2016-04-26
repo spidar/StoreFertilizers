@@ -18,7 +18,7 @@ namespace StoreFertilizers.Controllers
         // GET: InvoiceDetails
         public IActionResult Index()
         {
-            var applicationDbContext = _context.InvoiceDetails.Include(i => i.Invoice);
+            var applicationDbContext = _context.InvoiceDetails.Include(i => i.Invoice).Include(i => i.Product).Include(i => i.UnitType);
             return View(applicationDbContext.ToList());
         }
 
@@ -43,6 +43,8 @@ namespace StoreFertilizers.Controllers
         public IActionResult Create()
         {
             ViewData["InvoiceID"] = new SelectList(_context.Invoices, "InvoiceID", "Invoice");
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product");
+            ViewData["UnitTypeID"] = new SelectList(_context.UnitTypes, "UnitTypeID", "UnitType");
             return View();
         }
 
@@ -58,6 +60,8 @@ namespace StoreFertilizers.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["InvoiceID"] = new SelectList(_context.Invoices, "InvoiceID", "Invoice", invoiceDetails.InvoiceID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product", invoiceDetails.ProductID);
+            ViewData["UnitTypeID"] = new SelectList(_context.UnitTypes, "UnitTypeID", "UnitType", invoiceDetails.UnitTypeID);
             return View(invoiceDetails);
         }
 
@@ -75,6 +79,8 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
             ViewData["InvoiceID"] = new SelectList(_context.Invoices, "InvoiceID", "Invoice", invoiceDetails.InvoiceID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product", invoiceDetails.ProductID);
+            ViewData["UnitTypeID"] = new SelectList(_context.UnitTypes, "UnitTypeID", "UnitType", invoiceDetails.UnitTypeID);
             return View(invoiceDetails);
         }
 
@@ -90,6 +96,8 @@ namespace StoreFertilizers.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["InvoiceID"] = new SelectList(_context.Invoices, "InvoiceID", "Invoice", invoiceDetails.InvoiceID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product", invoiceDetails.ProductID);
+            ViewData["UnitTypeID"] = new SelectList(_context.UnitTypes, "UnitTypeID", "UnitType", invoiceDetails.UnitTypeID);
             return View(invoiceDetails);
         }
 

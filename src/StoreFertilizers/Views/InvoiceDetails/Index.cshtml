@@ -12,28 +12,22 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Article)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.Discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpectedProfit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PricePerUnit)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Qty)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeStamp)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Total)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalPlusVAT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VAT)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VATAmount)
         </th>
         <th></th>
     </tr>
@@ -41,28 +35,22 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Article)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Price)
+            @Html.DisplayFor(modelItem => item.Discount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpectedProfit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PricePerUnit)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Qty)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TimeStamp)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Total)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalPlusVAT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VAT)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VATAmount)
         </td>
         <td>
             <a asp-action="Edit" asp-route-id="@item.InvoiceDetailsID">Edit</a> |

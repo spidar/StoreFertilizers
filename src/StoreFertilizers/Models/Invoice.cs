@@ -36,7 +36,7 @@ namespace StoreFertilizers.Models
         public string ReferencePONumber { get; set; }
 
         [Display(Name = "พนักงานขาย")]
-        public int EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
         public virtual Employee Employee { get; set; }
 
         [Display(Name = "ลูกค้า")]
@@ -58,11 +58,11 @@ namespace StoreFertilizers.Models
         public bool Paid { get; set; }
 
         [Display(Name = "ชำระโดย")]
-        public int PaymentTypeID { get; set; }
+        public int? PaymentTypeID { get; set; }
         public virtual PaymentType PaymentType { get; set; }
 
         [Display(Name = "ธนาคาร")]
-        public int BankID { get; set; }
+        public int? BankID { get; set; }
         public virtual Bank Bank { get; set; }
 
         [Display(Name = "ธนาคารสาขา")]
