@@ -1,175 +1,62 @@
 @model IEnumerable<StoreFertilizers.Models.Invoice>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ใบกำกับสินค้า";
 }
-
-<h2>Index</h2>
-
+<h2>รายการใบกำกับสินค้าทั้งหมด</h2>
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-success" role="button">
+        <i class="glyphicon glyphicon-plus"></i> สร้างใบกำกับสินค้า
+    </a>
+    <button type="button" class="btn btn-info">
+        <span class="glyphicon glyphicon-search"></span> ค้นหา
+    </button>
 </p>
-<table class="table">
+<table class="table table-striped table-hover">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.BankBranch)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ChequeNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeliveryByCarNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeliveryByPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DeliveryDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Discount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DueDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InvoiceNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NetTotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Notes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Paid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaidAmount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaidCollectedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaidCollector)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PaidDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReceivedByPerson)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReceivedProductDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReferencePONumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShipBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ShipTo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SubTotal)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TermOfPayment)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VAT)
-        </th>
-        <th></th>
+        <th style="text-align:center">เลขที่</th>
+        <th style="text-align:center">ผู้ซื้อ</th>
+        <th style="text-align:center">วันที่</th>        
+        <th style="text-align:right">รวมเงินสุทธิ</th>
+        <th style="text-align:center">ชำระ</th>
+        <th style="text-align:center">ครบกำหนด</th>
+        <th>หมายเหตุ</th>
+        <th class="noprint"></th>
     </tr>
     
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.BankBranch)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ChequeNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeliveryByCarNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeliveryByPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DeliveryDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Discount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DueDate)
-        </td>
-        <td>
+        <td align="center" style="vertical-align:middle;">
             @Html.DisplayFor(modelItem => item.InvoiceNumber)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
+        <td style="vertical-align:middle;">
+            @Html.DisplayFor(modelItem => item.Customer.Name)
         </td>
-        <td>
+        <td align="center" style="vertical-align:middle;">
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>        
+        <td align="right" style="vertical-align:middle;">
             @Html.DisplayFor(modelItem => item.NetTotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
-        <td>
+        </td>        
+        <td align="center" style="vertical-align:middle;">
             @Html.DisplayFor(modelItem => item.Paid)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaidAmount)
+        <td align="center" style="vertical-align:middle;">
+            @Html.DisplayFor(modelItem => item.DueDate)
         </td>
+        <td style="vertical-align:middle;">
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>        
         <td>
-            @Html.DisplayFor(modelItem => item.PaidCollectedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaidCollector)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PaidDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReceivedByPerson)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReceivedProductDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReferencePONumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShipBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ShipTo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SubTotal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TermOfPayment)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VAT)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.InvoiceID">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.InvoiceID">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.InvoiceID">Delete</a>
+            <a asp-action="Edit" asp-route-id="@item.InvoiceID" class="btn btn-warning" role="button">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a asp-action="Details" asp-route-id="@item.InvoiceID" class="btn btn-info" role="button">
+                <i class="glyphicon glyphicon-info-sign"></i>
+            </a>
+            <a asp-action="Delete" asp-route-id="@item.InvoiceID" class="btn btn-danger" role="button">
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>
         </td>
     </tr>
 }

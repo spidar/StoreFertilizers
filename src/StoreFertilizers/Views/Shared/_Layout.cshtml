@@ -17,7 +17,7 @@
         </environment>
     </head>
     <body>
-        <div class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar navbar-default navbar-fixed-top" style="background-color:#5cb85c;">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,7 +26,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a asp-controller="Home" asp-action="Index" class="navbar-brand"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> หจก.เจริญถาวร-ปุ๋ยน้ำยา</a>
+                    <a asp-controller="Home" asp-action="Index" class="navbar-brand" style="color: white;font-weight: bold;"><span class="glyphicon glyphicon-th" aria-hidden="true"></span> หจก.เจริญถาวร-ปุ๋ยน้ำยา</a>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -42,7 +42,7 @@
                             <li>
                             </text>
                         }
-                        <a asp-controller="Home" asp-action="Index">หน้าแรก</a></li>
+                        <a asp-controller="Home" asp-action="Index" style="color: white;font-weight: bold;">หน้าแรก</a></li>
                         @if (Context.Request.Path.Value.Contains("Invoices"))
                         {
                             <text>
@@ -55,7 +55,7 @@
                             <li>
                             </text>
                         }
-                        <a asp-controller="Invoices" asp-action="Index">ขายสินค้า</a></li>
+                        <a asp-controller="Invoices" asp-action="Index" style="color: white;font-weight: bold;">ขายสินค้า</a></li>
                         @if (Context.Request.Path.Value.Contains("Stock"))
                         {
                             <text>
@@ -67,7 +67,7 @@
                             <text>
                         <li>
                             </text>
-                        }<a asp-controller="Home" asp-action="Stock">คลังสินค้า</a></li>
+                        }<a asp-controller="Home" asp-action="Stock" style="color: white;font-weight: bold;">คลังสินค้า</a></li>
                         @if (Context.Request.Path.Value.Contains("SummaryOfSale"))
                         {
                             <text>
@@ -79,9 +79,9 @@
                             <text>
                         <li>
                             </text>
-                        }<a asp-controller="Home" asp-action="SummaryOfSale">สรุปยอดการขาย</a></li>
+                        }<a asp-controller="Home" asp-action="SummaryOfSale" style="color: white;font-weight: bold;">สรุปยอดการขาย</a></li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ตั้งค่าโปรแกรม <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ตั้งค่าโปรแกรม <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a asp-controller="Home" asp-action="SettingOfApplication">ทั่วไป</a></li>
                                 <li><a asp-controller="Home" asp-action="SettingOfApplication">แก้ไขรายละเอียดลูกค้า</a></li>

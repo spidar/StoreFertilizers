@@ -12,7 +12,7 @@ namespace StoreFertilizers.Controllers
 
         public InvoicesController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Invoices
