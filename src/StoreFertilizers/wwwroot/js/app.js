@@ -6,7 +6,7 @@
         //'ngRoute',
 
         // Custom modules 
-        //'serviceFactory'
+        //'servicesFactory'
         // 3rd Party Modules
         
     ]);

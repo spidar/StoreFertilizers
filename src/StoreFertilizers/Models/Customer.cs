@@ -11,19 +11,19 @@ namespace StoreFertilizers.Models
         public int CustomerID { get; set; }
 
         [Required(ErrorMessage = "Name required")]
-        //[DisplayName("Name")]
         public string Name { get; set; }
 
-        //[DisplayName("C.ID")]
         [Required(ErrorMessage = "Field required")]
         public string CompanyNumber { get; set; }
 
         [Required(ErrorMessage = "Address required")]
         public string Address { get; set; }
 
+        [Required(ErrorMessage = "Address required")]
+        public string Address2 { get; set; }
+
         [Required(ErrorMessage = "Zip code required")]
-        //[DisplayName("Zip Code")]
-        public string CP { get; set; }
+        public string ZipCode { get; set; }
 
         [Required(ErrorMessage = "City required")]
         public string City { get; set; }

@@ -12,6 +12,6 @@ namespace StoreFertilizers.Models
 
         public string Descr { get; set; }
 
-        public virtual ICollection<InvoiceDetails> InvoiceDetails { get; set; }
+        //public virtual ICollection<InvoiceDetails> InvoiceDetails { get; set; }
     }
 }

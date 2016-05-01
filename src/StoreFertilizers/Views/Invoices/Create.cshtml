@@ -3,258 +3,156 @@
 @{
     ViewData["Title"] = "สร้างใบกำกับสินค้า";
 }
-<div class="panel panel-default">
-    <!-- Default panel contents -->
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-sm-2">
-                <h4>สร้างใบกำกับสินค้า</h4>
+
+<form class="form-horizontal" role="form" ng-controller="invoicesController">
+    <div class="form-group remove-bottom-margin">
+        <div class="col-xs-6" style="padding:2px;">
+            <div class="rounded-div" style="min-height:105px;">
+                <div style="font-size:x-large;"><strong>{{companyInfo.name}}</strong></div>
+                <div class="text-overflow"><small>{{companyInfo.address}}</small></div>
+                <div><small>โทร:&nbsp;{{companyInfo.phone}}&nbsp;&nbsp;โทรสาร:&nbsp;{{companyInfo.fax}}</small></div>
+                <div><small>เลขประจำตัวผู้เสียภาษีอากร : 0743528000060</small></div>
             </div>
-            <div>
-                <a asp-action="Index" title="กลับสู่หน้ารายการใบกำกับสินค้า" class="btn btn-warning" role="button">
-                    <i class="glyphicon glyphicon glyphicon-hand-left"></i>
-                </a>
+        </div>
+        <div class="col-xs-6" style="padding:2px;">
+            <div class="rounded-div" style="min-height:105px;">
+                <div class="text-center" style="font-size:large;"><strong>ใบกำกับสินค้า/ใบส่งสินค้า</strong></div>
+                <div class="remove-bottom-margin">
+                    <label for="invoice-employee">พนักงาน:</label>
+                    <select id="invoice-employee" class="form-control display-inline" ng-model='newInvoice.Employee' ng-options='option.Name for option in data.employeeList track by option.EmployeeID'>
+                        <option value="">--- กรุณาเลือกพนักงานขาย ---</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
-    <div class="panel-body">
-        <div ng-controller="invoicesController">
-            <h1>{{title}}</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="hero in invoices">
-                        <td>{{hero.InvoiceID}}</td>
-                        <td>{{hero.InvoiceNumber}}</td>
-                        <td>{{hero.TermOfPayment}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="form-group remove-bottom-margin">
+        <div class="col-xs-6" style="padding:2px;">
+            <div class="rounded-div" style="min-height:145px;">
+                <div class="form-group remove-bottom-margin">
+                    <label class="col-xs-1 control-label" style="min-width:80px">ลูกค้า:</label>
+                    <select id="invoice-customer" class="form-control display-inline" ng-model='newInvoice.Customer' ng-options='option.Name for option in data.customerList track by option.CustomerID'>
+                        <option value="">--- กรุณาเลือกลูกค้า ---</option>
+                    </select>
+                </div>
+                <div class="text-overflow"><small>{{newInvoice.Customer.Address}}&nbsp;</small></div>
+                <div class="text-overflow"><small>{{newInvoice.Customer.Address2}}&nbsp;</small></div>
+                <div ng-show="newInvoice.Customer == null">&nbsp;</div>
+                <div ng-show="newInvoice.Customer != null && newInvoice.Customer.CustomerID != ''"><small><strong>โทร:</strong>&nbsp;{{newInvoice.Customer.Phone1}}&nbsp;&nbsp;<strong>โทรสาร:</strong>&nbsp;{{newInvoice.Customer.Fax}}</small></div>
+                <div class="form-group remove-bottom-margin">
+                    <label class="col-xs-1 control-label" style="min-width:80px">ส่งที่:</label>
+                    <input type="text" id="invoice-shipto" class="col-xs-7 form-control" ng-model="newInvoice.ShipTo" placeholder="สถานที่จัดส่งสินค้า" />
+                </div>
+            </div>
         </div>
-        <form asp-action="Create">
-            <div class="form-horizontal">
-                <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-                
-                
-                <div class="form-group">
-                    <label asp-for="BankBranch" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="BankBranch" class="form-control" />
-                        <span asp-validation-for="BankBranch" class="text-danger" />
+        <div class="col-xs-6" style="padding:2px;">
+                <div class="rounded-div" style="min-height:145px;">
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="min-width:80px">เลขที่:</label>
+                        <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control" ng-model="newInvoice.InvoiceNumber" placeholder="หมายเลขใบกำกับสินค้า/ใบส่งสินค้า" />
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="BankID" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="BankID" asp-items="ViewBag.BankID" class="form-control">
-                            <option disabled selected> </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ChequeNumber" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ChequeNumber" class="form-control" />
-                        <span asp-validation-for="ChequeNumber" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CreatedDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="CreatedDate" class="form-control" />
-                        <span asp-validation-for="CreatedDate" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CustomerID" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="CustomerID" class="form-control"></select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DeliveryByCarNumber" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="DeliveryByCarNumber" class="form-control" />
-                        <span asp-validation-for="DeliveryByCarNumber" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DeliveryByPerson" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="DeliveryByPerson" class="form-control" />
-                        <span asp-validation-for="DeliveryByPerson" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DeliveryDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="DeliveryDate" class="form-control" />
-                        <span asp-validation-for="DeliveryDate" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Discount" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Discount" class="form-control" />
-                        <span asp-validation-for="Discount" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DueDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="DueDate" class="form-control" />
-                        <span asp-validation-for="DueDate" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="EmployeeID" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="EmployeeID" class="form-control"></select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="InvoiceNumber" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="InvoiceNumber" class="form-control" />
-                        <span asp-validation-for="InvoiceNumber" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Name" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="NetTotal" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="NetTotal" class="form-control" />
-                        <span asp-validation-for="NetTotal" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Notes" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Notes" class="form-control" />
-                        <span asp-validation-for="Notes" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <input asp-for="Paid" />
-                            <label asp-for="Paid"></label>
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="min-width:80px">วันที่:</label>
+                        <div class="col-xs-6 date remove-padding">
+                            <div class="input-group input-append date datepicker">
+                                <input type="text" class="form-control" id="invoice-CreatedDate" ng-model="newInvoice.CreatedDate" placeholder="วันที่ออกใบกำกับสินค้า/ใบส่งสินค้า"/>
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PaidAmount" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="PaidAmount" class="form-control" />
-                        <span asp-validation-for="PaidAmount" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PaidCollectedDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="PaidCollectedDate" class="form-control" />
-                        <span asp-validation-for="PaidCollectedDate" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PaidCollector" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="PaidCollector" class="form-control" />
-                        <span asp-validation-for="PaidCollector" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PaidDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="PaidDate" class="form-control" />
-                        <span asp-validation-for="PaidDate" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PaymentTypeID" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <select asp-for="PaymentTypeID" class="form-control"></select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReceivedByPerson" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ReceivedByPerson" class="form-control" />
-                        <span asp-validation-for="ReceivedByPerson" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReceivedProductDate" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ReceivedProductDate" class="form-control" />
-                        <span asp-validation-for="ReceivedProductDate" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ReferencePONumber" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ReferencePONumber" class="form-control" />
-                        <span asp-validation-for="ReferencePONumber" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ShipBy" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ShipBy" class="form-control" />
-                        <span asp-validation-for="ShipBy" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ShipTo" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="ShipTo" class="form-control" />
-                        <span asp-validation-for="ShipTo" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SubTotal" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="SubTotal" class="form-control" />
-                        <span asp-validation-for="SubTotal" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TermOfPayment" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="TermOfPayment" class="form-control" />
-                        <span asp-validation-for="TermOfPayment" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="VAT" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="VAT" class="form-control" />
-                        <span asp-validation-for="VAT" class="text-danger" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="min-width:80px">วันครบ:</label>
+                        <div class="col-xs-6 date remove-padding">
+                            <div class="input-group input-append date datepicker">
+                                <input type="text" class="form-control" id="invoice-DueDate" ng-model="newInvoice.DueDate" placeholder="วันที่ครบกำหนดชำระเงิน"/>
+                                <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
             </div>
-        </form>
     </div>
-</div>
-@section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-}
+        
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="thead-inverse">
+                <tr>
+                    <th style="text-align:center;">&nbsp;</th>
+                    <th style="text-align:center;">#</th>
+                    <th style="text-align:center;">
+                        <div>สินค้า</div>
+                        <div><small>Product</small></div>
+                    </th>
+                    <th style="text-align:right;">จำนวน</th>
+                    <th style="text-align:center;">หน่วย</th>
+                    <th style="text-align:right;">ราคาขาย</th>
+                    <th style="text-align:center;">ส่วนลด</th>
+                    <th style="text-align:right;">จำนวนเงิน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in newInvoice.InvoiceDetails">
+                    <td style="text-align:center;vertical-align:middle;">
+                        <a href="#" ng-click="removeItem(item)" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
+                    </td>
+                    <td style="text-align:center;vertical-align:middle;">{{item.no}}</td>
+                    <td>
+                        <select class="form-control" ng-model='item.Product' ng-options='option.Name for option in data.productList track by option.ProductID'>
+                            <option value="">--- เลือก ---</option>
+                        </select>
+                    </td>
+                    <td style="text-align:right;">
+                        <input class="form-control" ng-model="item.Qty" style="text-align:right;" value="1" size="6" ng-required ng-validate="integer" placeholder="0" />
+                    </td>
+                    <td style="text-align:center;">
+                        <select class="form-control" ng-model='item.UnitType' ng-options='option.Name for option in data.unitTypeList track by option.UnitTypeID'>
+                            <option value="">--- เลือก ---</option>
+                        </select>
+                    </td>
+                    <td style="text-align:right;">
+                        <input class="form-control" ng-model="item.PricePerUnit" style="text-align:right;" value="1" size="6" ng-required ng-validate="decimal" placeholder="0.00" />
+                    </td>
+                    <td style="text-align:center;">
+                        <input class="form-control" ng-model="item.Discount" style="text-align:center;" value="1" size="6" ng-required ng-validate="integer" placeholder="0" />
+                    </td>
+                    <td style="text-align:right;">
+                        <input class="form-control" ng-model="item.Amount" style="text-align:right;" value="1" size="6" ng-required ng-validate="integer" placeholder="0.00" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <a class="btn btn-primary btn-xs" href="#" ng-click="addItem()"><i class="glyphicon glyphicon-plus"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <div class="form-group remove-bottom-margin">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+</form>
+    @section Scripts {
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script type="text/javascript">
+
+            $(function () {
+                $('.datepicker').datepicker({
+                    language: 'th-th',
+                    format: 'dd-M-yyyy',
+                    setDate: new Date(),
+                    autoclose: true
+                })
+
+                $('#datePicker').datepicker({
+                    language: 'th-th',
+                    format: 'dd-M-yyyy',
+                    setDate: new Date(),
+                    autoclose: true
+                })
+
+            });
+        </script>
+    }

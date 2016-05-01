@@ -20,11 +20,11 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy customer data:
             List<Customer> customers = new List<Customer>
             {
-                new Customer {Name="บริษัท เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", CP="232323", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
-                new Customer {Name="บริษัท พิทักษ์พืชผลเคมีเกษตร จำกัด", ContactPerson="นาย พิทักษ์", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", CP="232323", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
-                new Customer {Name="บริษัท ยาร่า จำกัด", ContactPerson="นาย ยาร่า", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27 เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", CP="50015", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
-                new Customer {Name="บริษัท สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", CP="50800", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
-                new Customer {Name="บริษัท ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ เขตสาทร กรุงเทพ 10120", CP="50800", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
+                new Customer {Name="บริษัท เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", Address2 = "", ZipCode="10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
+                new Customer {Name="บริษัท พิทักษ์พืชผลเคมีเกษตร จำกัด", ContactPerson="นาย พิทักษ์", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", Address2 = "", ZipCode="73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
+                new Customer {Name="บริษัท ยาร่า จำกัด", ContactPerson="นาย ยาร่า", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27", Address2 = "เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", ZipCode="10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
+                new Customer {Name="บริษัท สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", Address2 = "", ZipCode="10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
+                new Customer {Name="บริษัท ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ", Address2 = "เขตสาทร กรุงเทพ 10120", ZipCode="10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
             };
             for (int i = 0; i < 5; i++)
             {
@@ -34,9 +34,10 @@ namespace StoreFertilizers.Models {
                     Notes = "หมายเหตุ " + i,
                     Name = "ลูกค้า " + i,
                     Address = "ที่อยู่สำหรับลูกค้า " + i,
+                    Address2 = "" + i,
                     City = "กรุงเทพ",
                     CompanyNumber = "212121212" + i,
-                    CP = "50800",
+                    ZipCode = "50800",
                     Phone1 = "2323-2222" + i,
                     Email = "email@customer" + i + ".com"
                 });
@@ -45,25 +46,17 @@ namespace StoreFertilizers.Models {
             {
                 context.Customers.Add(c);
             }
-            #endregion
+            #endregion            
             
-            #region let's add some dummy Product data:
-            List<Product> products = new List<Product>
+            #region let's add some dummy ProductType data:
+            List<ProductType> productTypes = new List<ProductType>
             {
-                new Product { ProductNumber = "00001", Name = "กระต่าย 46-0-0 เขียว", Descr = "ปุ๋ย - กระต่าย 46-0-0 เขียว" },
-                new Product { ProductNumber = "00002", Name = "กระต่าย 46-0-0 ฟ้า", Descr = "ปุ๋ย - กระต่าย 46-0-0 ฟ้า" },
-                new Product { ProductNumber = "00003", Name = "กระต่าย 46-0-0 แดง", Descr = "ปุ๋ย - กระต่าย 46-0-0 แดง" },
-                new Product { ProductNumber = "00004", Name = "ยาร่า 16-16-16", Descr = "ปุ๋ย - ยาร่า 16-16-16" },
-                new Product { ProductNumber = "00005", Name = "ยาร่า 24-7-7", Descr = "ปุ๋ย - ยาร่า 24-7-7" },
-                new Product { ProductNumber = "01001", Name = "ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", Descr = "น้ำยา - ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก." },
-                new Product { ProductNumber = "01002", Name = "ไธอะโนซาน ขนาด 1 กก.", Descr = "น้ำยา - ไธอะโนซาน ขนาด 1 กก." },
-                new Product { ProductNumber = "01003", Name = "ออติวา ขนาด 500 ซีซี", Descr = "น้ำยา - ออติวา ขนาด 500 ซีซี" },
-                new Product { ProductNumber = "01004", Name = "OX-PREMIUM 50 KGS.", Descr = "OX-PREMIUM Packing 50 KGS." },
-                new Product { ProductNumber = "01005", Name = "พรีมาตรอน 1 ลิตร", Descr = "พรีมาตรอน 1 ลิตร" }
+                new ProductType { Name = "ปุ๋ย", Descr = "" },
+                new ProductType { Name = "ยา", Descr = "" }
             };
-            foreach (Product p in products)
+            foreach (ProductType item in productTypes)
             {
-                context.Products.Add(p);
+                context.ProductTypes.Add(item);
             }
             #endregion
 
@@ -82,6 +75,7 @@ namespace StoreFertilizers.Models {
                 context.UnitTypes.Add(item);
             }
             #endregion
+
             #region let's add some dummy Bank data:
             List<Bank> banks = new List<Bank>
             {
@@ -99,6 +93,7 @@ namespace StoreFertilizers.Models {
                 context.Banks.Add(item);
             }
             #endregion
+
             #region let's add some dummy PaymentType data:
             List<PaymentType> paymentTypes = new List<PaymentType>
             {
@@ -121,24 +116,29 @@ namespace StoreFertilizers.Models {
                 new Employee {EmployeeNumber = "8004", Name="นาย ขุน เกรียงไกร", ContactPerson="นาง ดี เกรียงไกร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", CP="50800", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
                 new Employee {EmployeeNumber = "8005", Name="นาย ปิง บ้านดี", ContactPerson="นาง ไฝ๋ บ้านดี", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ เขตสาทร กรุงเทพ 10120", CP="50800", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
             };
-            for (int i = 0; i < 5; i++)
-            {
-                employees.Add(new Employee()
-                {
-                    ContactPerson = "ชื่อผู้ติดต่อสำหรับ " + i,
-                    Notes = "หมายเหตุ " + i,
-                    Name = "ลูกค้า " + i,
-                    Address = "ที่อยู่สำหรับลูกค้า " + i,
-                    City = "กรุงเทพ",
-                    EmployeeNumber = "212121212" + i,
-                    CP = "50800",
-                    Phone1 = "2323-2222" + i,
-                    Email = "email@customer" + i + ".com"
-                });
-            }
             foreach (Employee c in employees)
             {
                 context.Employees.Add(c);
+            }
+            #endregion
+
+            #region let's add some dummy Product data:
+            List<Product> products = new List<Product>
+            {
+                new Product { ProductNumber = "00001", Name = "กระต่าย 46-0-0 เขียว", Descr = "ปุ๋ย - กระต่าย 46-0-0 เขียว", OriginalPrice = 110, Price = 111, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID },
+                new Product { ProductNumber = "00002", Name = "กระต่าย 46-0-0 ฟ้า", Descr = "ปุ๋ย - กระต่าย 46-0-0 ฟ้า", OriginalPrice = 120, Price = 122, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
+                new Product { ProductNumber = "00003", Name = "กระต่าย 46-0-0 แดง", Descr = "ปุ๋ย - กระต่าย 46-0-0 แดง", OriginalPrice = 130, Price = 133, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
+                new Product { ProductNumber = "00004", Name = "ยาร่า 16-16-16", Descr = "ปุ๋ย - ยาร่า 16-16-16", OriginalPrice = 140, Price = 144, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
+                new Product { ProductNumber = "00005", Name = "ยาร่า 24-7-7", Descr = "ปุ๋ย - ยาร่า 24-7-7", OriginalPrice = 150, Price = 155, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
+                new Product { ProductNumber = "01001", Name = "ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", Descr = "น้ำยา - ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", OriginalPrice = 160, Price = 166, ProductType = productTypes[1], UnitTypeID = unitTypes[3].UnitTypeID  },
+                new Product { ProductNumber = "01002", Name = "ไธอะโนซาน ขนาด 1 กก.", Descr = "น้ำยา - ไธอะโนซาน ขนาด 1 กก.", OriginalPrice = 170, Price = 177, ProductType = productTypes[1], UnitTypeID = unitTypes[4].UnitTypeID  },
+                new Product { ProductNumber = "01003", Name = "ออติวา ขนาด 500 ซีซี", Descr = "น้ำยา - ออติวา ขนาด 500 ซีซี", OriginalPrice = 180, Price = 188, ProductType = productTypes[1], UnitTypeID = unitTypes[5].UnitTypeID  },
+                new Product { ProductNumber = "01004", Name = "OX-PREMIUM 50 KGS.", Descr = "OX-PREMIUM Packing 50 KGS.", OriginalPrice = 190, Price = 199, ProductType = productTypes[1], UnitTypeID = unitTypes[3].UnitTypeID  },
+                new Product { ProductNumber = "01005", Name = "พรีมาตรอน 1 ลิตร", Descr = "พรีมาตรอน 1 ลิตร", OriginalPrice = 200, Price = 222, ProductType = productTypes[1], UnitTypeID = unitTypes[3].UnitTypeID  }
+            };
+            foreach (Product p in products)
+            {
+                context.Products.Add(p);
             }
             #endregion
 
@@ -175,7 +175,7 @@ namespace StoreFertilizers.Models {
 
                         invoiceDetails.Product = products[new Random(id).Next(0, products.Count - 1)];
                         //invoiceDetails.ProductID = invoiceDetails.Product.ProductID;
-                        invoiceDetails.UnitType = unitTypes[new Random().Next(0, unitTypes.Count - 1)];
+                        invoiceDetails.UnitTypeID = unitTypes[new Random().Next(0, unitTypes.Count - 1)].UnitTypeID;
                         //invoiceDetails.UnitTypeID = invoiceDetails.UnitType.UnitTypeID;
                         invoiceDetails.PricePerUnit = new Random().Next(100, 999999);
                         invoiceDetails.Qty = new Random().Next(5, 10);
@@ -291,6 +291,26 @@ namespace StoreFertilizers.Models {
                         TimeStamp = new DateTime(DateTime.Now.Year, m, new Random(i).Next(1, 28))
                     });
                 }
+            }
+            #endregion
+
+            #region let's add some dummy Stock data:
+            List<Stock> stocks = new List<Stock>
+            {
+                new Stock { Product = products[0], Location = "คลังสินค้า 1", Amount = 1000, LastUpdated = DateTime.Now.AddMonths(-1), Notes = "หมายเหตุ 1" },
+                new Stock { Product = products[1], Location = "คลังสินค้า 2", Amount = 2000, LastUpdated = DateTime.Now.AddDays(-1), Notes = "หมายเหตุ 2" },
+                new Stock { Product = products[2], Location = "คลังสินค้า 3", Amount = 3000, LastUpdated = DateTime.Now.AddYears(-1), Notes = "หมายเหตุ 3" },
+                new Stock { Product = products[3], Location = "คลังสินค้า 4", Amount = 4000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 4" },
+                new Stock { Product = products[4], Location = "คลังสินค้า 5", Amount = 5000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 5" },
+                new Stock { Product = products[5], Location = "คลังสินค้า 6", Amount = 6000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 6" },
+                new Stock { Product = products[6], Location = "คลังสินค้า 7", Amount = 7000, LastUpdated = DateTime.Now.AddMonths(-3), Notes = "หมายเหตุ 7" },
+                new Stock { Product = products[7], Location = "คลังสินค้า 8", Amount = 8000, LastUpdated = DateTime.Now.AddMonths(-4), Notes = "หมายเหตุ 8" },
+                new Stock { Product = products[8], Location = "คลังสินค้า 9", Amount = 9000, LastUpdated = DateTime.Now.AddMonths(-5), Notes = "หมายเหตุ 9" },
+                new Stock { Product = products[9], Location = "คลังสินค้า 10", Amount = 10000, LastUpdated = DateTime.Now.AddMonths(-6), Notes = "หมายเหตุ 10" }
+            };
+            foreach (Stock p in stocks)
+            {
+                context.Stock.Add(p);
             }
             #endregion
 

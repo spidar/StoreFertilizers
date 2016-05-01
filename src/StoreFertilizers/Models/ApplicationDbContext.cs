@@ -23,11 +23,13 @@ namespace StoreFertilizers.Models
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<PurchaseType> PurchaseTypes { get; set; }
         public DbSet<InvoiceDetails> InvoiceDetails { get; set; }
+        public DbSet<Stock> Stock { get; set; }
 
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<UnitType> UnitTypes { get; set; }
 
         public DbSet<User> CustomUsers { get; set; }

@@ -14,7 +14,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 250px;
 }
 
 /* Carousel */
@@ -31,4 +31,104 @@ textarea {
     .carousel-caption {
         z-index: 10 !important;
     }
+}
+
+.rounded-div {
+    border: 2px solid lightgray;
+    padding: 5px 10px;
+    border-radius: 25px;
+}
+
+.border-radious{
+    border-radius: 5px;
+}
+
+.display-inline{
+    display: inline;
+}
+
+.remove-bottom-margin{
+    margin-bottom: 0px;
+}
+
+.remove-padding{
+    padding: 0px;
+}
+
+
+
+
+/* Print */
+@media print {
+    .noPrint {
+        display:none;
+    }
+}
+
+.items-table .row {
+  border-bottom:1px solid #ddd;
+  line-height:3em;
+}
+.items-table .row:last-child {
+  border-bottom:none;
+  line-height:3em;
+}
+
+.invoice-number-container * {
+  font-weight:bold;
+}
+
+.items-table .row:nth-child(even) {
+  background:#f9f9f9;
+}
+.items-table input {
+  line-height:1.5em;
+}
+.actions {
+  padding-top:1em;
+}
+input:focus {
+  outline: 0;
+}
+.branding {
+  padding-bottom:2em;
+  border-bottom:1px solid #ddd;
+}
+.logo-container {
+  text-align:right;
+}
+.infos .right {
+  text-align:right;
+}
+.infos .right input {
+  text-align:right;
+}
+.infos .input-container {
+  padding:3px 0;
+}
+
+.header.row {
+  font-weight:bold;
+  border-bottom:1px solid #ddd;
+  border-top:1px solid #ddd;
+}
+
+.input, textarea{
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+.infos input{
+  width: 300px;
+}
+
+.align-right input{
+  text-align:right;
+  width: 300px;
+}
+
+.text-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

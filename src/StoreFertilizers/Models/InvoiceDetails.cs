@@ -26,8 +26,8 @@ namespace StoreFertilizers.Models
         public int Qty { get; set; }
 
         [Display(Name = "หน่วย")]
-        public int UnitTypeID { get; set; }
-        public virtual UnitType UnitType { get; set; }
+        public int? UnitTypeID { get; set; }
+        //public virtual UnitType UnitType { get; set; }
 
         [Display(Name = "ราคาขายต่อหน่วย")]
         [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
