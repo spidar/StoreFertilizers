@@ -42,7 +42,50 @@ namespace StoreFertilizers.Controllers
             }
 
             Invoice invoice = _context.Invoices.Single(m => m.InvoiceID == id);
+            var invoiceDetails = _context.InvoiceDetails.Where(i => i.InvoiceID == invoice.InvoiceID).ToList();
 
+            foreach (var item in invoiceDetails)
+            {
+                var invoiceDetailsProduct = _context.Products.Where(i => i.ProductID == item.ProductID).ToList();
+                var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
+                var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID).ToList();
+                var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
+            }
+
+            if (invoice.InvoiceDetails.Count() <= 0)
+            {
+                foreach (var item in invoiceDetails)
+                {
+                    invoice.InvoiceDetails.Add(item);
+                }
+            }
+
+            if (invoice.EmployeeID != null)
+            {
+                invoice.Employee = _context.Employees.SingleOrDefault(i => i.EmployeeID == invoice.EmployeeID);
+            }
+            if (invoice.CustomerID != null)
+            {
+                invoice.Customer = _context.Customers.SingleOrDefault(i => i.CustomerID == invoice.CustomerID);
+            }
+            if (invoice.PaymentTypeID != null)
+            {
+                invoice.PaymentType = _context.PaymentTypes.SingleOrDefault(i => i.PaymentTypeID == invoice.PaymentTypeID);
+            }
+            if (invoice.BankID != null)
+            {
+                invoice.Bank = _context.Banks.SingleOrDefault(i => i.BankID == invoice.BankID);
+            }
+            /*
+            foreach (var item in invoice.InvoiceDetails)
+            {
+                if (item.UnitTypeID != null)
+                {
+                    var unitType = _context.UnitTypes.SingleOrDefault(i => i.UnitTypeID == item.UnitTypeID);
+                    item.UnitType = new UnitType() { UnitTypeID = unitType.UnitTypeID, Name = unitType.Name, Descr = unitType.Descr };
+                }
+            }
+            */
             if (invoice == null)
             {
                 return HttpNotFound();
@@ -65,7 +108,16 @@ namespace StoreFertilizers.Controllers
                 return HttpBadRequest();
             }
 
+            //var modifiedEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified).Select(x => x.Entity).ToList();
+            //var addEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added).Select(x => x.Entity).ToList();
+            //var deletedEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted).Select(x => x.Entity).ToList();
+
             _context.Entry(invoice).State = EntityState.Modified;
+            foreach(var item in invoice.InvoiceDetails)
+            {
+                _context.Entry(item).State = EntityState.Modified;
+            }
+
 
             try
             {

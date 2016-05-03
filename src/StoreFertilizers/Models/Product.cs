@@ -18,11 +18,11 @@ namespace StoreFertilizers.Models
 
         public decimal Price { get; set; }
 
-        public int ProductTypeID { get; set; }
+        public int? ProductTypeID { get; set; }
         public virtual ProductType ProductType { get; set; }
 
-        public int UnitTypeID { get; set; }
-        //public virtual UnitType UnitType { get; set; }
+        public int? UnitTypeID { get; set; }
+        public virtual UnitType UnitType { get; set; }
 
         //public virtual ICollection<InvoiceDetails> InvoiceDetials { get; set; }
     }

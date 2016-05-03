@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreFertilizers.Models
 {
@@ -23,12 +19,12 @@ namespace StoreFertilizers.Models
         [Display(Name = "วันที่")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         [Display(Name = "วันที่ครบกำหนดชำระ")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [Display(Name = "เงื่อนไขการชำระเงิน")]
         public string TermOfPayment { get; set; }
@@ -36,7 +32,7 @@ namespace StoreFertilizers.Models
         [Display(Name = "วันที่ส่งสินค้า")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime DeliveryDate { get; set; }
+        public DateTime? DeliveryDate { get; set; }
 
         [Display(Name = "เลขที่อ้างอิงใบสั่งซื้อ")]
         public string ReferencePONumber { get; set; }
@@ -46,7 +42,7 @@ namespace StoreFertilizers.Models
         public virtual Employee Employee { get; set; }
 
         [Display(Name = "ลูกค้า")]
-        public int CustomerID { get; set; }
+        public int? CustomerID { get; set; }
         public virtual Customer Customer { get; set; }
         [Display(Name = "ชื่อลูกค้า")]
         public string Name { get; set; }
@@ -61,7 +57,7 @@ namespace StoreFertilizers.Models
         public string DeliveryByCarNumber { get; set; }
 
         [Display(Name = "ชำระเงินแล้ว")]
-        public bool Paid { get; set; }
+        public bool? Paid { get; set; }
 
         [Display(Name = "ชำระโดย")]
         public int? PaymentTypeID { get; set; }
@@ -80,10 +76,10 @@ namespace StoreFertilizers.Models
         [Display(Name = "ลงวันที่")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime PaidDate { get; set; }
+        public DateTime? PaidDate { get; set; }
 
         [Display(Name = "จำนวนเงิน")]
-        public decimal PaidAmount { get; set; }
+        public decimal? PaidAmount { get; set; }
 
         [Display(Name = "ผู้รับเงิน")]
         public string PaidCollector { get; set; }
@@ -91,7 +87,7 @@ namespace StoreFertilizers.Models
         [Display(Name = "ผู้รับเงินรับเงินวันที่")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime PaidCollectedDate { get; set; }
+        public DateTime? PaidCollectedDate { get; set; }
 
         [Display(Name = "ผู้ส่งสินค้า")]
         public string DeliveryByPerson { get; set; }
@@ -102,7 +98,7 @@ namespace StoreFertilizers.Models
         [Display(Name = "วันที่รับสินค้า")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime ReceivedProductDate { get; set; }
+        public DateTime? ReceivedProductDate { get; set; }
 
         [Display(Name = "หมายเหตุ")]
         public string Notes { get; set; }
@@ -110,10 +106,10 @@ namespace StoreFertilizers.Models
         public virtual ICollection<InvoiceDetails> InvoiceDetails { get; set; }
 
         [Display(Name = "รวมเงิน")]
-        public decimal SubTotal { get; set; }
+        public decimal? SubTotal { get; set; }
 
         [Display(Name = "ส่วนลด")]
-        public decimal Discount { get; set; }
+        public decimal? Discount { get; set; }
 
         [Display(Name = "ภาษีมูลค่าเพิ่ม")]
         [Range(0.00, 100.0, ErrorMessage = "ค่าจะต้องเป็น % และอยู่ระหว่าง 0 ถึง 100")]

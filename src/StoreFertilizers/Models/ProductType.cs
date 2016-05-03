@@ -14,6 +14,6 @@ namespace StoreFertilizers.Models
 
         public string Descr { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        //public virtual ICollection<Product> Products { get; set; }
     }
 }

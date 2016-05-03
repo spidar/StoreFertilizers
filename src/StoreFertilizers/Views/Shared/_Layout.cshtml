@@ -99,10 +99,12 @@
         </div>
         <div class="container body-content">
             @RenderBody()
+            <!--
             <hr />
             <footer>
                 <p>&copy; 2016 - หจก.เจริญถาวร</p>
             </footer>
+            -->
         </div>
 
         <environment names="Development">
@@ -136,6 +138,17 @@
             <script type="text/javascript" src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
+
+        <script type="text/javascript">
+            $(function () {
+                $('.datepicker').datepicker({
+                    language: 'th-th',
+                    format: 'dd-M-yyyy',
+                    setDate: new Date(),
+                    autoclose: true
+                })
+            });
+        </script>
 
         @RenderSection("scripts", required: false)
     </body>

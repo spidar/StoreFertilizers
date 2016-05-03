@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StoreFertilizers.Models;
 using StoreFertilizers.Services;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace StoreFertilizers
 {
@@ -48,7 +50,16 @@ namespace StoreFertilizers
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => {
+                // handle loops correctly
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
+                // use standard name conversion of properties
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+                // include $id property in the output
+                //options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -88,7 +99,9 @@ namespace StoreFertilizers
                         }
                     }
                 }
-                catch { }
+                catch(Exception ex) {
+                    var msg = ex.Message;
+                }
             }            
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());

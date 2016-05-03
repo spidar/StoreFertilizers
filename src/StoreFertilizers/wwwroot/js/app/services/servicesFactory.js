@@ -9,11 +9,13 @@
 
             var urlBase = '/api';
             var invoiceAPI = '/InvoicesAPI';
-            var invoiceDetailsAPI = '/InvoicesDetailsAPI';
+            var invoiceDetailsAPI = '/InvoiceDetailsAPI';
             var customerAPI = '/CustomersAPI';
             var employeeAPI = '/EmployeesAPI';
             var productAPI = '/ProductsAPI';
             var unitTypeAPI = '/UnitTypesAPI';
+            var bankAPI = '/BanksAPI';
+            var paymentTypesAPI = '/PaymentTypesAPI';
 
             /* Invoices */
             servicesFactory.getInvoices = function () {
@@ -24,15 +26,34 @@
             };
 
             servicesFactory.insertInvoice = function (invoice) {
-                return $http.post(urlBase, cust);
+                return $http.post(urlBase + invoiceAPI, invoice);
             };
 
             servicesFactory.updateInvoice = function (invoice) {
-                return $http.put(urlBase + invoiceAPI + '/' + invoice.InvoiceID, invoice)
+                return $http.put(urlBase + invoiceAPI + '/' + invoice.invoiceID, invoice)
             };
 
             servicesFactory.deleteInvoiceByID = function (id) {
                 return $http.delete(urlBase + invoiceAPI + '/' + id);
+            };
+
+            /* InvoiceDetails */
+            servicesFactory.getInvoiceDetails = function () {
+                return $http.get(urlBase + invoiceDetailsAPI);
+            };
+            servicesFactory.getInvoiceDetailByID = function (id) {
+                return $http.get(urlBase + invoiceDetailsAPI + '/' + id);
+            };
+            servicesFactory.insertInvoiceDetail = function (invoicedetail) {
+                return $http.post(urlBase + invoiceDetailsAPI, invoicedetail);
+            };
+
+            servicesFactory.updateInvoiceDetail = function (invoicedetail) {
+                return $http.put(urlBase + invoiceDetailsAPI + '/' + invoicedetail.invoiceDetailsID, invoicedetail)
+            };
+
+            servicesFactory.deleteInvoiceDetailByID = function (id) {
+                return $http.delete(urlBase + invoiceDetailsAPI + '/' + id);
             };
             /* Customers */
             servicesFactory.getCustomers = function () {
@@ -66,6 +87,21 @@
                 return $http.get(urlBase + unitTypeAPI + '/' + id);
             };
 
+            /* Bank */
+            servicesFactory.getBanks = function () {
+                return $http.get(urlBase + bankAPI);
+            };
+            servicesFactory.getBankByID = function (id) {
+                return $http.get(urlBase + bankAPI + '/' + id);
+            };
+
+            /* PaymentType */
+            servicesFactory.getPaymentTypes = function () {
+                return $http.get(urlBase + paymentTypesAPI);
+            };
+            servicesFactory.getPaymentTypByID = function (id) {
+                return $http.get(urlBase + paymentTypesAPI + '/' + id);
+            };
 
             return servicesFactory;
         }

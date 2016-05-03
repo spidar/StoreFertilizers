@@ -79,14 +79,14 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy Bank data:
             List<Bank> banks = new List<Bank>
             {
-                new Bank { Name = "ธ.กรุงเทพ", Descr = "" },
-                new Bank { Name = "ธ.กรุงไทย", Descr = "" },
-                new Bank { Name = "ธ.กสิกร.", Descr = "" },
-                new Bank { Name = "ธ.ไทยพาณิชย์.", Descr = "" },
-                new Bank { Name = "ธ.กรุงศรี", Descr = "" },
-                new Bank { Name = "ธ.ออมสิน", Descr = "" },
-                new Bank { Name = "ธ.ธอส", Descr = "" },
-                new Bank { Name = "ธ.ทหารไทย", Descr = "" }
+                new Bank { Name = "กรุงเทพ", Descr = "" },
+                new Bank { Name = "กรุงไทย", Descr = "" },
+                new Bank { Name = "กสิกร.", Descr = "" },
+                new Bank { Name = "ไทยพาณิชย์", Descr = "" },
+                new Bank { Name = "กรุงศรี", Descr = "" },
+                new Bank { Name = "ออมสิน", Descr = "" },
+                new Bank { Name = "ธอส", Descr = "" },
+                new Bank { Name = "ทหารไทย", Descr = "" }
             };
             foreach (Bank item in banks)
             {
@@ -125,16 +125,16 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy Product data:
             List<Product> products = new List<Product>
             {
-                new Product { ProductNumber = "00001", Name = "กระต่าย 46-0-0 เขียว", Descr = "ปุ๋ย - กระต่าย 46-0-0 เขียว", OriginalPrice = 110, Price = 111, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID },
-                new Product { ProductNumber = "00002", Name = "กระต่าย 46-0-0 ฟ้า", Descr = "ปุ๋ย - กระต่าย 46-0-0 ฟ้า", OriginalPrice = 120, Price = 122, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
-                new Product { ProductNumber = "00003", Name = "กระต่าย 46-0-0 แดง", Descr = "ปุ๋ย - กระต่าย 46-0-0 แดง", OriginalPrice = 130, Price = 133, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
-                new Product { ProductNumber = "00004", Name = "ยาร่า 16-16-16", Descr = "ปุ๋ย - ยาร่า 16-16-16", OriginalPrice = 140, Price = 144, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
-                new Product { ProductNumber = "00005", Name = "ยาร่า 24-7-7", Descr = "ปุ๋ย - ยาร่า 24-7-7", OriginalPrice = 150, Price = 155, ProductType = productTypes[0], UnitTypeID = unitTypes[0].UnitTypeID  },
-                new Product { ProductNumber = "01001", Name = "ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", Descr = "น้ำยา - ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", OriginalPrice = 160, Price = 166, ProductType = productTypes[1], UnitTypeID = unitTypes[3].UnitTypeID  },
-                new Product { ProductNumber = "01002", Name = "ไธอะโนซาน ขนาด 1 กก.", Descr = "น้ำยา - ไธอะโนซาน ขนาด 1 กก.", OriginalPrice = 170, Price = 177, ProductType = productTypes[1], UnitTypeID = unitTypes[4].UnitTypeID  },
-                new Product { ProductNumber = "01003", Name = "ออติวา ขนาด 500 ซีซี", Descr = "น้ำยา - ออติวา ขนาด 500 ซีซี", OriginalPrice = 180, Price = 188, ProductType = productTypes[1], UnitTypeID = unitTypes[5].UnitTypeID  },
-                new Product { ProductNumber = "01004", Name = "OX-PREMIUM 50 KGS.", Descr = "OX-PREMIUM Packing 50 KGS.", OriginalPrice = 190, Price = 199, ProductType = productTypes[1], UnitTypeID = unitTypes[3].UnitTypeID  },
-                new Product { ProductNumber = "01005", Name = "พรีมาตรอน 1 ลิตร", Descr = "พรีมาตรอน 1 ลิตร", OriginalPrice = 200, Price = 222, ProductType = productTypes[1], UnitTypeID = unitTypes[3].UnitTypeID  }
+                new Product { ProductNumber = "00001", Name = "กระต่าย 46-0-0 เขียว", Descr = "ปุ๋ย - กระต่าย 46-0-0 เขียว", OriginalPrice = 110, Price = 111, ProductType = productTypes[0], UnitType = unitTypes[0] },
+                new Product { ProductNumber = "00002", Name = "กระต่าย 46-0-0 ฟ้า", Descr = "ปุ๋ย - กระต่าย 46-0-0 ฟ้า", OriginalPrice = 120, Price = 122, ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "00003", Name = "กระต่าย 46-0-0 แดง", Descr = "ปุ๋ย - กระต่าย 46-0-0 แดง", OriginalPrice = 130, Price = 133, ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "00004", Name = "ยาร่า 16-16-16", Descr = "ปุ๋ย - ยาร่า 16-16-16", OriginalPrice = 140, Price = 144, ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "00005", Name = "ยาร่า 24-7-7", Descr = "ปุ๋ย - ยาร่า 24-7-7", OriginalPrice = 150, Price = 155, ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "01001", Name = "ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", Descr = "น้ำยา - ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", OriginalPrice = 160, Price = 166, ProductType = productTypes[1], UnitType = unitTypes[3]  },
+                new Product { ProductNumber = "01002", Name = "ไธอะโนซาน ขนาด 1 กก.", Descr = "น้ำยา - ไธอะโนซาน ขนาด 1 กก.", OriginalPrice = 170, Price = 177, ProductType = productTypes[1], UnitType = unitTypes[4]  },
+                new Product { ProductNumber = "01003", Name = "ออติวา ขนาด 500 ซีซี", Descr = "น้ำยา - ออติวา ขนาด 500 ซีซี", OriginalPrice = 180, Price = 188, ProductType = productTypes[1], UnitType = unitTypes[5]  },
+                new Product { ProductNumber = "01004", Name = "OX-PREMIUM 50 KGS.", Descr = "OX-PREMIUM Packing 50 KGS.", OriginalPrice = 190, Price = 199, ProductType = productTypes[1], UnitType = unitTypes[3]  },
+                new Product { ProductNumber = "01005", Name = "พรีมาตรอน 1 ลิตร", Descr = "พรีมาตรอน 1 ลิตร", OriginalPrice = 200, Price = 222, ProductType = productTypes[1], UnitType = unitTypes[3]  }
             };
             foreach (Product p in products)
             {
@@ -155,9 +155,9 @@ namespace StoreFertilizers.Models {
                     //invoice.CustomerID = invoice.Customer.CustomerID;
                     invoice.Name = @"ใบส่งสินค้า / ใบแจ้งหนี้";
                     invoice.CreatedDate = new DateTime(DateTime.Now.Year, m, new Random().Next(1, 28)); //random date (this month)
-                    invoice.DueDate = invoice.CreatedDate.AddDays(90);
+                    invoice.DueDate = invoice.CreatedDate.Value.AddDays(90);
                     invoice.TermOfPayment = "เครดิต 90 วัน";
-                    invoice.DeliveryDate = invoice.CreatedDate.AddDays(3);
+                    invoice.DeliveryDate = invoice.CreatedDate.Value.AddDays(3);
                     invoice.ReferencePONumber = "PO-0000" + i;
                     invoice.Employee = employees[new Random(m).Next(0, employees.Count - 1)]; //random employee
                     //invoice.EmployeeID = invoice.Employee.EmployeeID;
@@ -170,26 +170,41 @@ namespace StoreFertilizers.Models {
                     for (int id = 0; id < number_invoice_details; id++)
                     {
                         var invoiceDetails = new InvoiceDetails();
-                        var fiftyDiscount = new Random().Next(0, 10) >= 5;
-                        var fiftyProfit = new Random().Next(0, 10) >= 5;
+                        var fiftyDiscount = new Random().Next(0, 1);
+                        var fiftyProfit = new Random().Next(0, 1);
 
+                        //invoiceDetails.ProductID = products[new Random(id).Next(0, products.Count - 1)].ProductID;
                         invoiceDetails.Product = products[new Random(id).Next(0, products.Count - 1)];
                         //invoiceDetails.ProductID = invoiceDetails.Product.ProductID;
-                        invoiceDetails.UnitTypeID = unitTypes[new Random().Next(0, unitTypes.Count - 1)].UnitTypeID;
+                        invoiceDetails.UnitType = unitTypes[new Random(id).Next(0, unitTypes.Count - 1)];
                         //invoiceDetails.UnitTypeID = invoiceDetails.UnitType.UnitTypeID;
-                        invoiceDetails.PricePerUnit = new Random().Next(100, 999999);
-                        invoiceDetails.Qty = new Random().Next(5, 10);
-                        if (fiftyDiscount)
+                        invoiceDetails.PricePerUnit = new Random(id).Next(100, 99999);
+                        invoiceDetails.Qty = new Random(id).Next(5, 10);
+                        if (fiftyDiscount == 1)
                         {
                             invoiceDetails.Discount = 10;
-                        }
-                        if (fiftyProfit)
+                        }else
                         {
-                            invoiceDetails.ExpectedProfit = 20;
+                            invoiceDetails.Discount = 0;
                         }
-                        var amount = (invoiceDetails.PricePerUnit * invoiceDetails.Qty);
-                        var totalDiscount = amount * (invoiceDetails.Discount / 100);
-                        var totalProfit = amount * (invoiceDetails.ExpectedProfit / 100);
+                        if (fiftyProfit == 1)
+                        {
+                            invoiceDetails.ExpectedProfit = 10;
+                        }else
+                        {
+                            invoiceDetails.ExpectedProfit = 0;
+                        }
+                        var amount = (invoiceDetails.PricePerUnit.Value * invoiceDetails.Qty);
+                        decimal totalDiscount = 0;
+                        if (invoiceDetails.Discount.Value > 0)
+                        {
+                            totalDiscount = amount * (invoiceDetails.Discount.Value / 100);
+                        }
+                        decimal totalProfit = 0;
+                        if (invoiceDetails.ExpectedProfit.Value > 0)
+                        {
+                            totalProfit = amount * (invoiceDetails.ExpectedProfit.Value / 100);
+                        }
                         invoiceDetails.Amount = amount + totalProfit - totalDiscount;
                         subTotal += invoiceDetails.Amount;
 
@@ -197,7 +212,7 @@ namespace StoreFertilizers.Models {
                     }
 
                     invoice.Paid = new Random().Next(0, 10) >= 1; //low probability of unpaid
-                    if (invoice.Paid)
+                    if (invoice.Paid.Value)
                     {
                         invoice.PaymentType = paymentTypes[new Random(m).Next(0, paymentTypes.Count - 1)]; //random payment type
                         //invoice.PaymentTypeID = invoice.PaymentType.PaymentTypeID;
@@ -211,7 +226,7 @@ namespace StoreFertilizers.Models {
                                 invoice.ChequeNumber = "CHEQUE-0000" + i;
                             }
                         }
-                        invoice.PaidDate = invoice.CreatedDate.AddDays(new Random().Next(1, 30));
+                        invoice.PaidDate = invoice.CreatedDate.Value.AddDays(new Random().Next(1, 30));
                         invoice.PaidAmount = subTotal;
                         invoice.PaidCollector = "ผู้รับเงินหมายเลข " + i;
                         invoice.PaidCollectedDate = invoice.PaidDate;

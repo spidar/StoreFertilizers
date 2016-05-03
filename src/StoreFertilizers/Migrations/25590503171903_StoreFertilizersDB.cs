@@ -283,30 +283,30 @@ namespace StoreFertilizers.Migrations
                     BankBranch = table.Column<string>(nullable: true),
                     BankID = table.Column<int>(nullable: true),
                     ChequeNumber = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    CustomerID = table.Column<int>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    CustomerID = table.Column<int>(nullable: true),
                     DeliveryByCarNumber = table.Column<string>(nullable: true),
                     DeliveryByPerson = table.Column<string>(nullable: true),
-                    DeliveryDate = table.Column<DateTime>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false),
-                    DueDate = table.Column<DateTime>(nullable: false),
+                    DeliveryDate = table.Column<DateTime>(nullable: true),
+                    Discount = table.Column<decimal>(nullable: true),
+                    DueDate = table.Column<DateTime>(nullable: true),
                     EmployeeID = table.Column<int>(nullable: true),
                     InvoiceNumber = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     NetTotal = table.Column<decimal>(nullable: false),
                     Notes = table.Column<string>(nullable: true),
-                    Paid = table.Column<bool>(nullable: false),
-                    PaidAmount = table.Column<decimal>(nullable: false),
-                    PaidCollectedDate = table.Column<DateTime>(nullable: false),
+                    Paid = table.Column<bool>(nullable: true),
+                    PaidAmount = table.Column<decimal>(nullable: true),
+                    PaidCollectedDate = table.Column<DateTime>(nullable: true),
                     PaidCollector = table.Column<string>(nullable: true),
-                    PaidDate = table.Column<DateTime>(nullable: false),
+                    PaidDate = table.Column<DateTime>(nullable: true),
                     PaymentTypeID = table.Column<int>(nullable: true),
                     ReceivedByPerson = table.Column<string>(nullable: true),
-                    ReceivedProductDate = table.Column<DateTime>(nullable: false),
+                    ReceivedProductDate = table.Column<DateTime>(nullable: true),
                     ReferencePONumber = table.Column<string>(nullable: true),
                     ShipBy = table.Column<string>(nullable: true),
                     ShipTo = table.Column<string>(nullable: true),
-                    SubTotal = table.Column<decimal>(nullable: false),
+                    SubTotal = table.Column<decimal>(nullable: true),
                     TermOfPayment = table.Column<string>(nullable: true),
                     VAT = table.Column<decimal>(nullable: false)
                 },
@@ -324,7 +324,7 @@ namespace StoreFertilizers.Migrations
                         column: x => x.CustomerID,
                         principalTable: "Customer",
                         principalColumn: "CustomerID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Invoice_Employee_EmployeeID",
                         column: x => x.EmployeeID,
@@ -337,30 +337,6 @@ namespace StoreFertilizers.Migrations
                         principalTable: "PaymentType",
                         principalColumn: "PaymentTypeID",
                         onDelete: ReferentialAction.Restrict);
-                });
-            migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    ProductID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Descr = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
-                    OriginalPrice = table.Column<decimal>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
-                    ProductNumber = table.Column<string>(nullable: true),
-                    ProductTypeID = table.Column<int>(nullable: false),
-                    UnitTypeID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.ProductID);
-                    table.ForeignKey(
-                        name: "FK_Product_ProductType_ProductTypeID",
-                        column: x => x.ProductTypeID,
-                        principalTable: "ProductType",
-                        principalColumn: "ProductTypeID",
-                        onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
                 name: "Purchase",
@@ -394,17 +370,46 @@ namespace StoreFertilizers.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
             migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Descr = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    OriginalPrice = table.Column<decimal>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    ProductNumber = table.Column<string>(nullable: true),
+                    ProductTypeID = table.Column<int>(nullable: true),
+                    UnitTypeID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.ProductID);
+                    table.ForeignKey(
+                        name: "FK_Product_ProductType_ProductTypeID",
+                        column: x => x.ProductTypeID,
+                        principalTable: "ProductType",
+                        principalColumn: "ProductTypeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_UnitType_UnitTypeID",
+                        column: x => x.UnitTypeID,
+                        principalTable: "UnitType",
+                        principalColumn: "UnitTypeID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+            migrationBuilder.CreateTable(
                 name: "InvoiceDetails",
                 columns: table => new
                 {
                     InvoiceDetailsID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<decimal>(nullable: false),
-                    Article = table.Column<string>(nullable: true),
-                    Discount = table.Column<decimal>(nullable: false),
-                    ExpectedProfit = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: true),
+                    ExpectedProfit = table.Column<decimal>(nullable: true),
                     InvoiceID = table.Column<int>(nullable: false),
-                    PricePerUnit = table.Column<decimal>(nullable: false),
+                    PricePerUnit = table.Column<decimal>(nullable: true),
                     ProductID = table.Column<int>(nullable: false),
                     Qty = table.Column<int>(nullable: false),
                     UnitTypeID = table.Column<int>(nullable: true)
@@ -424,6 +429,12 @@ namespace StoreFertilizers.Migrations
                         principalTable: "Product",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDetails_UnitType_UnitTypeID",
+                        column: x => x.UnitTypeID,
+                        principalTable: "UnitType",
+                        principalColumn: "UnitTypeID",
+                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "Stock",
@@ -432,7 +443,7 @@ namespace StoreFertilizers.Migrations
                     StockID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<decimal>(nullable: false),
-                    LastUpdated = table.Column<DateTime>(nullable: false),
+                    LastUpdated = table.Column<DateTime>(nullable: true),
                     Location = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
                     ProductID = table.Column<int>(nullable: false),
@@ -471,7 +482,6 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("InvoiceDetails");
             migrationBuilder.DropTable("Purchase");
             migrationBuilder.DropTable("Stock");
-            migrationBuilder.DropTable("UnitType");
             migrationBuilder.DropTable("User");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
@@ -484,6 +494,7 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("Employee");
             migrationBuilder.DropTable("PaymentType");
             migrationBuilder.DropTable("ProductType");
+            migrationBuilder.DropTable("UnitType");
         }
     }
 }

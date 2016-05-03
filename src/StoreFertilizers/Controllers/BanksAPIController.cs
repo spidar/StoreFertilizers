@@ -8,64 +8,57 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Controllers
 {
     [Produces("application/json")]
-    [Route("api/InvoiceDetailsAPI")]
-    public class InvoiceDetailsAPIController : Controller
+    [Route("api/BanksAPI")]
+    public class BanksAPIController : Controller
     {
         private ApplicationDbContext _context;
 
-        public InvoiceDetailsAPIController(ApplicationDbContext context)
+        public BanksAPIController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/InvoiceDetailsAPI
+        // GET: api/BanksAPI
         [HttpGet]
-        public IEnumerable<InvoiceDetails> GetInvoiceDetails()
+        public IEnumerable<Bank> GetBanks()
         {
-            return _context.InvoiceDetails;
+            return _context.Banks;
         }
 
-        [Route("GetInvoiceDetailsByInvoiceID")] /* this route becomes api/[controller]/GetByAdminId */
-        public IActionResult GetInvoiceDetailsByInvoiceID([FromQuery] int id)
-        {
-            var invoicedetails = _context.InvoiceDetails.Where(i => i.InvoiceID == id).ToArray();
-            return Ok(invoicedetails);
-        }
-
-        // GET: api/InvoiceDetailsAPI/5
-        [HttpGet("{id}", Name = "GetInvoiceDetails")]
-        public IActionResult GetInvoiceDetails([FromRoute] int id)
+        // GET: api/BanksAPI/5
+        [HttpGet("{id}", Name = "GetBank")]
+        public IActionResult GetBank([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            InvoiceDetails invoiceDetails = _context.InvoiceDetails.Single(m => m.InvoiceDetailsID == id);
+            Bank bank = _context.Banks.Single(m => m.BankID == id);
 
-            if (invoiceDetails == null)
+            if (bank == null)
             {
                 return HttpNotFound();
             }
 
-            return Ok(invoiceDetails);
+            return Ok(bank);
         }
 
-        // PUT: api/InvoiceDetailsAPI/5
+        // PUT: api/BanksAPI/5
         [HttpPut("{id}")]
-        public IActionResult PutInvoiceDetails(int id, [FromBody] InvoiceDetails invoiceDetails)
+        public IActionResult PutBank(int id, [FromBody] Bank bank)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            if (id != invoiceDetails.InvoiceDetailsID)
+            if (id != bank.BankID)
             {
                 return HttpBadRequest();
             }
 
-            _context.Entry(invoiceDetails).State = EntityState.Modified;
+            _context.Entry(bank).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +66,7 @@ namespace StoreFertilizers.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvoiceDetailsExists(id))
+                if (!BankExists(id))
                 {
                     return HttpNotFound();
                 }
@@ -86,23 +79,23 @@ namespace StoreFertilizers.Controllers
             return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // POST: api/InvoiceDetailsAPI
+        // POST: api/BanksAPI
         [HttpPost]
-        public IActionResult PostInvoiceDetails([FromBody] InvoiceDetails invoiceDetails)
+        public IActionResult PostBank([FromBody] Bank bank)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            _context.InvoiceDetails.Add(invoiceDetails);
+            _context.Banks.Add(bank);
             try
             {
                 _context.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (InvoiceDetailsExists(invoiceDetails.InvoiceDetailsID))
+                if (BankExists(bank.BankID))
                 {
                     return new HttpStatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -112,28 +105,28 @@ namespace StoreFertilizers.Controllers
                 }
             }
 
-            return CreatedAtRoute("GetInvoiceDetails", new { id = invoiceDetails.InvoiceDetailsID }, invoiceDetails);
+            return CreatedAtRoute("GetBank", new { id = bank.BankID }, bank);
         }
 
-        // DELETE: api/InvoiceDetailsAPI/5
+        // DELETE: api/BanksAPI/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteInvoiceDetails(int id)
+        public IActionResult DeleteBank(int id)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            InvoiceDetails invoiceDetails = _context.InvoiceDetails.Single(m => m.InvoiceDetailsID == id);
-            if (invoiceDetails == null)
+            Bank bank = _context.Banks.Single(m => m.BankID == id);
+            if (bank == null)
             {
                 return HttpNotFound();
             }
 
-            _context.InvoiceDetails.Remove(invoiceDetails);
+            _context.Banks.Remove(bank);
             _context.SaveChanges();
 
-            return Ok(invoiceDetails);
+            return Ok(bank);
         }
 
         protected override void Dispose(bool disposing)
@@ -145,9 +138,9 @@ namespace StoreFertilizers.Controllers
             base.Dispose(disposing);
         }
 
-        private bool InvoiceDetailsExists(int id)
+        private bool BankExists(int id)
         {
-            return _context.InvoiceDetails.Count(e => e.InvoiceDetailsID == id) > 0;
+            return _context.Banks.Count(e => e.BankID == id) > 0;
         }
     }
 }

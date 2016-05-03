@@ -27,7 +27,7 @@ namespace StoreFertilizers.Models
         [Display(Name = "ปรับปรุงล่าสุด")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
-        public DateTime LastUpdated { get; set; }
+        public DateTime? LastUpdated { get; set; }
 
         [Display(Name = "หมายเหตุ")]
         public string Notes { get; set; }

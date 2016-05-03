@@ -47,6 +47,6 @@ namespace StoreFertilizers.Models
 
         public string Notes { get; set; }
 
-        public virtual ICollection<Invoice> Invoices { get; set; }
+        //public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

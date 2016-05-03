@@ -48,13 +48,15 @@
             @Html.DisplayFor(modelItem => item.Notes)
         </td>        
         <td>
-            <a asp-action="Edit" asp-route-id="@item.InvoiceID" class="btn btn-warning" role="button">
+            <a asp-action="Edit" asp-route-id="@item.InvoiceID" class="btn btn-warning btn-xs" role="button">
                 <i class="glyphicon glyphicon-edit"></i>
             </a>
-            <a asp-action="Details" asp-route-id="@item.InvoiceID" class="btn btn-info" role="button">
+            <!--
+            <a asp-action="Details" asp-route-id="@item.InvoiceID" class="btn btn-info btn-xs" role="button">
                 <i class="glyphicon glyphicon-info-sign"></i>
             </a>
-            <a asp-action="Delete" asp-route-id="@item.InvoiceID" class="btn btn-danger" role="button">
+            -->
+            <a asp-action="Delete" asp-route-id="@item.InvoiceID" class="btn btn-danger btn-xs" role="button">
                 <i class="glyphicon glyphicon-remove"></i>
             </a>
         </td>

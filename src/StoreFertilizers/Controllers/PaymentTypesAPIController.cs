@@ -8,64 +8,57 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Controllers
 {
     [Produces("application/json")]
-    [Route("api/InvoiceDetailsAPI")]
-    public class InvoiceDetailsAPIController : Controller
+    [Route("api/PaymentTypesAPI")]
+    public class PaymentTypesAPIController : Controller
     {
         private ApplicationDbContext _context;
 
-        public InvoiceDetailsAPIController(ApplicationDbContext context)
+        public PaymentTypesAPIController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/InvoiceDetailsAPI
+        // GET: api/PaymentTypesAPI
         [HttpGet]
-        public IEnumerable<InvoiceDetails> GetInvoiceDetails()
+        public IEnumerable<PaymentType> GetPaymentTypes()
         {
-            return _context.InvoiceDetails;
+            return _context.PaymentTypes;
         }
 
-        [Route("GetInvoiceDetailsByInvoiceID")] /* this route becomes api/[controller]/GetByAdminId */
-        public IActionResult GetInvoiceDetailsByInvoiceID([FromQuery] int id)
-        {
-            var invoicedetails = _context.InvoiceDetails.Where(i => i.InvoiceID == id).ToArray();
-            return Ok(invoicedetails);
-        }
-
-        // GET: api/InvoiceDetailsAPI/5
-        [HttpGet("{id}", Name = "GetInvoiceDetails")]
-        public IActionResult GetInvoiceDetails([FromRoute] int id)
+        // GET: api/PaymentTypesAPI/5
+        [HttpGet("{id}", Name = "GetPaymentType")]
+        public IActionResult GetPaymentType([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            InvoiceDetails invoiceDetails = _context.InvoiceDetails.Single(m => m.InvoiceDetailsID == id);
+            PaymentType paymentType = _context.PaymentTypes.Single(m => m.PaymentTypeID == id);
 
-            if (invoiceDetails == null)
+            if (paymentType == null)
             {
                 return HttpNotFound();
             }
 
-            return Ok(invoiceDetails);
+            return Ok(paymentType);
         }
 
-        // PUT: api/InvoiceDetailsAPI/5
+        // PUT: api/PaymentTypesAPI/5
         [HttpPut("{id}")]
-        public IActionResult PutInvoiceDetails(int id, [FromBody] InvoiceDetails invoiceDetails)
+        public IActionResult PutPaymentType(int id, [FromBody] PaymentType paymentType)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            if (id != invoiceDetails.InvoiceDetailsID)
+            if (id != paymentType.PaymentTypeID)
             {
                 return HttpBadRequest();
             }
 
-            _context.Entry(invoiceDetails).State = EntityState.Modified;
+            _context.Entry(paymentType).State = EntityState.Modified;
 
             try
             {
@@ -73,7 +66,7 @@ namespace StoreFertilizers.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!InvoiceDetailsExists(id))
+                if (!PaymentTypeExists(id))
                 {
                     return HttpNotFound();
                 }
@@ -86,23 +79,23 @@ namespace StoreFertilizers.Controllers
             return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // POST: api/InvoiceDetailsAPI
+        // POST: api/PaymentTypesAPI
         [HttpPost]
-        public IActionResult PostInvoiceDetails([FromBody] InvoiceDetails invoiceDetails)
+        public IActionResult PostPaymentType([FromBody] PaymentType paymentType)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            _context.InvoiceDetails.Add(invoiceDetails);
+            _context.PaymentTypes.Add(paymentType);
             try
             {
                 _context.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (InvoiceDetailsExists(invoiceDetails.InvoiceDetailsID))
+                if (PaymentTypeExists(paymentType.PaymentTypeID))
                 {
                     return new HttpStatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -112,28 +105,28 @@ namespace StoreFertilizers.Controllers
                 }
             }
 
-            return CreatedAtRoute("GetInvoiceDetails", new { id = invoiceDetails.InvoiceDetailsID }, invoiceDetails);
+            return CreatedAtRoute("GetPaymentType", new { id = paymentType.PaymentTypeID }, paymentType);
         }
 
-        // DELETE: api/InvoiceDetailsAPI/5
+        // DELETE: api/PaymentTypesAPI/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteInvoiceDetails(int id)
+        public IActionResult DeletePaymentType(int id)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            InvoiceDetails invoiceDetails = _context.InvoiceDetails.Single(m => m.InvoiceDetailsID == id);
-            if (invoiceDetails == null)
+            PaymentType paymentType = _context.PaymentTypes.Single(m => m.PaymentTypeID == id);
+            if (paymentType == null)
             {
                 return HttpNotFound();
             }
 
-            _context.InvoiceDetails.Remove(invoiceDetails);
+            _context.PaymentTypes.Remove(paymentType);
             _context.SaveChanges();
 
-            return Ok(invoiceDetails);
+            return Ok(paymentType);
         }
 
         protected override void Dispose(bool disposing)
@@ -145,9 +138,9 @@ namespace StoreFertilizers.Controllers
             base.Dispose(disposing);
         }
 
-        private bool InvoiceDetailsExists(int id)
+        private bool PaymentTypeExists(int id)
         {
-            return _context.InvoiceDetails.Count(e => e.InvoiceDetailsID == id) > 0;
+            return _context.PaymentTypes.Count(e => e.PaymentTypeID == id) > 0;
         }
     }
 }
