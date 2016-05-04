@@ -2,28 +2,46 @@
 
 @{
     ViewData["Title"] = "ปรับปรุงข้อมูลสินค้า";
+    string imgSrc = "~/images/no-image.png";
+    if (Model.ProductImage != null)
+    {
+        var base64 = Convert.ToBase64String(Model.ProductImage);
+        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+    }
 }
 
-<h2>Edit</h2>
+<h2>ปรับปรุงข้อมูลสินค้าในคลัง</h2>
 
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>Stock</h4>
         <hr />
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="StockID" />
         <div class="form-group">
+            <img src="@imgSrc" class="img-thumbnail" width="304" height="236">
+            <input ng-model='file' type="file" name="productImageUploaded" style="max-width:300px;" />
+            <!--
+            <label asp-for="ProductImage" class="col-md-2 control-label"></label>            
+            <div class="col-md-10">
+                <input asp-for="ProductImage" class="form-control" />
+                <span asp-validation-for="ProductImage" class="text-danger" />
+            </div>
+            -->
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ProductID" asp-items="ViewBag.ProductID" class="form-control">
+                    <option disabled selected>--- เลือกสินค้า ---</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
             <label asp-for="Balance" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="Balance" class="form-control" />
                 <span asp-validation-for="Balance" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="LastUpdated" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="LastUpdated" class="form-control" />
-                <span asp-validation-for="LastUpdated" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -38,20 +56,6 @@
             <div class="col-md-10">
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ProductID" class="control-label col-md-2">ProductID</label>
-            <div class="col-md-10">
-                <select asp-for="ProductID" class="form-control" />
-                <span asp-validation-for="ProductID" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ProductImage" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ProductImage" class="form-control" />
-                <span asp-validation-for="ProductImage" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

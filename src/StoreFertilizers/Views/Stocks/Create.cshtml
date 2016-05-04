@@ -4,24 +4,29 @@
     ViewData["Title"] = "เพิ่มข้อมูลสินค้า";
 }
 
-<h2>Create</h2>
+<h2>เพิ่มข้อมูลสินค้าเข้าคลัง</h2>
 
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="form-horizontal">
-        <h4>Stock</h4>
         <hr />
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <div class="form-group">
+            <img src="~/images/no-image.png" class="img-thumbnail" width="304" height="236">
+            <input type="file" name="productImageUploaded" style="max-width:300px;"/>
+            <!--
             <label asp-for="ProductImage" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <input asp-for="ProductImage" class="form-control" />
                 <span asp-validation-for="ProductImage" class="text-danger" />
             </div>
+            -->
         </div>
         <div class="form-group">
             <label asp-for="ProductID" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="ProductID" class="form-control"></select>
+                <select asp-for="ProductID" asp-items="ViewBag.ProductID" class="form-control">
+                    <option disabled selected>--- เลือกสินค้า ---</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -43,13 +48,6 @@
             <div class="col-md-10">
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="LastUpdated" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="LastUpdated" class="form-control" />
-                <span asp-validation-for="LastUpdated" class="text-danger" />
             </div>
         </div>
         <div class="form-group">

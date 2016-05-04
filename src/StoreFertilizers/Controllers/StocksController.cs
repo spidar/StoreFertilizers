@@ -3,6 +3,9 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
+using System;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace StoreFertilizers.Controllers
 {
@@ -42,7 +45,7 @@ namespace StoreFertilizers.Controllers
         // GET: Stocks/Create
         public IActionResult Create()
         {
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product");
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name");
             return View();
         }
 
@@ -53,11 +56,28 @@ namespace StoreFertilizers.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+                    var file = HttpContext.Request.Form.Files.GetFile("productImageUploaded");
+
+                    if (file != null && file.Length > 0)
+                    {
+                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                        var reader = new BinaryReader(file.OpenReadStream());
+                        stock.ProductImage = reader.ReadBytes((int)file.Length);
+                    }
+                }catch(Exception ex)
+                {
+                    var error = ex.Message;
+                }
+
+                stock.LastUpdated = DateTime.Now;
                 _context.Stock.Add(stock);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product", stock.ProductID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", stock.ProductID);
             return View(stock);
         }
 
@@ -74,7 +94,7 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpNotFound();
             }
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product", stock.ProductID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", stock.ProductID);
             return View(stock);
         }
 
@@ -85,11 +105,29 @@ namespace StoreFertilizers.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+                    var file = HttpContext.Request.Form.Files.GetFile("productImageUploaded");
+
+                    if (file != null && file.Length > 0)
+                    {
+                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                        var reader = new BinaryReader(file.OpenReadStream());
+                        stock.ProductImage = reader.ReadBytes((int)file.Length);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var error = ex.Message;
+                }
+
+                stock.LastUpdated = DateTime.Now;
                 _context.Update(stock);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Product", stock.ProductID);
+            ViewData["ProductID"] = new SelectList(_context.Products, "ProductID", "Name", stock.ProductID);
             return View(stock);
         }
 
@@ -108,6 +146,8 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
+            var product = _context.Products.Where(i => i.ProductID == stock.ProductID).ToList();
+
             return View(stock);
         }
 
@@ -120,6 +160,6 @@ namespace StoreFertilizers.Controllers
             _context.Stock.Remove(stock);
             _context.SaveChanges();
             return RedirectToAction("Index");
-        }
+        }        
     }
 }

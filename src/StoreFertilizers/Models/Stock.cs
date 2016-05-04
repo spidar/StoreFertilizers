@@ -19,7 +19,7 @@ namespace StoreFertilizers.Models
         [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
         public decimal Balance { get; set; }
 
-        [Display(Name = "รูปสินค้า")]
+        //[Display(Name = "รูปสินค้า")]
         public Byte[] ProductImage { get; set; }
 
         [Display(Name = "ปรับปรุงล่าสุด")]
