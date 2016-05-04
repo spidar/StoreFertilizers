@@ -71,7 +71,7 @@
                             <text>
                         <li>
                             </text>
-                        }<a asp-controller="Home" asp-action="Stock" style="color: white;font-weight: bold;">คลังสินค้า</a></li>
+                        }<a asp-controller="Stocks" asp-action="Index" style="color: white;font-weight: bold;">คลังสินค้า</a></li>
                         @if (Context.Request.Path.Value.Contains("SummaryOfSale"))
                         {
                             <text>
@@ -84,8 +84,18 @@
                         <li>
                             </text>
                         }<a asp-controller="Home" asp-action="SummaryOfSale" style="color: white;font-weight: bold;">สรุปยอด</a></li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ตั้งค่า <span class="caret"></span></a>
+                        @if (Context.Request.Path.Value.Contains("SettingOfApplication"))
+                        {
+                            <text>
+                                <li class="dropdown active">
+                            </text>
+                        }
+                        else
+                        {
+                            <text>  
+                            <li class="dropdown">
+                            </text>
+                         }<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ตั้งค่า <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a asp-controller="Home" asp-action="SettingOfApplication">ทั่วไป</a></li>
                                 <li><a asp-controller="Home" asp-action="SettingOfApplication">แก้ไขรายละเอียดลูกค้า</a></li>

@@ -42,6 +42,13 @@ namespace StoreFertilizers.Controllers
             }
 
             Invoice invoice = _context.Invoices.Single(m => m.InvoiceID == id);
+
+            if (invoice == null)
+            {
+                return HttpNotFound();
+            }
+
+            #region "Try to load all child property
             var invoiceDetails = _context.InvoiceDetails.Where(i => i.InvoiceID == invoice.InvoiceID).ToList();
 
             foreach (var item in invoiceDetails)
@@ -50,14 +57,6 @@ namespace StoreFertilizers.Controllers
                 var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
                 var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID).ToList();
                 var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
-            }
-
-            if (invoice.InvoiceDetails.Count() <= 0)
-            {
-                foreach (var item in invoiceDetails)
-                {
-                    invoice.InvoiceDetails.Add(item);
-                }
             }
 
             if (invoice.EmployeeID != null)
@@ -76,20 +75,7 @@ namespace StoreFertilizers.Controllers
             {
                 invoice.Bank = _context.Banks.SingleOrDefault(i => i.BankID == invoice.BankID);
             }
-            /*
-            foreach (var item in invoice.InvoiceDetails)
-            {
-                if (item.UnitTypeID != null)
-                {
-                    var unitType = _context.UnitTypes.SingleOrDefault(i => i.UnitTypeID == item.UnitTypeID);
-                    item.UnitType = new UnitType() { UnitTypeID = unitType.UnitTypeID, Name = unitType.Name, Descr = unitType.Descr };
-                }
-            }
-            */
-            if (invoice == null)
-            {
-                return HttpNotFound();
-            }
+            #endregion
 
             return Ok(invoice);
         }
@@ -113,12 +99,37 @@ namespace StoreFertilizers.Controllers
             //var deletedEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted).Select(x => x.Entity).ToList();
 
             _context.Entry(invoice).State = EntityState.Modified;
-            foreach(var item in invoice.InvoiceDetails)
+
+            #region "Handle Add detailInvoices"
+            var addNews = invoice.InvoiceDetails.Where(i => i.InvoiceDetailsID == 0).ToList();
+            foreach(var item in addNews)
             {
-                _context.Entry(item).State = EntityState.Modified;
+                #region "Handle Stock"
+                
+                #endregion
+                invoice.InvoiceDetails.Remove(item);
+                _context.InvoiceDetails.Add(item);
             }
+            #endregion
+            #region "Handle Edit and Delete"
+            foreach (var item in invoice.InvoiceDetails)
+            {
+                if (item.InvoiceDetailsID > 0)
+                {
+                    bool isDeleted = (item.IsDeleted != null && item.IsDeleted.Value);
+                    if (isDeleted)
+                    {
+                        _context.InvoiceDetails.Remove(item);
+                    }
+                    else
+                    {
+                        _context.Entry(item).State = EntityState.Modified;
+                    }
+                }
+            }
+            #endregion
 
-
+            
             try
             {
                 _context.SaveChanges();

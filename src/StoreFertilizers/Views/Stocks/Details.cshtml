@@ -1,0 +1,54 @@
+@model StoreFertilizers.Models.Stock
+
+@{
+    ViewData["Title"] = "รายละเอียดข้อมูล";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Stock</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductImage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductImage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Product.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastUpdated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastUpdated)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.StockID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

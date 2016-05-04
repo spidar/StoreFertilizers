@@ -208,6 +208,7 @@ namespace StoreFertilizers.Models {
                         invoiceDetails.Amount = amount + totalProfit - totalDiscount;
                         subTotal += invoiceDetails.Amount;
 
+                        //invoiceDetails.IsDeleted = false;
                         invoice.InvoiceDetails.Add(invoiceDetails);
                     }
 
@@ -312,16 +313,16 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy Stock data:
             List<Stock> stocks = new List<Stock>
             {
-                new Stock { Product = products[0], Location = "คลังสินค้า 1", Amount = 1000, LastUpdated = DateTime.Now.AddMonths(-1), Notes = "หมายเหตุ 1" },
-                new Stock { Product = products[1], Location = "คลังสินค้า 2", Amount = 2000, LastUpdated = DateTime.Now.AddDays(-1), Notes = "หมายเหตุ 2" },
-                new Stock { Product = products[2], Location = "คลังสินค้า 3", Amount = 3000, LastUpdated = DateTime.Now.AddYears(-1), Notes = "หมายเหตุ 3" },
-                new Stock { Product = products[3], Location = "คลังสินค้า 4", Amount = 4000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 4" },
-                new Stock { Product = products[4], Location = "คลังสินค้า 5", Amount = 5000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 5" },
-                new Stock { Product = products[5], Location = "คลังสินค้า 6", Amount = 6000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 6" },
-                new Stock { Product = products[6], Location = "คลังสินค้า 7", Amount = 7000, LastUpdated = DateTime.Now.AddMonths(-3), Notes = "หมายเหตุ 7" },
-                new Stock { Product = products[7], Location = "คลังสินค้า 8", Amount = 8000, LastUpdated = DateTime.Now.AddMonths(-4), Notes = "หมายเหตุ 8" },
-                new Stock { Product = products[8], Location = "คลังสินค้า 9", Amount = 9000, LastUpdated = DateTime.Now.AddMonths(-5), Notes = "หมายเหตุ 9" },
-                new Stock { Product = products[9], Location = "คลังสินค้า 10", Amount = 10000, LastUpdated = DateTime.Now.AddMonths(-6), Notes = "หมายเหตุ 10" }
+                new Stock { Product = products[0], Location = "คลังสินค้า 1", Balance = 1000, LastUpdated = DateTime.Now.AddMonths(-1), Notes = "หมายเหตุ 1" },
+                new Stock { Product = products[1], Location = "คลังสินค้า 2", Balance = 2000, LastUpdated = DateTime.Now.AddDays(-1), Notes = "หมายเหตุ 2" },
+                new Stock { Product = products[2], Location = "คลังสินค้า 3", Balance = 3000, LastUpdated = DateTime.Now.AddYears(-1), Notes = "หมายเหตุ 3" },
+                new Stock { Product = products[3], Location = "คลังสินค้า 4", Balance = 4000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 4" },
+                new Stock { Product = products[4], Location = "คลังสินค้า 5", Balance = 5000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 5" },
+                new Stock { Product = products[5], Location = "คลังสินค้า 6", Balance = 6000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 6" },
+                new Stock { Product = products[6], Location = "คลังสินค้า 7", Balance = 7000, LastUpdated = DateTime.Now.AddMonths(-3), Notes = "หมายเหตุ 7" },
+                new Stock { Product = products[7], Location = "คลังสินค้า 8", Balance = 8000, LastUpdated = DateTime.Now.AddMonths(-4), Notes = "หมายเหตุ 8" },
+                new Stock { Product = products[8], Location = "คลังสินค้า 9", Balance = 9000, LastUpdated = DateTime.Now.AddMonths(-5), Notes = "หมายเหตุ 9" },
+                new Stock { Product = products[9], Location = "คลังสินค้า 10", Balance = 10000, LastUpdated = DateTime.Now.AddMonths(-6), Notes = "หมายเหตุ 10" }
             };
             foreach (Stock p in stocks)
             {

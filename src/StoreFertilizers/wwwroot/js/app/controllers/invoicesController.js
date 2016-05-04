@@ -115,25 +115,27 @@
                 });
             }
             
-            // Adds an item to the invoice's items
-            $scope.addItem = function () {
-                var newInvoiceDetail = { no: $scope.newInvoice.invoiceDetails.length + 1, invoiceID: $scope.newInvoice.invoiceID, qty: 0, pricePerUnit: 0, discount: 0, amount: 0 };
-                if ($scope.isEditMode) {
-                    servicesFactory.insertInvoiceDetail($scope.newInvoice.invoiceDetails[$scope.newInvoice.invoiceDetails.length - 1])
-                    .then(function (response) {
-                        $scope.status = response.data;
-                        $scope.newInvoice.invoiceDetails.push($scope.newInvoice.invoiceDetails[$scope.newInvoice.invoiceDetails.length - 1]);
-                    }, function (error) {
-                        $scope.status = 'Unable to delete invoice detail data: ' + error.message;
-                    });
-                } else {
-                    $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
+            $scope.reindexItem = function () {
+                //re-index
+                var counter = 1;
+                for (var i = 0; i < $scope.newInvoice.invoiceDetails.length; i++) {
+                    if ($scope.newInvoice.invoiceDetails[i].isDeleted != true) {
+                        $scope.newInvoice.invoiceDetails[i].no = counter;
+                        counter = counter + 1;
+                    }
                 }
+            }
+            // Adds an item to the invoice's items
+            $scope.addItem = function () {                
+                var newInvoiceDetail = {no: 0, invoiceID: $scope.newInvoice.invoiceID, qty: 0, pricePerUnit: 0, discount: 0, amount: 0 };
+                $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
+                $scope.reindexItem();                
             }
 
             // Remotes an item from the invoice
             $scope.removeInvoiceDetail = function (item) {
                 if (confirm("โปรดยืนยันการลบ !") == true) {
+                    /*
                     if ($scope.isEditMode) {
                         servicesFactory.deleteInvoiceDetailByID(item.invoiceDetailsID)
                         .then(function (response) {
@@ -145,10 +147,13 @@
                     } else {
                         $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf(item), 1);
                     }
-                    //re index
-                    for (var i = 0; i < $scope.newInvoice.invoiceDetails.length; i++) {
-                        $scope.newInvoice.invoiceDetails[i].no = i + 1;
+                    */
+                    if (item.invoiceDetailsID == 0) {
+                        $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf(item), 1);
+                    } else {
+                        item.isDeleted = true;
                     }
+                    $scope.reindexItem();
                 }
             };
 
@@ -190,21 +195,18 @@
                 $scope.getAllPaymentTypes();
 
                 var absUrl = $location.absUrl();
+                var id = absUrl.substr(absUrl.lastIndexOf('/') + 1);
                 if (absUrl.indexOf('/Create') >= 0)
                 {
                     $scope.addItem();
                     $scope.isEditMode = false;
                 } else if (absUrl.indexOf('/Edit/') >= 0)
                 {
-                    servicesFactory.getInvoiceByID('1')
+                    servicesFactory.getInvoiceByID(id)
                     .then(function (response) {
                         $scope.newInvoice = response.data;
-                        $scope.newInvoice.invoiceDetails.push({invoiceID: $scope.newInvoice.invoiceID, pricePerUnit: 0, discount: 0, amount: 0 });
                         $scope.isEditMode = true;
-                        //re index
-                        for (var i = 0; i < $scope.newInvoice.invoiceDetails.length; i++) {
-                            $scope.newInvoice.invoiceDetails[i].no = i + 1;
-                        }
+                        $scope.reindexItem();
                     }, function (error) {
                         $scope.status = 'Unable to load invoice data: ' + error.message;
                     });

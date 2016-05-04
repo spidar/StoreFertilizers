@@ -14,13 +14,13 @@ namespace StoreFertilizers.Models
         //public virtual Invoice Invoice { get; set; }
 
         [Display(Name = "สินค้า")]
-        [Required(ErrorMessage = "กรุณาระบุสินค้า")]
+        //[Required(ErrorMessage = "กรุณาระบุสินค้า")]
         public int ProductID { get; set; }
         public virtual Product Product { get; set; }
 
         [Display(Name = "จำนวน")]
-        [Range(0, 1000000, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0 ถึง 999999999")]
-        public int Qty { get; set; }
+        [Range(0, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0 ถึง 999999999")]
+        public decimal Qty { get; set; }
 
         [Display(Name = "หน่วย")]
         public int? UnitTypeID { get; set; }
@@ -41,6 +41,8 @@ namespace StoreFertilizers.Models
         [Display(Name = "จำนวนเงิน")]
         [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
         public decimal Amount { get; set; }
+
+        public bool? IsDeleted { get; set; }
         /*
         #region Calculated fields
         [NotMapped]

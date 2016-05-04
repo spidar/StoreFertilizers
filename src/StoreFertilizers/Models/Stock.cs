@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreFertilizers.Models
 {
@@ -17,9 +15,9 @@ namespace StoreFertilizers.Models
         [Display(Name = "สถานที่จัดเก็บ")]
         public string Location { get; set; }
 
-        [Display(Name = "จำนวนเงิน")]
+        [Display(Name = "คงเหลือ")]
         [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
-        public decimal Amount { get; set; }
+        public decimal Balance { get; set; }
 
         [Display(Name = "รูปสินค้า")]
         public Byte[] ProductImage { get; set; }

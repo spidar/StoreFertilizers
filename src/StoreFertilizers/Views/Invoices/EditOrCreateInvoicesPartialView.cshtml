@@ -108,7 +108,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="item in newInvoice.invoiceDetails">
+                <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
                     <td class="noPrint" style="text-align:center;vertical-align:middle;">
                         <a href="" class="btn btn-danger btn-xs" ng-click="removeInvoiceDetail(item)"><i class="glyphicon glyphicon-trash"></i></a>
                     </td>

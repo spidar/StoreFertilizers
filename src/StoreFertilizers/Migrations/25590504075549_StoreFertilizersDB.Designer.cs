@@ -8,7 +8,7 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25590503171903_StoreFertilizersDB")]
+    [Migration("25590504075549_StoreFertilizersDB")]
     partial class StoreFertilizersDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,38 +165,29 @@ namespace StoreFertilizers.Migrations
                     b.Property<int>("CustomerID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address")
-                        .IsRequired();
+                    b.Property<string>("Address");
 
-                    b.Property<string>("Address2")
-                        .IsRequired();
+                    b.Property<string>("Address2");
 
-                    b.Property<string>("City")
-                        .IsRequired();
+                    b.Property<string>("City");
 
-                    b.Property<string>("CompanyNumber")
-                        .IsRequired();
+                    b.Property<string>("CompanyNumber");
 
-                    b.Property<string>("ContactPerson")
-                        .IsRequired();
+                    b.Property<string>("ContactPerson");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
                     b.Property<string>("Fax");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.Property<string>("Notes");
 
-                    b.Property<string>("Phone1")
-                        .IsRequired();
+                    b.Property<string>("Phone1");
 
                     b.Property<string>("Phone2");
 
-                    b.Property<string>("ZipCode")
-                        .IsRequired();
+                    b.Property<string>("ZipCode");
 
                     b.HasKey("CustomerID");
                 });
@@ -206,32 +197,25 @@ namespace StoreFertilizers.Migrations
                     b.Property<int>("EmployeeID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address")
-                        .IsRequired();
+                    b.Property<string>("Address");
 
-                    b.Property<string>("CP")
-                        .IsRequired();
+                    b.Property<string>("CP");
 
-                    b.Property<string>("City")
-                        .IsRequired();
+                    b.Property<string>("City");
 
-                    b.Property<string>("ContactPerson")
-                        .IsRequired();
+                    b.Property<string>("ContactPerson");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
                     b.Property<string>("EmployeeNumber");
 
                     b.Property<string>("Fax");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.Property<string>("Notes");
 
-                    b.Property<string>("Phone1")
-                        .IsRequired();
+                    b.Property<string>("Phone1");
 
                     b.Property<string>("Phone2");
 
@@ -317,11 +301,13 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<int>("InvoiceID");
 
+                    b.Property<bool?>("IsDeleted");
+
                     b.Property<decimal?>("PricePerUnit");
 
                     b.Property<int>("ProductID");
 
-                    b.Property<int>("Qty");
+                    b.Property<decimal>("Qty");
 
                     b.Property<int?>("UnitTypeID");
 
@@ -447,7 +433,7 @@ namespace StoreFertilizers.Migrations
                     b.Property<int>("StockID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("Amount");
+                    b.Property<decimal>("Balance");
 
                     b.Property<DateTime?>("LastUpdated");
 

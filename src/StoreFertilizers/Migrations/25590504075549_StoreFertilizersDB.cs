@@ -65,18 +65,18 @@ namespace StoreFertilizers.Migrations
                 {
                     CustomerID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: false),
-                    Address2 = table.Column<string>(nullable: false),
-                    City = table.Column<string>(nullable: false),
-                    CompanyNumber = table.Column<string>(nullable: false),
-                    ContactPerson = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    Address2 = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    CompanyNumber = table.Column<string>(nullable: true),
+                    ContactPerson = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     Fax = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
-                    Phone1 = table.Column<string>(nullable: false),
+                    Phone1 = table.Column<string>(nullable: true),
                     Phone2 = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: false)
+                    ZipCode = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -88,16 +88,16 @@ namespace StoreFertilizers.Migrations
                 {
                     EmployeeID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: false),
-                    CP = table.Column<string>(nullable: false),
-                    City = table.Column<string>(nullable: false),
-                    ContactPerson = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    CP = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    ContactPerson = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     EmployeeNumber = table.Column<string>(nullable: true),
                     Fax = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
-                    Phone1 = table.Column<string>(nullable: false),
+                    Phone1 = table.Column<string>(nullable: true),
                     Phone2 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -409,9 +409,10 @@ namespace StoreFertilizers.Migrations
                     Discount = table.Column<decimal>(nullable: true),
                     ExpectedProfit = table.Column<decimal>(nullable: true),
                     InvoiceID = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: true),
                     PricePerUnit = table.Column<decimal>(nullable: true),
                     ProductID = table.Column<int>(nullable: false),
-                    Qty = table.Column<int>(nullable: false),
+                    Qty = table.Column<decimal>(nullable: false),
                     UnitTypeID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -442,7 +443,7 @@ namespace StoreFertilizers.Migrations
                 {
                     StockID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<decimal>(nullable: false),
+                    Balance = table.Column<decimal>(nullable: false),
                     LastUpdated = table.Column<DateTime>(nullable: true),
                     Location = table.Column<string>(nullable: true),
                     Notes = table.Column<string>(nullable: true),
