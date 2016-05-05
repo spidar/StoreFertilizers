@@ -1,0 +1,66 @@
+@model IEnumerable<StoreFertilizers.Models.Product>
+
+@{
+}
+<hr />
+<p>
+    <a asp-action="Create" class="btn btn-success" role="button">
+        <i class="glyphicon glyphicon-plus"></i> เพิ่มสินค้า
+    </a>
+    <button type="button" class="btn btn-info">
+        <span class="glyphicon glyphicon-search"></span> ค้นหา
+    </button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descr)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OriginalPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+    
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descr)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OriginalPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.ProductID" class="btn btn-warning btn-xs" role="button">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <!--
+            <a asp-action="Details" asp-route-id="@item.ProductID" class="btn btn-info btn-xs" role="button">
+                <i class="glyphicon glyphicon-info-sign"></i>
+            </a>
+            -->
+            <a asp-action="Delete" asp-route-id="@item.ProductID" class="btn btn-danger btn-xs" role="button">
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>
+        </td>
+    </tr>
+}
+</table>

@@ -1,0 +1,77 @@
+@model StoreFertilizers.Models.Product
+
+@{
+    //Layout = null;
+}
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ProductID" />
+        <div class="form-group">
+            <label asp-for="Descr" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Descr" class="form-control" />
+                <span asp-validation-for="Descr" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="OriginalPrice" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="OriginalPrice" class="form-control" />
+                <span asp-validation-for="OriginalPrice" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ProductNumber" class="form-control" />
+                <span asp-validation-for="ProductNumber" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ProductTypeID" class="control-label col-md-2">ProductTypeID</label>
+            <div class="col-md-10">
+                <select asp-for="ProductTypeID" class="form-control" />
+                <span asp-validation-for="ProductTypeID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="UnitTypeID" class="control-label col-md-2">UnitTypeID</label>
+            <div class="col-md-10">
+                <select asp-for="UnitTypeID" class="form-control" />
+                <span asp-validation-for="UnitTypeID" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,57 @@
+@model StoreFertilizers.Models.Product
+
+@{
+    //Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Descr)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descr)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OriginalPrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OriginalPrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductNumber)
+        </dd>
+    </dl>
+</div>
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.ProductID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>
+</body>
+</html>

@@ -7,11 +7,15 @@
 
         <environment names="Development">
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" media="all"/>
+            <!--
             <link rel="stylesheet" href="~/lib/datepicker-thai/css/datepicker.css" />
+            -->
             <link rel="stylesheet" href="~/lib/angular-material/angular-material.css" />
             <link rel="stylesheet" href="~/css/site.css" />
             <script src="~/lib/jquery/dist/jquery.js"></script>
+            <!--
             <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+            -->
             <script src="~/lib/angular/angular.js"></script>
         </environment>
         <environment names="Staging,Production">
@@ -20,9 +24,13 @@
                   asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
             <link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
+            <!--
             <link rel="stylesheet" href="~/lib/datepicker-thai/css/datepicker.css" />
+            -->
             <script src="~/lib/jquery/dist/jquery.js"></script>
+            <!--
             <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+            -->
             <script src="~/lib/angular/angular.js"></script>
         </environment>
     </head>
@@ -78,7 +86,7 @@
                         <li>
                             </text>
                         }<a asp-controller="Stocks" asp-action="Index" style="color: white;font-weight: bold;">คลังสินค้า</a></li>
-                        @if (Context.Request.Path.Value.Contains("SummaryOfSale"))
+                        @if (Context.Request.Path.Value.Contains("SalesSummary"))
                         {
                             <text>
                             <li class="active">
@@ -89,7 +97,7 @@
                             <text>
                         <li>
                             </text>
-                        }<a asp-controller="Home" asp-action="SummaryOfSale" style="color: white;font-weight: bold;">สรุปยอด</a></li>
+                        }<a asp-controller="SalesSummary" asp-action="Index" style="color: white;font-weight: bold;">สรุปยอด</a></li>
                         @if (Context.Request.Path.Value.Contains("SettingOfApplication"))
                         {
                             <text>
@@ -104,8 +112,8 @@
                          }<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ตั้งค่า <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a asp-controller="Home" asp-action="SettingOfApplication">ทั่วไป</a></li>
-                                <li><a asp-controller="Home" asp-action="SettingOfApplication">แก้ไขรายละเอียดลูกค้า</a></li>
-                                <li><a asp-controller="Home" asp-action="SettingOfApplication">แก้ไขชนิดปุ๋ยน้ำยา</a></li>
+                                <li><a asp-controller="Home" asp-action="SettingOfApplication">ลูกค้า</a></li>
+                                <li><a asp-controller="Products" asp-action="Index">สินค้า</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -126,26 +134,33 @@
         <environment names="Development">
             <script src="~/lib/angular-resource/angular-resource.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <!--
             <script src="~/lib/datepicker-thai/js/bootstrap-datepicker.js"></script>
             <script src="~/lib/datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
             <script src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
+            -->
             <script src="~/lib/angular-animate/angular-animate.min.js"></script>
             <script src="~/lib/angular-aria/angular-aria.min.js"></script>
             <script src="~/lib/angular-material/angular-material.min.js"></script>
+            <script src="~/lib/moment/moment.js"></script>
             <script src="~/js/app.js" asp-append-version="true"></script>
             <script src="~/js/app/services/servicesFactory.js"></script>
             <script src="~/js/app/controllers/invoicesController.js"></script>
+            <script src="~/js/app/directives/customdatepicker.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
         <environment names="Staging,Production">
             <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
             <script src="~/lib/angular-resource/angular-resource.js"></script>
+            <!--
             <script src="~/lib/datepicker-thai/js/bootstrap-datepicker.js"></script>
             <script src="~/lib/datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
             <script src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
+            -->
             <script src="~/lib/angular-animate/angular-animate.min.js"></script>
             <script src="~/lib/angular-aria/angular-aria.min.js"></script>
             <script src="~/lib/angular-material/angular-material.min.js"></script>
+            <script src="~/lib/moment/min/moment.min.js"></script>
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
 

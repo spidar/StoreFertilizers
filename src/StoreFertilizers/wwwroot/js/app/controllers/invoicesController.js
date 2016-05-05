@@ -180,6 +180,27 @@
                 return $scope.newInvoice.netTotal;
             };
 
+            $scope.convertToDate = function () {
+                if (!!$scope.newInvoice.deliveryDate && $scope.newInvoice.deliveryDate != '') {
+                    $scope.newInvoice.deliveryDate = new Date($scope.newInvoice.deliveryDate);
+                }
+                if (!!$scope.newInvoice.createdDate && $scope.newInvoice.createdDate != '') {
+                    $scope.newInvoice.createdDate = new Date($scope.newInvoice.createdDate);
+                }
+                if (!!$scope.newInvoice.dueDate && $scope.newInvoice.dueDate != '') {
+                    $scope.newInvoice.dueDate = new Date($scope.newInvoice.dueDate);
+                }
+                if (!!$scope.newInvoice.paidDate && $scope.newInvoice.paidDate != '') {
+                    $scope.newInvoice.paidDate = new Date($scope.newInvoice.paidDate);
+                }
+                if (!!$scope.newInvoice.paidCollectedDate && $scope.newInvoice.paidCollectedDate != '') {
+                    $scope.newInvoice.paidCollectedDate = new Date($scope.newInvoice.paidCollectedDate);
+                }
+                if (!!$scope.newInvoice.receivedProductDate && $scope.newInvoice.receivedProductDate != '') {
+                    $scope.newInvoice.receivedProductDate = new Date($scope.newInvoice.receivedProductDate);
+                }
+            };
+
             //Init all data
             (function init() {
                 //getAllInvoices();
@@ -203,7 +224,8 @@
                         $scope.newInvoice = response.data;
                         $scope.isEditMode = true;
                         $scope.reindexItem();
-                        $scope.newInvoice.deliveryDate = new Date($scope.newInvoice.deliveryDate);
+                        //convert date
+                        $scope.convertToDate();
                     }, function (error) {
                         $scope.status = 'ไม่สามารถโหลดข้อมูลใบส่งสินค้าได้ ' + error.message;
                     });
@@ -214,36 +236,3 @@
         }
         ]);
 })();
-
-
-angular.module('app').directive('datepicker', function () {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function (scope, element, attrs, ngModelCtrl) {
-            $(function () {
-                //var modelAccessor = $parse(attrs.ngModel);
-
-                element.datepicker({
-                    //language: 'th-th',
-                    dateFormat: 'dd/mm/yyyy',
-                    //setDate: null,
-                    //autoclose: true,
-                    onSelect: function (date) {
-                        ngModelCtrl.$setViewValue(date);
-                        scope.$apply();
-                    }
-                });
-
-                scope.$watch(attrs.ngModel, function (val) {
-                    if (!val) {
-                        return false;
-                    }
-                    //console.log(val);
-                    var date = new Date(val);
-                    //element.datepicker("setDate", val);
-                });
-            });
-        }
-    }
-});
