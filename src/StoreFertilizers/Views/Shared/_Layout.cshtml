@@ -8,7 +8,10 @@
         <environment names="Development">
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" media="all"/>
             <link rel="stylesheet" href="~/lib/datepicker-thai/css/datepicker.css" />
+            <link rel="stylesheet" href="~/lib/angular-material/angular-material.css" />
             <link rel="stylesheet" href="~/css/site.css" />
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/jquery-ui/jquery-ui.js"></script>
             <script src="~/lib/angular/angular.js"></script>
         </environment>
         <environment names="Staging,Production">
@@ -16,12 +19,15 @@
                   asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
                   asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+            <link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
             <link rel="stylesheet" href="~/lib/datepicker-thai/css/datepicker.css" />
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/jquery-ui/jquery-ui.js"></script>
             <script src="~/lib/angular/angular.js"></script>
         </environment>
     </head>
     <body ng-cloak>
-        <div class="navbar navbar-default navbar-fixed-top" style="background-color:#5cb85c;">
+        <div class="navbar navbar-custom navbar-fixed-top" >
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -118,51 +124,59 @@
         </div>
 
         <environment names="Development">
-            <script src="~/lib/angular-resource/angular-resource.js"></script>            
-            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/angular-resource/angular-resource.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script type="text/javascript" src="~/lib/datepicker-thai/js/bootstrap-datepicker.js"></script>
-            <!-- thai extension -->
-            <script type="text/javascript" src="~/lib/datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
-            <script type="text/javascript" src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
-            
+            <script src="~/lib/datepicker-thai/js/bootstrap-datepicker.js"></script>
+            <script src="~/lib/datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+            <script src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
+            <script src="~/lib/angular-animate/angular-animate.min.js"></script>
+            <script src="~/lib/angular-aria/angular-aria.min.js"></script>
+            <script src="~/lib/angular-material/angular-material.min.js"></script>
             <script src="~/js/app.js" asp-append-version="true"></script>
             <script src="~/js/app/services/servicesFactory.js"></script>
             <script src="~/js/app/controllers/invoicesController.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
         <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-            </script>
-            <script src="~/lib/angular/angular.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
             <script src="~/lib/angular-resource/angular-resource.js"></script>
-            <script type="text/javascript" src="~/lib/datepicker-thai/js/bootstrap-datepicker.js"></script>
-            <!-- thai extension -->
-            <script type="text/javascript" src="~/lib/datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
-            <script type="text/javascript" src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
+            <script src="~/lib/datepicker-thai/js/bootstrap-datepicker.js"></script>
+            <script src="~/lib/datepicker-thai/js/bootstrap-datepicker-thai.js"></script>
+            <script src="~/lib/datepicker-thai/js/locales/bootstrap-datepicker.th.js" charset="UTF-8"></script>
+            <script src="~/lib/angular-animate/angular-animate.min.js"></script>
+            <script src="~/lib/angular-aria/angular-aria.min.js"></script>
+            <script src="~/lib/angular-material/angular-material.min.js"></script>
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
 
         @RenderSection("scripts", required: false)
 
         <script type="text/javascript">
+            /*
+            $.fn.datepicker.dates['en'] = {
+                //format: 'dd/mm/yyyy',
+                days: ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์", "เสาร์", "อาทิตย์"],
+                daysShort: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"],
+                daysMin: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"],
+                months: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+                monthsShort: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."],
+                today: "วันนี้"
+            };
+            */
+            /*
             $(function () {
                 var datePicker = $('.datepicker');
-                if (!!datePicker.datepicker) {
+                if (!!datePicker.datepicker)
+                {
                     datePicker.datepicker({
-                        language: 'th-th',
-                        format: 'dd-M-yyyy',
+                        //language: 'th-th',
+                        format: 'dd/mm/yyyy',
                         setDate: new Date(),
                         autoclose: true
-                    })
+                    });
                 }
             });
+            */
         </script>
 
     </body>

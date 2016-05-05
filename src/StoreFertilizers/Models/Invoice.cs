@@ -17,12 +17,12 @@ namespace StoreFertilizers.Models
         public string InvoiceNumber { get; set; }
 
         [Display(Name = "วันที่")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? CreatedDate { get; set; }
 
         [Display(Name = "วันที่ครบกำหนดชำระ")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? DueDate { get; set; }
 
@@ -30,7 +30,7 @@ namespace StoreFertilizers.Models
         public string TermOfPayment { get; set; }
 
         [Display(Name = "วันที่ส่งสินค้า")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? DeliveryDate { get; set; }
 
@@ -74,7 +74,7 @@ namespace StoreFertilizers.Models
         public string ChequeNumber { get; set; }
 
         [Display(Name = "ลงวันที่")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? PaidDate { get; set; }
 
@@ -85,7 +85,7 @@ namespace StoreFertilizers.Models
         public string PaidCollector { get; set; }
 
         [Display(Name = "ผู้รับเงินรับเงินวันที่")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? PaidCollectedDate { get; set; }
 
@@ -96,7 +96,7 @@ namespace StoreFertilizers.Models
         public string ReceivedByPerson { get; set; }
 
         [Display(Name = "วันที่รับสินค้า")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]
         public DateTime? ReceivedProductDate { get; set; }
 

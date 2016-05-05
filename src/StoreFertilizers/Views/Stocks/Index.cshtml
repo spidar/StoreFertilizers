@@ -3,9 +3,6 @@
 @{
     ViewData["Title"] = "คลังสินค้า";
 }
-
-<h2>Index</h2>
-
 <p>
     <a asp-action="Create" class="btn btn-success" role="button">
         <i class="glyphicon glyphicon-plus"></i> เพิ่มข้อมูลสินค้า
@@ -14,48 +11,50 @@
         <span class="glyphicon glyphicon-search"></span> ค้นหา
     </button>
 </p>
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <tr>
-            <th style="text-align:center">ชื่อสินค้า</th>
-            <th style="text-align:center">คงเหลือ</th>
-            <th style="text-align:center">สถานที่จัดเก็บ</th>
-            <th style="text-align:center">หมายเหตุ</th>
-            <th style="text-align:right">ปรับปรุงล่าสุด</th>
-            <th class="noprint"></th>
-        </tr>
+<div class="widget stacked widget-table action-table">
+    <div class="table-responsive  widget-content">
+        <table class="table table-striped table-hover">
+            <tr class="widget-header">
+                <th style="text-align:center">ชื่อสินค้า</th>
+                <th style="text-align:center">คงเหลือ</th>
+                <th style="text-align:center">สถานที่จัดเก็บ</th>
+                <th style="text-align:center">หมายเหตุ</th>
+                <th style="text-align:right">ปรับปรุงล่าสุด</th>
+                <th class="noprint"></th>
+            </tr>
 
-        @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Product.Name)
-        </td>
-        <td style="text-align:right">
-            @Html.DisplayFor(modelItem => item.Balance)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
-        <td style="text-align:center">
-            @Html.DisplayFor(modelItem => item.LastUpdated)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.StockID" class="btn btn-warning btn-xs" role="button">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
-            <!--
-            <a asp-action="Details" asp-route-id="@item.StockID" class="btn btn-info btn-xs" role="button">
-                <i class="glyphicon glyphicon-info-sign"></i>
-            </a>
-            -->
-            <a asp-action="Delete" asp-route-id="@item.StockID" class="btn btn-danger btn-xs" role="button">
-                <i class="glyphicon glyphicon-remove"></i>
-            </a>
-        </td>
-    </tr>
+            @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td style="text-align:right">
+                @Html.DisplayFor(modelItem => item.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td style="text-align:center">
+                @Html.DisplayFor(modelItem => item.LastUpdated)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.StockID" class="btn btn-warning btn-xs" role="button">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <!--
+                <a asp-action="Details" asp-route-id="@item.StockID" class="btn btn-info btn-xs" role="button">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+                -->
+                <a asp-action="Delete" asp-route-id="@item.StockID" class="btn btn-danger btn-xs" role="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+            </td>
+        </tr>
 }
-    </table>
+        </table>
+    </div>
 </div>

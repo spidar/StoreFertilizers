@@ -14,7 +14,6 @@
 
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-horizontal">
-        <h4>Stock</h4>
         <hr />
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="StockID" />
@@ -60,14 +59,18 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <span class="glyphicon glyphicon-floppy-save"></span> บันทึก
+                </button>
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-default btn-lg" role="button">
+        <i class="glyphicon glyphicon-hand-left"></i> ย้อนกลับ
+    </a>
 </div>
 
 @section Scripts {

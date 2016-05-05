@@ -3,8 +3,8 @@
 
     angular
         .module('app')
-        .controller('invoicesController', ['$scope', '$location', 'servicesFactory',
-        function ($scope, $location, servicesFactory) {
+        .controller('invoicesController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
+        function ($scope, $location, $timeout, $filter, servicesFactory) {
 
             $scope.title = 'invoicesController';
             $scope.status = '';
@@ -39,7 +39,7 @@
                 .then(function (response) {
                     $scope.invoices = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load invoice data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลใบส่งสินค้าได้: ' + error.message;
                 });
             }
 
@@ -48,7 +48,7 @@
                 .then(function (response) {
                     $scope.data.customerList = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load customer data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลลูกค้าได้: ' + error.message;
                 });
             }
 
@@ -57,7 +57,7 @@
                 .then(function (response) {
                     $scope.data.employeeList = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load employee data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลลูกจ้างได้: ' + error.message;
                 });
             }
 
@@ -66,7 +66,7 @@
                 .then(function (response) {
                     $scope.data.productList = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load product data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลสินค้าได้: ' + error.message;
                 });
             }
 
@@ -75,7 +75,7 @@
                 .then(function (response) {
                     $scope.data.unitTypeList = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load unit type data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลหน่วยได้: ' + error.message;
                 });
             }
 
@@ -84,7 +84,7 @@
                 .then(function (response) {
                     $scope.data.bankList = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load banks data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลธนาคารได้: ' + error.message;
                 });
             }
 
@@ -93,26 +93,35 @@
                 .then(function (response) {
                     $scope.data.paymentTypeList = response.data;
                 }, function (error) {
-                    $scope.status = 'Unable to load payment type data: ' + error.message;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลชนิดของการจ่ายเงินได้: ' + error.message;
                 });
             }
 
-            $scope.insertInvoice = function () {
-                servicesFactory.insertInvoice($scope.newInvoice)
-                .then(function (response) {
-                    $scope.status = response.data;
-                }, function (error) {
-                    $scope.status = 'Unable to create invoice data: ' + error.message;
-                });
-            }
-
-            $scope.updateInvoice = function () {
-                servicesFactory.updateInvoice($scope.newInvoice)
-                .then(function (response) {
-                    $scope.status = response.data;
-                }, function (error) {
-                    $scope.status = 'Unable to update invoice data: ' + error.message;
-                });
+            $scope.saveInvoice = function () {
+                var absUrl = $location.absUrl();
+                if (absUrl.indexOf('/Create') >= 0)
+                {
+                    servicesFactory.insertInvoice($scope.newInvoice)
+                    .then(function (response) {
+                        $scope.status = '...บันทีกเรียบร้อย !';
+                        $timeout(function () {
+                            $scope.status = '';
+                        }, 5000);
+                    }, function (error) {
+                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.message;
+                    });
+                } else if (absUrl.indexOf('/Edit/') >= 0)
+                {
+                    servicesFactory.updateInvoice($scope.newInvoice)
+                    .then(function (response) {
+                        $scope.status = '...บันทีกเรียบร้อย !';
+                        $timeout(function() {
+                            $scope.status = '';
+                        }, 5000); 
+                    }, function (error) {
+                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.message;
+                    });
+                }
             }
             
             $scope.reindexItem = function () {
@@ -135,19 +144,6 @@
             // Remotes an item from the invoice
             $scope.removeInvoiceDetail = function (item) {
                 if (confirm("โปรดยืนยันการลบ !") == true) {
-                    /*
-                    if ($scope.isEditMode) {
-                        servicesFactory.deleteInvoiceDetailByID(item.invoiceDetailsID)
-                        .then(function (response) {
-                            $scope.status = response.data;
-                            $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf(item), 1);
-                        }, function (error) {
-                            $scope.status = 'Unable to delete invoice detail data: ' + error.message;
-                        });
-                    } else {
-                        $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf(item), 1);
-                    }
-                    */
                     if (item.invoiceDetailsID == 0) {
                         $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf(item), 1);
                     } else {
@@ -207,8 +203,9 @@
                         $scope.newInvoice = response.data;
                         $scope.isEditMode = true;
                         $scope.reindexItem();
+                        $scope.newInvoice.deliveryDate = new Date($scope.newInvoice.deliveryDate);
                     }, function (error) {
-                        $scope.status = 'Unable to load invoice data: ' + error.message;
+                        $scope.status = 'ไม่สามารถโหลดข้อมูลใบส่งสินค้าได้ ' + error.message;
                     });
                 }
                 
@@ -217,3 +214,36 @@
         }
         ]);
 })();
+
+
+angular.module('app').directive('datepicker', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModelCtrl) {
+            $(function () {
+                //var modelAccessor = $parse(attrs.ngModel);
+
+                element.datepicker({
+                    //language: 'th-th',
+                    dateFormat: 'dd/mm/yyyy',
+                    //setDate: null,
+                    //autoclose: true,
+                    onSelect: function (date) {
+                        ngModelCtrl.$setViewValue(date);
+                        scope.$apply();
+                    }
+                });
+
+                scope.$watch(attrs.ngModel, function (val) {
+                    if (!val) {
+                        return false;
+                    }
+                    //console.log(val);
+                    var date = new Date(val);
+                    //element.datepicker("setDate", val);
+                });
+            });
+        }
+    }
+});

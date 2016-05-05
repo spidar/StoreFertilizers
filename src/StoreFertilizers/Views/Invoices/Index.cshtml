@@ -12,64 +12,66 @@
         <span class="glyphicon glyphicon-search"></span> ค้นหา
     </button>
 </p>
-<div class="table-responsive">
-    <table class="table table-striped table-hover">
-        <tr>
-            <th style="text-align:center">เลขที่</th>
-            <th style="text-align:center">ผู้ซื้อ</th>
-            <th style="text-align:center">วันที่</th>
-            <th style="text-align:right">รวมเงินสุทธิ</th>
-            <th style="text-align:center">ชำระ</th>
-            <th style="text-align:center">ครบกำหนด</th>
-            <th>หมายเหตุ</th>
-            <th class="noprint"></th>
-        </tr>
+<div class="widget stacked widget-table action-table">
+    <div class="table-responsive widget-content">
+        <table class="table table-striped table-hover">
+            <tr class="widget-header">
+                <th style="text-align:center">เลขที่</th>
+                <th style="text-align:center">ผู้ซื้อ</th>
+                <th style="text-align:center">วันที่</th>
+                <th style="text-align:right">รวมเงินสุทธิ</th>
+                <th style="text-align:center">ชำระ</th>
+                <th style="text-align:center">ครบกำหนด</th>
+                <th>หมายเหตุ</th>
+                <th class="noprint"></th>
+            </tr>
 
-        @foreach (var item in Model)
+            @foreach (var item in Model)
         {
-            <tr>
-                <td align="center" style="vertical-align:middle;">
-                    @Html.DisplayFor(modelItem => item.InvoiceNumber)
-                </td>
-                <td style="vertical-align:middle;">
-                    @Html.DisplayFor(modelItem => item.Customer.Name)
-                </td>
-                <td align="center" style="vertical-align:middle;">
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td align="right" style="vertical-align:middle;">
-                    @Html.DisplayFor(modelItem => item.NetTotal)
-                </td>
-                <td align="center" style="vertical-align:middle;">
-                    @if (item.Paid != null && item.Paid == true)
+        <tr>
+            <td align="center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.InvoiceNumber)
+            </td>
+            <td style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Customer.Name)
+            </td>
+            <td align="center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td align="right" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.NetTotal)
+            </td>
+            <td align="center" style="vertical-align:middle;">
+                @if (item.Paid != null && item.Paid == true)
             {
-            <input type="checkbox" value="" checked disabled>
+                    <input type="checkbox" value="" checked disabled>
             }
             else
             {
-            <input type="checkbox" value="" disabled>
+                    <input type="checkbox" value="" disabled>
             }
-                </td>
-                <td align="center" style="vertical-align:middle;">
-                    @Html.DisplayFor(modelItem => item.DueDate)
-                </td>
-                <td style="vertical-align:middle;">
-                    @Html.DisplayFor(modelItem => item.Notes)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.InvoiceID" class="btn btn-warning btn-xs" role="button">
-                        <i class="glyphicon glyphicon-edit"></i>
-                    </a>
-                    <!--
-                    <a asp-action="Details" asp-route-id="@item.InvoiceID" class="btn btn-info btn-xs" role="button">
-                        <i class="glyphicon glyphicon-info-sign"></i>
-                    </a>
-                    -->
-                    <a asp-action="Delete" asp-route-id="@item.InvoiceID" class="btn btn-danger btn-xs" role="button">
-                        <i class="glyphicon glyphicon-remove"></i>
-                    </a>
-                </td>
-            </tr>
+            </td>
+            <td align="center" style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td style="vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.InvoiceID" class="btn btn-warning btn-xs" role="button">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <!--
+                <a asp-action="Details" asp-route-id="@item.InvoiceID" class="btn btn-info btn-xs" role="button">
+                    <i class="glyphicon glyphicon-info-sign"></i>
+                </a>
+                -->
+                <a asp-action="Delete" asp-route-id="@item.InvoiceID" class="btn btn-danger btn-xs" role="button">
+                    <i class="glyphicon glyphicon-remove"></i>
+                </a>
+            </td>
+        </tr>
         }
-    </table>
+        </table>
+    </div>
 </div>

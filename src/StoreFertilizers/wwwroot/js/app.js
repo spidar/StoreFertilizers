@@ -8,6 +8,6 @@
         // Custom modules 
         //'servicesFactory'
         // 3rd Party Modules
-        
+        'ngMaterial'
     ]);
 })();

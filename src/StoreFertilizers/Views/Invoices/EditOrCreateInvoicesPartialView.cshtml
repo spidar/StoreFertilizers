@@ -21,7 +21,7 @@
                     <label class="col-xs-1 control-label" style="min-width:80px">วันที่ส่ง:</label>
                     <div class="col-xs-5 date remove-padding">
                         <div class="input-group input-append date datepicker">
-                            <input type="text" class="form-control input-sm" id="invoice-DeliveryDate" ng-model="newInvoice.deliveryDate" placeholder="วันที่ส่งสินค้า" />
+                            <input type="text" datepicker class="form-control input-sm" id="invoice-DeliveryDate" ng-model="newInvoice.deliveryDate" placeholder="วันที่ส่งสินค้า" />
                             <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                     </div>
@@ -51,14 +51,16 @@
         <div class="col-xs-6" style="padding:2px;">
                 <div class="rounded-div" style="min-height:145px;">
                     <div class="form-group remove-bottom-margin">
-                        <label class="col-xs-1 control-label" style="min-width:80px">เลขที่:</label>
-                        <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>เลขที่</label>
+                            <input ng-model="newInvoice.invoiceNumber">
+                        </md-input-container>
                     </div>
                     <div class="form-group remove-bottom-margin">
                         <label class="col-xs-1 control-label" style="min-width:80px">วันที่:</label>
                         <div class="col-xs-5 date remove-padding">
                             <div class="input-group input-append date datepicker">
-                                <input type="text" class="form-control input-sm" id="invoice-CreatedDate" ng-model="newInvoice.createdDate" placeholder="วันที่ออกใบกำกับสินค้า"/>
+                                <input type="text" datepicker class="form-control input-sm" id="invoice-CreatedDate" ng-model="newInvoice.createdDate" placeholder="วันที่ออกใบกำกับสินค้า"/>
                                 <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
@@ -67,7 +69,7 @@
                         <label class="col-xs-1 control-label" style="min-width:80px">วันครบ:</label>
                         <div class="col-xs-5 date remove-padding">
                             <div class="input-group input-append date datepicker">
-                                <input type="text" class="form-control input-sm" id="invoice-DueDate" ng-model="newInvoice.dueDate" placeholder="วันที่ครบกำหนดชำระเงิน"/>
+                                <input type="text" datepicker class="form-control input-sm" id="invoice-DueDate" ng-model="newInvoice.dueDate" placeholder="วันที่ครบกำหนดชำระเงิน"/>
                                 <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
@@ -139,6 +141,11 @@
                 <tr class="noPrint">
                     <td colspan="8">
                         <a class="btn btn-primary btn-xs" href="" ng-click="addItem()"><i class="glyphicon glyphicon-plus"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <textarea class="form-control col-xs-12" rows="5" style="min-width:100%" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
                     </td>
                 </tr>
                 <tr>
@@ -214,7 +221,7 @@
                                     </td>
                                     <td style="padding:5px 0px;margin:0px;">
                                         <div class="input-group input-append date datepicker">
-                                            <input type="text" class="form-control input-sm" ng-model="newInvoice.paidDate" placeholder="เช็คลงวันที่" />
+                                            <input type="text" datepicker class="form-control input-sm" ng-model="newInvoice.paidDate" placeholder="เช็คลงวันที่" />
                                             <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </td>
@@ -231,7 +238,7 @@
                                     </td>
                                     <td style="padding:5px 0px;margin:0px;">
                                         <div class="input-group input-append date datepicker">
-                                            <input type="text" class="form-control input-sm" ng-model="newInvoice.paidCollectedDate" placeholder="วันที่รับ" />
+                                            <input type="text" datepicker class="form-control input-sm" ng-model="newInvoice.paidCollectedDate" placeholder="วันที่รับ" />
                                             <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                                         </div>
                                     </td>
@@ -253,7 +260,7 @@
                         <div>ผู้รับสินค้า/<small>RECEIVE BY</small></div>
                         <br />
                         <div class="input-group input-append date datepicker">
-                            <input type="text" class="form-control input-sm" ng-model="newInvoice.receivedProductDate" placeholder="วันที่รับสินค้า" />
+                            <input type="text" datepicker class="form-control input-sm" ng-model="newInvoice.receivedProductDate" placeholder="วันที่รับสินค้า" />
                             <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
                         <div>วันที่/<small>DATE</small></div>
@@ -268,19 +275,28 @@
                         <div>ลายเซนต์/SIGNATURE</div>
                         <br />
                         <div>วันที่/DATE</div>
+                        <div>
+                            -----/-----/-----
+                        </div>
+                        <!--
                         <div class="input-group input-append date datepicker">
                             <input type="text" class="form-control input-sm" id="invoice-DueDate" placeholder="ลงวันที่" />
                             <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
                         </div>
+                        -->
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="form-group remove-bottom-margin noPrint">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" ng-click="insertInvoice()" class="btn btn-default">Create</button>
-            <button type="submit" ng-click="updateInvoice()" class="btn btn-default">Update</button>
+        <div class="col-sm-offset-1 col-sm-12">
+            <button type="submit" ng-click="saveInvoice()" class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-floppy-save"></span> บันทึก {{status}}
+            </button>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-print"></span> ตรวจสอบก่อนพิมพ์
+            </button>
         </div>
     </div>
 </form>
