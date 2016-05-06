@@ -8,7 +8,8 @@
         // Custom modules 
         //'servicesFactory'
         // 3rd Party Modules
-        'ngMaterial'
+        'ngMaterial',
+        'chart.js'
     ]).config(function ($mdDateLocaleProvider) {
 
         // Example of a French localization.
@@ -34,6 +35,9 @@
         $mdThemingProvider.theme('default')
           .primaryPalette('green')
           .accentPalette('orange');
+    }).config(function (ChartJsProvider) {
+        //ChartJsProvider.setOptions({ colours: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+        ChartJsProvider.setOptions({ colours: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
     });
 
 })();
