@@ -2,12 +2,6 @@
 
 @{
     ViewData["Title"] = "ปรับปรุงข้อมูลสินค้า";
-    string imgSrc = "~/images/no-image.png";
-    if (Model.ProductImage != null)
-    {
-        var base64 = Convert.ToBase64String(Model.ProductImage);
-        imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-    }
 }
 
 <h2>ปรับปรุงข้อมูลสินค้าในคลัง</h2>
@@ -17,17 +11,6 @@
         <hr />
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="StockID" />
-        <div class="form-group">
-            <img src="@imgSrc" class="img-thumbnail" width="304" height="236">
-            <input ng-model='file' type="file" name="productImageUploaded" style="max-width:300px;" />
-            <!--
-            <label asp-for="ProductImage" class="col-md-2 control-label"></label>            
-            <div class="col-md-10">
-                <input asp-for="ProductImage" class="form-control" />
-                <span asp-validation-for="ProductImage" class="text-danger" />
-            </div>
-            -->
-        </div>
         <div class="form-group">
             <label asp-for="ProductID" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -41,6 +24,27 @@
             <div class="col-md-10">
                 <input asp-for="Balance" class="form-control" />
                 <span asp-validation-for="Balance" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="FullCapStock" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FullCapStock" class="form-control" />
+                <span asp-validation-for="FullCapStock" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LowCapStock" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LowCapStock" class="form-control" />
+                <span asp-validation-for="LowCapStock" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AlertLowStock" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AlertLowStock" class="form-control" />
+                <span asp-validation-for="AlertLowStock" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
@@ -74,7 +78,6 @@
 </div>
 
 @section Scripts {
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }

@@ -5,12 +5,11 @@
                 <div style="font-size:x-large;"><strong>{{companyInfo.name}}</strong></div>
                 <div class="text-overflow"><small>{{companyInfo.address}}</small></div>
                 <div><small>โทร:&nbsp;{{companyInfo.phone}}&nbsp;&nbsp;โทรสาร:&nbsp;{{companyInfo.fax}}</small></div>
-                <div><small>เลขประจำตัวผู้เสียภาษีอากร : 0743528000060</small></div>
             </div>
         </div>
         <div class="col-xs-6" style="padding:2px;">
             <div class="rounded-div" style="min-height:115px;">
-                <div class="text-center" style="font-size:large;"><strong>ใบกำกับสินค้า</strong></div>
+                <div class="text-center" style="font-size:large;"><strong>ใบส่งของชั่วคราว</strong></div>
                 <div class="remove-bottom-margin">
                     <label for="invoice-employee">พนักงาน:</label>
                     <select id="invoice-employee" class="form-control input-sm display-inline" ng-model='newInvoice.employee' ng-options='option.name for option in data.employeeList track by option.employeeID'>
@@ -127,7 +126,7 @@
                     </tr>
                     <tr style="background-color:#f9f9f9;">
                         <td colspan="4">
-                            <textarea class="form-control col-xs-12" rows="5" style="min-width:100%" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
+                            <textarea ng-model="newInvoice.notes" class="form-control col-xs-12" rows="5" style="min-width:100%" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
                         </td>
                         <td colspan="3" style="text-align:right;vertical-align:middle;">
                             <div>รวมเป็นเงิน</div>
@@ -272,7 +271,6 @@
             </button>
         </div>
     </div>
-    <hr />
 </form>
 
 

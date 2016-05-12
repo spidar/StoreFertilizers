@@ -125,16 +125,16 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy Product data:
             List<Product> products = new List<Product>
             {
-                new Product { ProductNumber = "00001", Name = "กระต่าย 46-0-0 เขียว", Descr = "ปุ๋ย - กระต่าย 46-0-0 เขียว", OriginalPrice = 110, Price = 111, ProductType = productTypes[0], UnitType = unitTypes[0] },
-                new Product { ProductNumber = "00002", Name = "กระต่าย 46-0-0 ฟ้า", Descr = "ปุ๋ย - กระต่าย 46-0-0 ฟ้า", OriginalPrice = 120, Price = 122, ProductType = productTypes[0], UnitType = unitTypes[0]  },
-                new Product { ProductNumber = "00003", Name = "กระต่าย 46-0-0 แดง", Descr = "ปุ๋ย - กระต่าย 46-0-0 แดง", OriginalPrice = 130, Price = 133, ProductType = productTypes[0], UnitType = unitTypes[0]  },
-                new Product { ProductNumber = "00004", Name = "ยาร่า 16-16-16", Descr = "ปุ๋ย - ยาร่า 16-16-16", OriginalPrice = 140, Price = 144, ProductType = productTypes[0], UnitType = unitTypes[0]  },
-                new Product { ProductNumber = "00005", Name = "ยาร่า 24-7-7", Descr = "ปุ๋ย - ยาร่า 24-7-7", OriginalPrice = 150, Price = 155, ProductType = productTypes[0], UnitType = unitTypes[0]  },
-                new Product { ProductNumber = "01001", Name = "ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", Descr = "น้ำยา - ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", OriginalPrice = 160, Price = 166, ProductType = productTypes[1], UnitType = unitTypes[3]  },
-                new Product { ProductNumber = "01002", Name = "ไธอะโนซาน ขนาด 1 กก.", Descr = "น้ำยา - ไธอะโนซาน ขนาด 1 กก.", OriginalPrice = 170, Price = 177, ProductType = productTypes[1], UnitType = unitTypes[4]  },
-                new Product { ProductNumber = "01003", Name = "ออติวา ขนาด 500 ซีซี", Descr = "น้ำยา - ออติวา ขนาด 500 ซีซี", OriginalPrice = 180, Price = 188, ProductType = productTypes[1], UnitType = unitTypes[5]  },
-                new Product { ProductNumber = "01004", Name = "OX-PREMIUM 50 KGS.", Descr = "OX-PREMIUM Packing 50 KGS.", OriginalPrice = 190, Price = 199, ProductType = productTypes[1], UnitType = unitTypes[3]  },
-                new Product { ProductNumber = "01005", Name = "พรีมาตรอน 1 ลิตร", Descr = "พรีมาตรอน 1 ลิตร", OriginalPrice = 200, Price = 222, ProductType = productTypes[1], UnitType = unitTypes[3]  }
+                new Product { ProductNumber = "00001", Name = "กระต่าย 46-0-0 เขียว", Descr = "ปุ๋ย - กระต่าย 46-0-0 เขียว", OriginalPrice = 110, Price = 111, UnitsPerPackage = 50, UnitsPerPackageText = "กส.*50กก.", ProductType = productTypes[0], UnitType = unitTypes[0] },
+                new Product { ProductNumber = "00002", Name = "กระต่าย 46-0-0 ฟ้า", Descr = "ปุ๋ย - กระต่าย 46-0-0 ฟ้า", OriginalPrice = 120, Price = 122, UnitsPerPackage = 50, UnitsPerPackageText = "กส.*50กก.", ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "00003", Name = "กระต่าย 46-0-0 แดง", Descr = "ปุ๋ย - กระต่าย 46-0-0 แดง", OriginalPrice = 130, Price = 133, UnitsPerPackage = 50, UnitsPerPackageText = "กส.*50กก.", ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "00004", Name = "ยาร่า 16-16-16", Descr = "ปุ๋ย - ยาร่า 16-16-16", OriginalPrice = 140, Price = 144, UnitsPerPackage = 50, UnitsPerPackageText = "กส.*50กก.", ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "00005", Name = "ยาร่า 24-7-7", Descr = "ปุ๋ย - ยาร่า 24-7-7", OriginalPrice = 150, Price = 155, UnitsPerPackage = 50, UnitsPerPackageText = "กส.*50กก.", ProductType = productTypes[0], UnitType = unitTypes[0]  },
+                new Product { ProductNumber = "01001", Name = "ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", Descr = "น้ำยา - ไดเทสเอ็ม 45 เหลือง ขนาด 1 กก.", OriginalPrice = 160, Price = 166, UnitsPerPackage = 20, UnitsPerPackageText = "ลัง*20", ProductType = productTypes[1], UnitType = unitTypes[3]  },
+                new Product { ProductNumber = "01002", Name = "ไธอะโนซาน ขนาด 1 กก.", Descr = "น้ำยา - ไธอะโนซาน ขนาด 1 กก.", OriginalPrice = 170, Price = 177, UnitsPerPackage = 12, UnitsPerPackageText = "ลัง*12.", ProductType = productTypes[1], UnitType = unitTypes[4]  },
+                new Product { ProductNumber = "01003", Name = "ออติวา ขนาด 500 ซีซี", Descr = "น้ำยา - ออติวา ขนาด 500 ซีซี", OriginalPrice = 180, Price = 188, UnitsPerPackage = 24, UnitsPerPackageText = "ลัง*24", ProductType = productTypes[1], UnitType = unitTypes[5]  },
+                new Product { ProductNumber = "01004", Name = "OX-PREMIUM 50 KGS.", Descr = "OX-PREMIUM Packing 50 KGS.", OriginalPrice = 190, Price = 199, UnitsPerPackage = 50, UnitsPerPackageText = "กส.*50กก.", ProductType = productTypes[1], UnitType = unitTypes[3]  },
+                new Product { ProductNumber = "01005", Name = "พรีมาตรอน 1 ลิตร", Descr = "พรีมาตรอน 1 ลิตร", OriginalPrice = 200, Price = 222, UnitsPerPackage = 24, UnitsPerPackageText = "ลัง*24", ProductType = productTypes[1], UnitType = unitTypes[3]  }
             };
             foreach (Product p in products)
             {
@@ -153,7 +153,7 @@ namespace StoreFertilizers.Models {
                     invoice.InvoiceNumber = "SH0000" + i.ToString();
                     invoice.Customer = customers[new Random(m).Next(0, customers.Count - 1)]; //random customer
                     //invoice.CustomerID = invoice.Customer.CustomerID;
-                    invoice.Name = @"ใบส่งสินค้า / ใบแจ้งหนี้";
+                    invoice.CustomerName = invoice.Customer.Name;
                     invoice.CreatedDate = new DateTime(DateTime.Now.Year, m, new Random().Next(1, 28)); //random date (this month)
                     invoice.DueDate = invoice.CreatedDate.Value.AddDays(90);
                     invoice.TermOfPayment = "เครดิต 90 วัน";
@@ -178,7 +178,7 @@ namespace StoreFertilizers.Models {
                         //invoiceDetails.ProductID = invoiceDetails.Product.ProductID;
                         invoiceDetails.UnitType = unitTypes[new Random(id).Next(0, unitTypes.Count - 1)];
                         //invoiceDetails.UnitTypeID = invoiceDetails.UnitType.UnitTypeID;
-                        invoiceDetails.PricePerUnit = new Random(id).Next(100, 99999);
+                        invoiceDetails.PricePerUnit = new Random(id).Next(100, 9999);
                         invoiceDetails.Qty = new Random(id).Next(5, 10);
                         if (fiftyDiscount == 1)
                         {
@@ -235,7 +235,7 @@ namespace StoreFertilizers.Models {
                     invoice.DeliveryByPerson = "ผู้ส่งของหมายเลข " + i;
                     invoice.ReceivedByPerson = "ผู้รับสินค้าหมายเลข " + i;
                     invoice.ReceivedProductDate = invoice.DeliveryDate;
-                    invoice.Notes = "หมายเหตุ : " + invoice.Name;
+                    invoice.Notes = "หมายเหตุ : " + invoice.CustomerName;
 
                     var fiftyVAT = new Random().Next(0, 10) >= 5;
 
@@ -253,22 +253,15 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region let's add a few providers
-            List<Provider> providers = new List<Provider>();
-            int providers_count = 80;
-            var dummy_provider_names = new string[] { "Ebay", "PayPal", "Computer Store", "MarketPlace", "Hard disks from China Inc.", "Printing items Inc." };
-            for (int i = 0; i < providers_count; i++)
+            List<Provider> providers = new List<Provider>
             {
-                providers.Add(new Provider()
-                {
-                    Name = dummy_provider_names[new Random(i).Next(0, dummy_provider_names.Length)] + " " + i,
-                    Address = "Address for provider" + i,
-                    City = "Zaragoza",
-                    CompanyNumber = "212121212" + i,
-                    CP = "50800",
-                    Phone1 = "2323-2222" + i,
-                    Email = "dummy_email@provider" + i + ".com"
-                });
-            }
+                new Provider {Name="บ. เจียไต๋ จำกัด", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
+                new Provider {Name="บ. พิทักษ์พืชผลเคมีเกษตร จำกัด", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
+                new Provider {Name="บ. ยาร่า จำกัด", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27 เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
+                new Provider {Name="บ. สหายเกษตรเคมีภัณฑ์", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
+                new Provider {Name="บ. ไทยเซ็นทรัลเคมี จำกัด", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ เขตสาทร กรุงเทพ 10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
+            };
+            
             foreach (Provider p in providers)
             {
                 context.Providers.Add(p);
@@ -291,20 +284,31 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region randon Expenses
-            var articles_dummy = new string[] { "Food expense", "Car expense", "Computer item", "Train ticket", "Plain ticket" };
+            //var articles_dummy = new string[] { "Food expense", "Car expense", "Computer item", "Train ticket", "Plain ticket" };
             for (int m = 1; m < DateTime.Now.Month; m++)
             {
                 int expenses_count_per_month = new Random(m).Next(5, 15);
                 for (int i = 0; i < expenses_count_per_month; i++)
                 {
+                    var qty = new Random(i).Next(5, 10);
+                    var purchasePrice = new Random(i).Next(10, 100);
                     context.Purchases.Add(new Purchase()
                     {
+                        PurchaseNumber = "PO000" + i,
+                        PurchaseDate = new DateTime(DateTime.Now.Year, m, new Random(i).Next(1, 28)),
+                        BillNumber = "0000" + i,
                         Provider = providers[new Random(i).Next(0, providers.Count - 1)],
-                        Article = articles_dummy[new Random(i).Next(0, articles_dummy.Length - 1)],
-                        Price = new Random(i).Next(10, 100),
-                        VAT = 18,
-                        PurchaseType = expenseCats[new Random(i).Next(0, expenseCats.Count - 1)],
-                        TimeStamp = new DateTime(DateTime.Now.Year, m, new Random(i).Next(1, 28))
+                        ProviderName = "",
+                        Qty = qty,
+                        QtyRemain = qty,
+                        Product = products[new Random(i).Next(0, products.Count - 1)],
+                        SalePrice = new Random(i).Next(10, 100),
+                        PurchasePricePerUnit = purchasePrice,
+                        UnitType = unitTypes[new Random(i).Next(0, unitTypes.Count - 1)],
+                        Amount = qty * purchasePrice,
+                        IsTax = new Random().Next(0, 10) >= 5,
+                        //VAT = 7,
+                        //PurchaseType = expenseCats[new Random(i).Next(0, expenseCats.Count - 1)],
                     });
                 }
             }
@@ -313,16 +317,16 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy Stock data:
             List<Stock> stocks = new List<Stock>
             {
-                new Stock { Product = products[0], Location = "คลังสินค้า 1", Balance = 1000, LastUpdated = DateTime.Now.AddMonths(-1), Notes = "หมายเหตุ 1" },
-                new Stock { Product = products[1], Location = "คลังสินค้า 2", Balance = 2000, LastUpdated = DateTime.Now.AddDays(-1), Notes = "หมายเหตุ 2" },
-                new Stock { Product = products[2], Location = "คลังสินค้า 3", Balance = 3000, LastUpdated = DateTime.Now.AddYears(-1), Notes = "หมายเหตุ 3" },
-                new Stock { Product = products[3], Location = "คลังสินค้า 4", Balance = 4000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 4" },
-                new Stock { Product = products[4], Location = "คลังสินค้า 5", Balance = 5000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 5" },
-                new Stock { Product = products[5], Location = "คลังสินค้า 6", Balance = 6000, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 6" },
-                new Stock { Product = products[6], Location = "คลังสินค้า 7", Balance = 7000, LastUpdated = DateTime.Now.AddMonths(-3), Notes = "หมายเหตุ 7" },
-                new Stock { Product = products[7], Location = "คลังสินค้า 8", Balance = 8000, LastUpdated = DateTime.Now.AddMonths(-4), Notes = "หมายเหตุ 8" },
-                new Stock { Product = products[8], Location = "คลังสินค้า 9", Balance = 9000, LastUpdated = DateTime.Now.AddMonths(-5), Notes = "หมายเหตุ 9" },
-                new Stock { Product = products[9], Location = "คลังสินค้า 10", Balance = 10000, LastUpdated = DateTime.Now.AddMonths(-6), Notes = "หมายเหตุ 10" }
+                new Stock { Product = products[0], Location = "คลังสินค้า 1", Balance = 1000, FullCapStock = 1000, LowCapStock = 100, AlertLowStock = false, LastUpdated = DateTime.Now.AddMonths(-1), Notes = "หมายเหตุ 1" },
+                new Stock { Product = products[1], Location = "คลังสินค้า 2", Balance = 2000, FullCapStock = 2000, LowCapStock = 200, AlertLowStock = true, LastUpdated = DateTime.Now.AddDays(-1), Notes = "หมายเหตุ 2" },
+                new Stock { Product = products[2], Location = "คลังสินค้า 3", Balance = 3000, FullCapStock = 3000, LowCapStock = 300, AlertLowStock = false, LastUpdated = DateTime.Now.AddYears(-1), Notes = "หมายเหตุ 3" },
+                new Stock { Product = products[3], Location = "คลังสินค้า 4", Balance = 4000, FullCapStock = 4000, LowCapStock = 400, AlertLowStock = true, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 4" },
+                new Stock { Product = products[4], Location = "คลังสินค้า 5", Balance = 5000, FullCapStock = 5000, LowCapStock = 500, AlertLowStock = false, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 5" },
+                new Stock { Product = products[5], Location = "คลังสินค้า 6", Balance = 6000, FullCapStock = 6000, LowCapStock = 600, AlertLowStock = true, LastUpdated = DateTime.Now.AddMonths(-2), Notes = "หมายเหตุ 6" },
+                new Stock { Product = products[6], Location = "คลังสินค้า 7", Balance = 7000, FullCapStock = 7000, LowCapStock = 700, AlertLowStock = true, LastUpdated = DateTime.Now.AddMonths(-3), Notes = "หมายเหตุ 7" },
+                new Stock { Product = products[7], Location = "คลังสินค้า 8", Balance = 8000, FullCapStock = 8000, LowCapStock = 800, AlertLowStock = false, LastUpdated = DateTime.Now.AddMonths(-4), Notes = "หมายเหตุ 8" },
+                new Stock { Product = products[8], Location = "คลังสินค้า 9", Balance = 9000, FullCapStock = 9000, LowCapStock = 900, AlertLowStock = false, LastUpdated = DateTime.Now.AddMonths(-5), Notes = "หมายเหตุ 9" },
+                new Stock { Product = products[9], Location = "คลังสินค้า 10", Balance = 10000, FullCapStock = 10000, LowCapStock = 1000, AlertLowStock = false, LastUpdated = DateTime.Now.AddMonths(-6), Notes = "หมายเหตุ 10" }
             };
             foreach (Stock p in stocks)
             {

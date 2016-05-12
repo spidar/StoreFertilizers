@@ -21,7 +21,7 @@ namespace StoreFertilizers.Controllers
         // GET: Stocks
         public IActionResult Index()
         {
-            var applicationDbContext = _context.Stock.Include(s => s.Product);
+            var applicationDbContext = _context.Stock.Include(s => s.Product).Include(i => i.Product.UnitType);
             return View(applicationDbContext.ToList());
         }
 
@@ -56,6 +56,7 @@ namespace StoreFertilizers.Controllers
         {
             if (ModelState.IsValid)
             {
+                /*
                 try
                 {
                     var file = HttpContext.Request.Form.Files.GetFile("productImageUploaded");
@@ -71,7 +72,7 @@ namespace StoreFertilizers.Controllers
                 {
                     var error = ex.Message;
                 }
-
+                */
                 stock.LastUpdated = DateTime.Now;
                 _context.Stock.Add(stock);
                 _context.SaveChanges();
@@ -105,6 +106,7 @@ namespace StoreFertilizers.Controllers
         {
             if (ModelState.IsValid)
             {
+                /*
                 try
                 {
                     var file = HttpContext.Request.Form.Files.GetFile("productImageUploaded");
@@ -121,7 +123,7 @@ namespace StoreFertilizers.Controllers
                 {
                     var error = ex.Message;
                 }
-
+                */
                 stock.LastUpdated = DateTime.Now;
                 _context.Update(stock);
                 _context.SaveChanges();

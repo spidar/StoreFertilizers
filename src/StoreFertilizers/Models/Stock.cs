@@ -19,8 +19,19 @@ namespace StoreFertilizers.Models
         [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
         public decimal Balance { get; set; }
 
+        [Display(Name = "ค่าจำนวนเต็มของสต๊อค")]
+        [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
+        public decimal FullCapStock { get; set; }
+
+        [Display(Name = "ค่าจำนวนต่ำสุดของสต๊อค")]
+        [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
+        public decimal LowCapStock { get; set; }
+
+        [Display(Name = "ตั้งเตือน")]
+        public bool AlertLowStock { get; set; }
+
         //[Display(Name = "รูปสินค้า")]
-        public Byte[] ProductImage { get; set; }
+        //public Byte[] ProductImage { get; set; }
 
         [Display(Name = "ปรับปรุงล่าสุด")]
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]

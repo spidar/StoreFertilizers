@@ -14,19 +14,19 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProductNumber)
+            หมายเลขสินค้า
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            ชื่อ
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Descr)
+            คำอธิบาย
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OriginalPrice)
+            ราคาทุน
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            ราคาขาย
         </th>
         <th></th>
     </tr>
@@ -34,10 +34,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.ProductNumber)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ProductNumber)
+            @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Descr)

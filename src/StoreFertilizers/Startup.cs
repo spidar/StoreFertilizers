@@ -62,6 +62,14 @@ namespace StoreFertilizers
                 //options.SerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
             });
 
+            //CROS
+            var policy = new Microsoft.AspNet.Cors.Infrastructure.CorsPolicy();
+            policy.Headers.Add("*");
+            policy.Methods.Add("*");
+            policy.Origins.Add("*");
+            policy.SupportsCredentials = true;
+            services.AddCors(xx => xx.AddPolicy("mypolicy", policy));
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -70,6 +78,8 @@ namespace StoreFertilizers
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors("mypolicy");
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

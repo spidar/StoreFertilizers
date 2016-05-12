@@ -236,6 +236,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<int?>("CustomerID");
 
+                    b.Property<string>("CustomerName");
+
                     b.Property<string>("DeliveryByCarNumber");
 
                     b.Property<string>("DeliveryByPerson");
@@ -249,8 +251,6 @@ namespace StoreFertilizers.Migrations
                     b.Property<int?>("EmployeeID");
 
                     b.Property<string>("InvoiceNumber");
-
-                    b.Property<string>("Name");
 
                     b.Property<decimal>("NetTotal");
 
@@ -340,11 +340,17 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<decimal>("Price");
 
+                    b.Property<byte[]>("ProductImage");
+
                     b.Property<string>("ProductNumber");
 
                     b.Property<int?>("ProductTypeID");
 
                     b.Property<int?>("UnitTypeID");
+
+                    b.Property<int?>("UnitsPerPackage");
+
+                    b.Property<string>("UnitsPerPackageText");
 
                     b.HasKey("ProductID");
                 });
@@ -394,20 +400,35 @@ namespace StoreFertilizers.Migrations
                     b.Property<int>("PurchaseID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<decimal>("AdvancePaymentTax");
+                    b.Property<decimal>("Amount");
 
-                    b.Property<string>("Article")
-                        .IsRequired();
+                    b.Property<string>("BillNumber");
+
+                    b.Property<bool>("IsTax");
 
                     b.Property<string>("Notes");
 
-                    b.Property<decimal>("Price");
+                    b.Property<int>("ProductID");
 
-                    b.Property<int>("ProviderID");
+                    b.Property<int?>("ProviderID");
 
-                    b.Property<int>("PurchaseTypeID");
+                    b.Property<string>("ProviderName");
 
-                    b.Property<DateTime>("TimeStamp");
+                    b.Property<DateTime?>("PurchaseDate");
+
+                    b.Property<string>("PurchaseNumber");
+
+                    b.Property<decimal>("PurchasePricePerUnit");
+
+                    b.Property<int?>("PurchaseTypePurchaseTypeID");
+
+                    b.Property<decimal>("Qty");
+
+                    b.Property<decimal>("QtyRemain");
+
+                    b.Property<decimal>("SalePrice");
+
+                    b.Property<int?>("UnitTypeID");
 
                     b.Property<decimal>("VAT");
 
@@ -432,17 +453,21 @@ namespace StoreFertilizers.Migrations
                     b.Property<int>("StockID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("AlertLowStock");
+
                     b.Property<decimal>("Balance");
+
+                    b.Property<decimal>("FullCapStock");
 
                     b.Property<DateTime?>("LastUpdated");
 
                     b.Property<string>("Location");
 
+                    b.Property<decimal>("LowCapStock");
+
                     b.Property<string>("Notes");
 
                     b.Property<int>("ProductID");
-
-                    b.Property<byte[]>("ProductImage");
 
                     b.HasKey("StockID");
                 });
@@ -561,13 +586,21 @@ namespace StoreFertilizers.Migrations
 
             modelBuilder.Entity("StoreFertilizers.Models.Purchase", b =>
                 {
+                    b.HasOne("StoreFertilizers.Models.Product")
+                        .WithMany()
+                        .HasForeignKey("ProductID");
+
                     b.HasOne("StoreFertilizers.Models.Provider")
                         .WithMany()
                         .HasForeignKey("ProviderID");
 
                     b.HasOne("StoreFertilizers.Models.PurchaseType")
                         .WithMany()
-                        .HasForeignKey("PurchaseTypeID");
+                        .HasForeignKey("PurchaseTypePurchaseTypeID");
+
+                    b.HasOne("StoreFertilizers.Models.UnitType")
+                        .WithMany()
+                        .HasForeignKey("UnitTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Stock", b =>

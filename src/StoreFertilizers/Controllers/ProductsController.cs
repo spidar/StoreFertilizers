@@ -3,6 +3,9 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
+using System.Net.Http.Headers;
+using System.IO;
+using System;
 
 namespace StoreFertilizers.Controllers
 {
@@ -54,6 +57,23 @@ namespace StoreFertilizers.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+                    var file = HttpContext.Request.Form.Files.GetFile("productImageUploaded");
+
+                    if (file != null && file.Length > 0)
+                    {
+                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                        var reader = new BinaryReader(file.OpenReadStream());
+                        product.ProductImage = reader.ReadBytes((int)file.Length);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var error = ex.Message;
+                }
+
                 _context.Products.Add(product);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -88,6 +108,23 @@ namespace StoreFertilizers.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+                    var file = HttpContext.Request.Form.Files.GetFile("productImageUploaded");
+
+                    if (file != null && file.Length > 0)
+                    {
+                        var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+
+                        var reader = new BinaryReader(file.OpenReadStream());
+                        product.ProductImage = reader.ReadBytes((int)file.Length);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    var error = ex.Message;
+                }
+
                 _context.Update(product);
                 _context.SaveChanges();
                 return RedirectToAction("Index");

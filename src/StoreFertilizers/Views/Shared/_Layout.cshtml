@@ -6,12 +6,12 @@
         <title>@ViewData["Title"] - ขายปุ๋ยและน้ำยา</title>
 
         <environment names="Development">
-            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" media="all"/>
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" media="all"/>
             <link rel="stylesheet" href="~/lib/angular-chart.js/dist/angular-chart.min.css" />
             <link rel="stylesheet" href="~/lib/angular-material/angular-material.css" />
             <link rel="stylesheet" href="~/css/site.css" />
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/angular/angular.js"></script>
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/angular/angular.min.js"></script>
         </environment>
         <environment names="Staging,Production">
             <link rel="stylesheet" media="all" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
@@ -51,7 +51,7 @@
                             </text>
                         }
                         <a asp-controller="Home" asp-action="Index" style="color: white;font-weight: bold;">หน้าแรก</a></li>
-                        @if (Context.Request.Path.Value.Contains("Invoices"))
+                        @if (Context.Request.Path.Value.Equals(@"/Purchases"))
                         {
                             <text>
                             <li class="active">
@@ -63,8 +63,28 @@
                             <li>
                             </text>
                         }
-                        <a asp-controller="Invoices" asp-action="Index" style="color: white;font-weight: bold;">ขายสินค้า</a></li>
-                        @if (Context.Request.Path.Value.Contains("Stock"))
+                        <a asp-controller="Purchases" asp-action="Index" style="color: white;font-weight: bold;">ซื้อสินค้า</a>
+                    </li>
+                        @if (Context.Request.Path.Value.Contains("/Invoices"))
+                        {
+                            <text>
+                            <li class="active">
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                            <li>
+                            </text>
+                        }
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ขายสินค้า <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-controller="Invoices" asp-action="Create">ทั่วไป</a></li>
+                                    <li><a asp-controller="Invoices" asp-action="Create">บิลภาษี</a></li>
+                                    <li><a asp-controller="Invoices" asp-action="Index">หน้าหลัก</a></li>
+                                </ul>
+                            </li>
+                        @if (Context.Request.Path.Value.Contains("/Stock"))
                         {
                             <text>
                             <li class="active">
@@ -76,7 +96,7 @@
                         <li>
                             </text>
                         }<a asp-controller="Stocks" asp-action="Index" style="color: white;font-weight: bold;">คลังสินค้า</a></li>
-                        @if (Context.Request.Path.Value.Contains("SalesSummary"))
+                        @if (Context.Request.Path.Value.Contains("/SalesSummary"))
                         {
                             <text>
                             <li class="active">
@@ -88,7 +108,7 @@
                         <li>
                             </text>
                         }<a asp-controller="SalesSummary" asp-action="Index" style="color: white;font-weight: bold;">สรุปยอด</a></li>
-                        @if (Context.Request.Path.Value.Contains("SettingOfApplication"))
+                        @if (Context.Request.Path.Value.Contains("/SettingOfApplication"))
                         {
                             <text>
                                 <li class="dropdown active">
@@ -120,24 +140,27 @@
         </div>
 
         <environment names="Development">
-            <script src="~/lib/angular-resource/angular-resource.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/lib/angular-resource/angular-resource.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="/lib/angular-route/angular-route.min.js"></script>
             <script src="~/lib/angular-animate/angular-animate.min.js"></script>
             <script src="~/lib/angular-aria/angular-aria.min.js"></script>
             <script src="~/lib/angular-material/angular-material.min.js"></script>
             <script src="~/lib/moment/moment.js"></script>
             <script src="~/lib/Chart.js/Chart.js"></script>
-            <script src="~/lib/angular-chart.js/dist/angular-chart.js"></script>
+            <script src="~/lib/angular-chart.js/dist/angular-chart.min.js"></script>
 
-            <script src="~/js/app.js" asp-append-version="true"></script>
-            <script src="~/js/app/services/servicesFactory.js"></script>
-            <script src="~/js/app/controllers/invoicesController.js"></script>
-            <script src="~/js/app/directives/customdatepicker.js"></script>
-            <script src="~/js/app/controllers/dashboardController.js"></script>
+            <script src="~/app/app.js" asp-append-version="true"></script>
+            <script src="~/app/services/servicesFactory.js"></script>
+            <script src="~/app/components/invoices/invoicesController.js"></script>
+            <script src="~/app/shared/customdatepicker.js"></script>
+            <script src="~/app/components/dashboard/dashboardController.js"></script>
+            <script src="~/app/components/purchases/purchasesController.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
         <environment names="Staging,Production">
             <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="/lib/angular-route/angular-route.min.js"></script>
             <script src="~/lib/angular-resource/angular-resource.js"></script>
             <script src="~/lib/angular-animate/angular-animate.min.js"></script>
             <script src="~/lib/angular-aria/angular-aria.min.js"></script>

@@ -1,0 +1,118 @@
+@model IEnumerable<StoreFertilizers.Models.Purchase>
+
+@{
+    ViewData["Title"] = "ซื้อสินค้า";
+}
+
+<form name="myForm" class="form-horizontal" role="form" ng-controller="purchasesController">
+    <br />
+    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        {{status}}
+    </div>
+    <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
+    <br />
+    <div ng-show="!showLoading" class="widget stacked widget-table action-table">
+        <div class="table-responsive widget-content">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-inverse">
+                    <tr class="widget-header">
+                        <th width="70px" style="text-align:center;min-width:70px">
+                            <button type="submit" ng-click="addItem()" class="btn btn-success btn-xs">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        </th>
+                        <th style="text-align:center;">
+                            วันที่ซื้อ
+                        </th>
+                        <th width="100px" style="text-align:center;">
+                            เลขบิล
+                        </th>
+                        <th style="min-width:150px;text-align:center;">
+                            สินค้า
+                        </th>
+                        <th width="80px" style="text-align:center;">
+                            จำนวน
+                        </th>
+                        <th style="text-align:center;">
+                            หน่วย
+                        </th>
+                        <th style="text-align:center;min-width:90px;">
+                            ราคาต่อชิ้น
+                        </th>
+                        <th width="50px" style="text-align:center;">
+                            ภาษี
+                        </th>
+                        <th style="min-width:150px;text-align:center;">
+                            ซื้อจาก
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in purchases" ng-include="getTemplate(item)"></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+</form>
+
+@section Scripts {
+<script type="text/ng-template" id="display">
+    <td class="noPrint" style="text-align:center;vertical-align:middle;">
+        <a href="" class="btn btn-warning btn-xs" ng-click="editPurchase(item)"><i class="glyphicon glyphicon-edit"></i></a>
+        <a href="" class="btn btn-danger btn-xs" ng-click="removePurchase(item)"><i class="glyphicon glyphicon-trash"></i></a>
+    </td>
+    <td style="text-align:center;">{{item.purchaseDate | date:"dd/MM/yyyy" }}</td>
+    <td>{{item.billNumber}}</td>
+    <td>{{item.product.name}}</td>
+    <td style="text-align:right;">{{item.qty}}</td>
+    <td style="text-align:center;">{{item.unitType.name}}</td>
+    <td style="text-align:right;">{{item.purchasePricePerUnit | number:2}}</td>
+    <td style="text-align:center;">
+        <input type="checkbox" ng-disabled="true" ng-model="item.isTax">
+    </td>
+    <td class="text-overflow">{{item.provider.name}}</td>
+</script>
+<script type="text/ng-template" id="edit">
+    <td class="noPrint" style="text-align:center;vertical-align:middle;">
+        <a href="" class="btn btn-primary btn-xs" ng-click="updatePurchase($index)"><i class="glyphicon glyphicon-floppy-save"></i></a>
+        <a href="" class="btn btn-warning btn-xs" ng-click="reset(item)"><i class="glyphicon glyphicon-remove"></i></a>
+    </td>
+    <td style="text-align:center;">
+        <md-datepicker style="background:none;" datelocaleprovider ng-model="selected.purchaseDate" class="hide-calendar-icon small-calendar-input"></md-datepicker>
+    </td>
+    <td>
+        <input type="text" name="billNumber" style="max-width:100px;" ng-model="selected.billNumber" />        
+    </td>
+    <td>
+        <select required class="form-control input-sm" name="product" style="max-width:none;" ng-model='selected.product' ng-options='option.name for option in data.productList track by option.productID'>
+            <option value="" disabled>- เลือก -</option>
+        </select>
+        <span ng-show="!myForm.product.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+    </td>
+    <td style="text-align:right;">
+        <input type="number" name="qty" ng-model="selected.qty" style="text-align:right;max-width:none;" required ng-pattern="/^[1-9]+(\.[0-9]{1,2})?$/" ng-validate="integer" class="form-control input-sm" placeholder="0" />
+        <span ng-show="!myForm.qty.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+    </td>
+    <td width="100px" style="text-align:center;">
+        <select required class="form-control input-sm" name="unitType" style="max-width:none;" ng-model='selected.unitType' ng-options='option.name for option in data.unitTypeList track by option.unitTypeID'>
+            <option value="" disabled>- เลือก -</option>
+        </select>
+        <span ng-show="!myForm.unitType.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+    </td>
+    <td style="text-align:right;">
+        <input type="number" name="purchasePricePerUnit" ng-model="selected.purchasePricePerUnit" style="text-align:right;max-width:none;" required ng-pattern="/^[1-9]+(\.[0-9]{1,2})?$/" ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
+        <span ng-show="!myForm.purchasePricePerUnit.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+    </td>
+    <td style="text-align:center;">
+        <input type="checkbox" ng-model="selected.isTax">
+    </td>
+    <td class="text-overflow">
+        <select class="form-control input-sm" required name="provider" style="max-width:none;" ng-model='selected.provider' ng-options='option.name for option in data.providerList track by option.providerID'>
+            <option value="" disabled>- เลือก -</option>
+        </select>
+        <span ng-show="!myForm.provider.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+    </td>
+
+</script>
+}

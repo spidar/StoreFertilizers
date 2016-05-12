@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System;
 
 namespace StoreFertilizers.Models
 {
@@ -18,11 +19,17 @@ namespace StoreFertilizers.Models
 
         public decimal Price { get; set; }
 
+        public int? UnitsPerPackage { get; set; }
+
+        public string UnitsPerPackageText { get; set; }
+
         public int? ProductTypeID { get; set; }
         public virtual ProductType ProductType { get; set; }
 
         public int? UnitTypeID { get; set; }
         public virtual UnitType UnitType { get; set; }
+
+        public Byte[] ProductImage { get; set; }
 
         //public virtual ICollection<InvoiceDetails> InvoiceDetials { get; set; }
     }

@@ -45,7 +45,7 @@ namespace StoreFertilizers.Models
         public int? CustomerID { get; set; }
         public virtual Customer Customer { get; set; }
         [Display(Name = "ชื่อลูกค้า")]
-        public string Name { get; set; }
+        public string CustomerName { get; set; }
 
         [Display(Name = "สถานที่ส่งของ")]
         public string ShipTo { get; set; }

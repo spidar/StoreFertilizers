@@ -25,13 +25,6 @@ namespace StoreFertilizers.Controllers
             return _context.Invoices;
         }
 
-        // GET: api/InvoicesAPI
-        [HttpGet("api/InvoicesAPI/GetNewInvoice", Name = "GetNewInvoice")]
-        public Invoice GetNewInvoice()
-        {
-            return new Invoice();
-        }
-
         // GET: api/InvoicesAPI/5
         [HttpGet("{id}", Name = "GetInvoice")]
         public IActionResult GetInvoice([FromRoute] int id)

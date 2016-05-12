@@ -1,0 +1,76 @@
+@model StoreFertilizers.Models.Purchase
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Purchase</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BillNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTax)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsTax)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Notes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Notes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProviderName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProviderName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchaseNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PurchaseNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PurchasePrice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PurchasePrice)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VAT)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VAT)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>
