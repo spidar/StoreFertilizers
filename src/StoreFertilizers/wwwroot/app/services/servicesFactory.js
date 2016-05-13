@@ -62,6 +62,9 @@
             servicesFactory.getPurchases = function () {
                 return $http.get(urlBase + purchasesAPI);
             };
+            servicesFactory.getPurchaseTax = function () {
+                return $http.get(urlBase + purchasesAPI + '/' + 'GetPurchaseTax');
+            };
             servicesFactory.getPurchaseByID = function (id) {
                 return $http.get(urlBase + purchasesAPI + '/' + id);
             };

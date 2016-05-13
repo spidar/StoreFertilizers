@@ -94,8 +94,6 @@
                 {
                     return false;
                 }
-                var offset = moment(new Date()).utcOffset();
-                var dateOffset = new Date(moment(new Date()).add(offset, 'm'));
                 $scope.selected = {
                     amount: 0,
                     billNumber: '',

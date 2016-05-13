@@ -8,7 +8,7 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25590511074806_StoreFertilizersDB")]
+    [Migration("25590513140812_StoreFertilizersDB")]
     partial class StoreFertilizersDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -245,6 +245,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<DateTime?>("DeliveryDate");
 
+                    b.Property<string>("DeliveryRefNumber");
+
                     b.Property<decimal?>("Discount");
 
                     b.Property<DateTime?>("DueDate");
@@ -252,6 +254,8 @@ namespace StoreFertilizers.Migrations
                     b.Property<int?>("EmployeeID");
 
                     b.Property<string>("InvoiceNumber");
+
+                    b.Property<bool>("IsTax");
 
                     b.Property<decimal>("NetTotal");
 

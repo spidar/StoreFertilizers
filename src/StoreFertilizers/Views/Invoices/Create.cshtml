@@ -1,4 +1,11 @@
 @{
     ViewData["Title"] = "สร้างใบกำกับสินค้า";
 }
-@{await Html.RenderPartialAsync("EditOrCreateInvoicesPartialView");}
+@if (ViewData.ContainsKey("isTax") && (bool)ViewData["isTax"])
+{
+    await Html.RenderPartialAsync("EditOrCreateTaxInvoicesPartialView");
+}
+else
+{
+    await Html.RenderPartialAsync("EditOrCreateInvoicesPartialView");
+}

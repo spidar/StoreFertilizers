@@ -26,6 +26,15 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: api/PurchasesAPI/5
+        [HttpGet("GetPurchaseTax")]
+        public IActionResult GetPurchaseTax([FromRoute] int id)
+        {
+            var purchases = _context.Purchases.Where(m => m.QtyRemain > 0).Where(n => n.IsTax == true).Include(i => i.Product).Include(i => i.UnitType);
+
+            return Ok(purchases);
+        }
+
+        // GET: api/PurchasesAPI/5
         [HttpGet("{id}", Name = "GetPurchase")]
         public IActionResult GetPurchase([FromRoute] int id)
         {
@@ -62,6 +71,9 @@ namespace StoreFertilizers.Controllers
                 return HttpBadRequest();
             }
 
+            purchase.Amount = purchase.Qty * purchase.PurchasePricePerUnit;
+            purchase.QtyRemain = purchase.Qty;
+
             _context.Entry(purchase).State = EntityState.Modified;
 
             try
@@ -93,6 +105,7 @@ namespace StoreFertilizers.Controllers
             }
 
             purchase.Amount = purchase.Qty * purchase.PurchasePricePerUnit;
+            purchase.QtyRemain = purchase.Qty;
 
             _context.Purchases.Add(purchase);
             try

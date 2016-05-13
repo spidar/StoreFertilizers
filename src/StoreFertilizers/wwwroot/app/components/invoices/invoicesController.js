@@ -9,13 +9,15 @@
             $scope.title = '';
             $scope.status = '';
             $scope.isEditMode = false;
+            $scope.expandme = true;
             $scope.data = {
                 customerList: null,
                 employeeList: null,
                 productList: null,
                 unitTypeList: null,
                 bankList: null,
-                paymentTypeList: null
+                paymentTypeList: null,
+                purchaseList: null
             };
 
             $scope.invoices = {};
@@ -30,8 +32,11 @@
             };
 
             $scope.newInvoice = {
+                createdDate: new Date(),
+                dueDate: new Date(),
                 invoiceDetails: [],
-                netTotal: 0.00
+                netTotal: 0.00,
+                isTax: false
             };
 
             $scope.getAllInvoices = function()  {
@@ -97,6 +102,15 @@
                 });
             }
 
+            $scope.getAllPurchases = function () {
+                servicesFactory.getPurchaseTax()
+                .then(function (response) {
+                    $scope.data.purchaseList = response.data;
+                }, function (error) {
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลการซื้อสินค้าได้: ' + error.statusText;
+                });
+            }
+
             $scope.saveInvoice = function () {
                 var absUrl = $location.absUrl();
                 if (absUrl.indexOf('/Create') >= 0)
@@ -136,7 +150,7 @@
             }
             // Adds an item to the invoice's items
             $scope.addItem = function () {                
-                var newInvoiceDetail = {no: 0, invoiceID: $scope.newInvoice.invoiceID, qty: 0, pricePerUnit: 0, discount: 0, amount: 0 };
+                var newInvoiceDetail = { no: 0, invoiceDetailsID: 0, invoiceID: $scope.newInvoice.invoiceID, qty: 0, pricePerUnit: 0, discount: 0, amount: 0 };
                 $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
                 $scope.reindexItem();                
             }
@@ -144,12 +158,22 @@
             // Remotes an item from the invoice
             $scope.removeInvoiceDetail = function (item) {
                 if (confirm("โปรดยืนยันการลบ !") == true) {
+                    //Handle Tax case
+                    if ($scope.newInvoice.isTax) {
+                        var elementPos = $scope.data.purchaseList.map(function (x) { return x.purchaseID; }).indexOf(item.purchaseID);
+                        if (elementPos !== -1)
+                        {
+                            var objectFound = $scope.data.purchaseList[elementPos];
+                            objectFound.checked = false;
+                        }
+                    }
+                    ////////////
                     if (item.invoiceDetailsID == 0) {
                         $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf(item), 1);
                     } else {
                         item.isDeleted = true;
                     }
-                    $scope.reindexItem();
+                    $scope.reindexItem();                    
                 }
             };
 
@@ -164,6 +188,15 @@
                 var total = 0.00;
                 angular.forEach($scope.newInvoice.invoiceDetails, function (item, key) {
                     total += (item.amount);
+                });
+                return total;
+            };
+
+            // Calculates the sub total of the invoice
+            $scope.invoiceTotalDiscount = function () {
+                var total = 0.00;
+                angular.forEach($scope.newInvoice.invoiceDetails, function (item, key) {
+                    total += (item.pricePerUnit * item.qty) * (item.discount / 100);
                 });
                 return total;
             };
@@ -201,6 +234,37 @@
                 }
             };
 
+            $scope.purchaseItemChanged = function ($event, item) {
+                var checkbox = $event.target;
+                var action = (checkbox.checked ? 'add' : 'remove');
+
+                var elementPos = $scope.newInvoice.invoiceDetails.map(function (x) { return x.purchaseID; }).indexOf(item.purchaseID);
+                //var objectFound = $scope.newInvoice.invoiceDetails[elementPos];
+
+                if (action === 'add' && elementPos === -1) {
+                    var newInvoiceDetail = {
+                        invoiceDetailsID: 0,
+                        purchaseID: item.purchaseID,
+                        no: 0,
+                        productID: item.productID,
+                        product: angular.copy(item.product),
+                        unitTypeID: item.unitTypeID,
+                        unitType: angular.copy(item.unitType),
+                        invoiceID: $scope.newInvoice.invoiceID,
+                        qty: item.qtyRemain,
+                        pricePerUnit: 0,
+                        discount: 0,
+                        amount: 0
+                    };
+                    $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
+                    $scope.reindexItem();
+                }
+                if (action === 'remove' && elementPos !== -1) {
+                    $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf($scope.newInvoice.invoiceDetails[elementPos]), 1);
+                    $scope.reindexItem();
+                }
+            };
+
             //Init all data
             (function init() {
                 //getAllInvoices();
@@ -210,12 +274,19 @@
                 $scope.getAllUnitTypes();
                 $scope.getAllBanks();
                 $scope.getAllPaymentTypes();
+                $scope.getAllPurchases();
 
                 var absUrl = $location.absUrl();
                 var id = absUrl.substr(absUrl.lastIndexOf('/') + 1);
                 if (absUrl.indexOf('/Create') >= 0)
                 {
-                    $scope.addItem();
+                    if (absUrl.indexOf('isTax=true') >= 0)
+                    {
+                        //$scope.newInvoice.isTax = true;
+                    } else
+                    {
+                        $scope.addItem();
+                    }
                     $scope.isEditMode = false;
                 } else if (absUrl.indexOf('/Edit/') >= 0)
                 {

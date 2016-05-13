@@ -125,6 +125,20 @@ namespace StoreFertilizers
 
             app.UseMvc(routes =>
             {
+                //routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+                /*
+                routes.MapRoute(
+                    "Invoice", // Nombre de ruta
+                    "Invoice/{action}/{id}", // URL con parámetros
+                    new { controller = "Invoice", action = "Index", proposal = false }
+                );
+
+                routes.MapRoute(
+                    "Proposal", // Nombre de ruta
+                    "Proposal/{action}/{id}", // URL con parámetros
+                    new { controller = "Invoice", action = "Index", proposal = true }
+                );
+                */
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

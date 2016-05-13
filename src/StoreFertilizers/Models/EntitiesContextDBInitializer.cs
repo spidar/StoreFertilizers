@@ -20,11 +20,11 @@ namespace StoreFertilizers.Models {
             #region let's add some dummy customer data:
             List<Customer> customers = new List<Customer>
             {
-                new Customer {Name="บริษัท เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", Address2 = "", ZipCode="10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
-                new Customer {Name="บริษัท พิทักษ์พืชผลเคมีเกษตร จำกัด", ContactPerson="นาย พิทักษ์", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", Address2 = "", ZipCode="73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
-                new Customer {Name="บริษัท ยาร่า จำกัด", ContactPerson="นาย ยาร่า", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27", Address2 = "เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", ZipCode="10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
-                new Customer {Name="บริษัท สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", Address2 = "", ZipCode="10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
-                new Customer {Name="บริษัท ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ", Address2 = "เขตสาทร กรุงเทพ 10120", ZipCode="10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
+                new Customer {Name="บ. เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", Address2 = "", ZipCode="10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
+                new Customer {Name="บ. พิทักษ์พืชผลเคมีเกษตร จำกัด", ContactPerson="นาย พิทักษ์", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", Address2 = "", ZipCode="73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
+                new Customer {Name="บ. ยาร่า จำกัด", ContactPerson="นาย ยาร่า", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27", Address2 = "เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", ZipCode="10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
+                new Customer {Name="บ. สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", Address2 = "", ZipCode="10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
+                new Customer {Name="บ. ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ", Address2 = "เขตสาทร กรุงเทพ 10120", ZipCode="10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
             };
             for (int i = 0; i < 5; i++)
             {
@@ -150,6 +150,7 @@ namespace StoreFertilizers.Models {
             {
                 for (int i = 0; i < 5; i++) {
                     Invoice invoice = new Invoice();
+                    invoice.IsTax = new Random().Next(0, 10) >= 5;
                     invoice.InvoiceNumber = "SH0000" + i.ToString();
                     invoice.Customer = customers[new Random(m).Next(0, customers.Count - 1)]; //random customer
                     //invoice.CustomerID = invoice.Customer.CustomerID;
@@ -163,6 +164,7 @@ namespace StoreFertilizers.Models {
                     //invoice.EmployeeID = invoice.Employee.EmployeeID;
                     invoice.ShipTo = "ตามที่อยู่ลูกค้า";
                     invoice.ShipBy = "รถ";
+                    invoice.DeliveryRefNumber = i.ToString();
                     invoice.DeliveryByCarNumber = "ทะเบียน รบ.82-8505 กรุงเทพมหานคร";
 
                     int number_invoice_details = new Random().Next(4, 10);

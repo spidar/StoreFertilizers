@@ -371,3 +371,7 @@ font-size: 16px;
 color: #555;
 vertical-align: middle;
 }
+
+/*.panel-body .radio, .checkbox { display:inline-block;margin:0px; }
+.panel-body input[type=checkbox]:checked + label { text-decoration: line-through;color: rgb(128, 144, 160); }*/
+.list-group-item:hover, a.list-group-item:focus {text-decoration: none;background-color: rgb(245, 245, 245);}

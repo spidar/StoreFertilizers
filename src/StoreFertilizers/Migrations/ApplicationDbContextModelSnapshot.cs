@@ -244,6 +244,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<DateTime?>("DeliveryDate");
 
+                    b.Property<string>("DeliveryRefNumber");
+
                     b.Property<decimal?>("Discount");
 
                     b.Property<DateTime?>("DueDate");
@@ -251,6 +253,8 @@ namespace StoreFertilizers.Migrations
                     b.Property<int?>("EmployeeID");
 
                     b.Property<string>("InvoiceNumber");
+
+                    b.Property<bool>("IsTax");
 
                     b.Property<decimal>("NetTotal");
 

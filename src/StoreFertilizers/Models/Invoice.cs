@@ -13,6 +13,8 @@ namespace StoreFertilizers.Models
 
         public int InvoiceID { get; set; }
 
+        public bool IsTax { get; set; }
+
         [Display(Name = "ใบกำกับสินค้าเลขที่")]
         public string InvoiceNumber { get; set; }
 
@@ -52,6 +54,9 @@ namespace StoreFertilizers.Models
 
         [Display(Name = "ขนส่งโดย")]
         public string ShipBy { get; set; }
+
+        [Display(Name = "เลขที่ใบขนส่ง")]
+        public string DeliveryRefNumber { get; set; }
 
         [Display(Name = "เลขทะเบียนรถขนส่ง")]
         public string DeliveryByCarNumber { get; set; }

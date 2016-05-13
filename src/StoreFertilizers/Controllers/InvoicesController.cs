@@ -40,8 +40,12 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: Invoices/Create
-        public IActionResult Create()
+        public IActionResult Create(bool? isTax)
         {
+            if (isTax != null)
+            {
+                ViewData["isTax"] = isTax.Value;
+            }
             ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name");
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name");
             ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name");

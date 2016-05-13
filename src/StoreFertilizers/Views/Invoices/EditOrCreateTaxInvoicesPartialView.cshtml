@@ -1,0 +1,276 @@
+<form class="form-horizontal" role="form" ng-controller="invoicesController">
+    <span hidden>{{newInvoice.isTax = true}}</span>
+    <div class="col-xs-3">
+        <div class="row">
+            <div class="col-xs-12" style="padding:0px;">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-list"></span> รายการสินค้ามีภาษีคงคลัง
+                        <div class="pull-right action-buttons">
+                            <div class="btn-group pull-right">
+                                <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-cog" style="margin-right: 0px;"></span>
+                                </button>
+                                <ul class="dropdown-menu slidedown">
+                                    <li><a href=""><span class="glyphicon glyphicon-pencil"></span>Edit</a></li>
+                                    <li><a href=""><span class="glyphicon glyphicon-trash"></span>Delete</a></li>
+                                    <li><a href=""><span class="glyphicon glyphicon-flag"></span>Flag</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="padding:0px;">
+                        <ul class="list-group" style="margin-bottom:0px;max-height:1800px;overflow-y:scroll;">
+                            <li class="list-group-item" ng-repeat="item in data.purchaseList">
+                                <div class="checkbox" style="display:inline-block;margin:0px;padding:0px;">
+                                    <input type="checkbox" ng-model="item.checked" ng-click="purchaseItemChanged($event, item)" style="width:15px;height:15px;margin-left:-10px;" />
+                                    <label style="padding-left:10px;">
+                                        {{item.product.name}}
+                                    </label>
+                                </div>
+                                <span class="badge">{{item.qtyRemain}}</span>
+                                <!--
+                                <div class="pull-right action-buttons">
+                                    <a href=""><span class="glyphicon glyphicon-pencil"></span></a>
+                                    <a href="" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a href="" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+                                </div>
+                                -->
+                                <p class="list-group-item-text"><small><em>{{item.purchaseDate| date:"dd/MM/yyyy"}} - ({{item.billNumber}}) | {{item.purchasePricePerUnit | number:2}}(บาท/ชิ้น)</em></small></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-9">
+        <div class="col-xs-12 noPrint" style="padding:0px;">
+            <button type="button" class="btn btn-danger btn-xs" data-toggle="collapse" data-target="#headerarea">
+                <span class="glyphicon glyphicon-pushpin" style="margin-right: 0px;"></span>
+            </button>
+        </div>
+        <div id="headerarea" class="collapse in">
+            <div class="form-group">
+                <div class="col-xs-12" style="padding:2px;border-bottom:1px solid gray;border-bottom-width:medium;text-align:center;">
+                    <div style="font-size:xx-large;"><strong>ห้างหุ้นส่วนจำกัด เจริญถาวร</strong></div>
+                    <div class="text-overflow">94 หมู่ที่ 4 ต.โรงเข้ อ.บ้านแพ้ว จ.สมุทรสาคร 74120 โทร: (034) 467611-2</div>
+                    <div class="text-overflow">94 Moo. 4 Tambon Rong-Khae Amphoe Banpho Samutsakorn 74120 โทร: (034) 467611-2</div>
+                    <div>เลขที่ประจำตัวผู้เสียภาษีอากร 0743528000060</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-12" style="padding:2px;text-align:center;">
+                    <div style="font-size:x-large;"><strong>ใบแจ้งหนี้/ใบกำกับภาษี</strong></div>
+                    <div style="font-size:x-large;"><strong>INVOICE/TAX INVOICE</strong></div>
+                </div>
+            </div>
+            <div class="form-group remove-bottom-margin">
+                <div class="col-xs-4" style="padding:2px;">
+                    <div style="min-height:145px;">
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-3 control-label" style="min-width:80px"><small>ลูกค้า:<br />CUST.</small></label>
+                            <select id="invoice-customer" class="form-control col-xs-9 input-sm display-inline" style="width:150px;margin-top:12px;" ng-model='newInvoice.customer' ng-options='option.name for option in data.customerList track by option.customerID'>
+                                <option value="" disabled>--- กรุณาเลือก ---</option>
+                            </select>
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <div class="text-overflow col-xs-10 pull-right"><small>{{newInvoice.customer.address}}&nbsp;</small></div>
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <div class="text-overflow col-xs-10 pull-right"><small>{{newInvoice.customer.address2}}&nbsp;</small></div>
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <div class="col-xs-10 pull-right" ng-show="newInvoice.customer == null">&nbsp;</div>
+                            <div class="col-xs-10 pull-right" ng-show="newInvoice.customer != null && newInvoice.customer.customerID != ''"><small><strong>โทร:</strong>&nbsp;{{newInvoice.customer.phone1}}&nbsp;&nbsp;<strong>โทรสาร:</strong>&nbsp;{{newInvoice.customer.fax}}</small></div>
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-3 control-label" style="min-width:80px;padding-top:0px;"><small>ส่งที่:<br />SHIP TO</small></label>
+                            <input type="text" id="invoice-shipto" class="col-xs-9 form-control input-sm" style="width:150px;margin-top:5px;" ng-model="newInvoice.shipTo" placeholder="สถานที่จัดส่งสินค้า" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4" style="padding:2px;">
+                    <div style="min-height:145px;">
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-4 control-label" style="min-width:100px;"><small>เลขที่:<br />NO</small></label>
+                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-8 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-4 control-label" style="min-width:100px;"><small>วันที่:<br />DATE</small></label>
+                            <md-datepicker datelocaleprovider class="col-xs-8 hide-calendar-icon small-calendar-input" style="margin-top:12px;" ng-model="newInvoice.createdDate" md-placeholder="วันที่ออกใบกำกับสินค้า"></md-datepicker>
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-4 control-label" style="min-width:100px;"><small>วันครบกำหนดชำระ:<br />DUE DATE</small></label>
+                            <md-datepicker datelocaleprovider class="col-xs-8 hide-calendar-icon small-calendar-input" style="margin-top:12px;" ng-model="newInvoice.dueDate" md-placeholder="วันที่ครบกำหนดชำระเงิน"></md-datepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4" style="padding:2px;">
+                    <div style="min-height:145px;">
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-5 control-label" style="min-width:100px;"><small>เลขใบสั่งซื้อ:<br />P/O NO.</small></label>
+                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-5 control-label" style="min-width:100px;"><small>เงื่อนไขการชำระ:<br />TERM</small></label>
+                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                        </div>
+                        <div class="form-group remove-bottom-margin">
+                            <label class="col-xs-5 control-label" style="min-width:100px;"><small>วันที่ส่ง:<br />DELV. DATE</small></label>
+                            <md-datepicker datelocaleprovider class="col-xs-7 hide-calendar-icon small-calendar-input" style="margin-top:12px;" ng-model="newInvoice.dueDate" md-placeholder="วันที่ครบกำหนดชำระเงิน"></md-datepicker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="padding:2px;border-top:1px solid gray;border-top-width:medium;">
+                <div class="col-xs-4">
+                    <label class="control-label" style="min-width:80px;padding-top:0px;"><small>ขนส่งโดย(SHIP BY):</small></label>
+                    <input type="text" id="invoice-shipto" class="form-control input-sm" ng-model="newInvoice.shipBy" placeholder="ขนส่งโดย" />
+                </div>
+                <div class="col-xs-4">
+                    <label class="control-label" style="min-width:80px;padding-top:0px;"><small>เลขที่ใบขนส่ง(CODE NO):</small></label>
+                    <input type="text" id="invoice-shipto" class="form-control input-sm" ng-model="newInvoice.DeliveryRefNumber" placeholder="เลขที่ใบขนส่ง" />
+                </div>
+                <div class="col-xs-4">
+                    <label class=" control-label" style="min-width:80px;padding-top:0px;"><small>ทะเบียนรถขนส่ง(CAR NO):</small></label>
+                    <input type="text" id="invoice-shipto" class="form-control input-sm" ng-model="newInvoice.deliveryByCarNumber" placeholder="เลขทะเบียนรถขนส่ง" />
+                </div>
+            </div>
+        </div>
+        <div class="widget stacked widget-table action-table">
+            <div class="table-responsive widget-content">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead class="thead-inverse">
+                        <tr class="widget-header">
+                            <th class="noPrint" width="40px" style="text-align:center;">&nbsp;</th>
+                            <th width="30px" style="text-align:center;">#</th>
+                            <th style="text-align:center;">
+                                <div><small>รายการสินค้า</small></div>
+                                <div><small>Product</small></div>
+                            </th>
+                            <th width="100px" style="text-align:center;">
+                                <div><small>ต่อหน่วยบรรจุ</small></div>
+                                <div><small>Packing Unit</small></div>
+                            </th>
+                            <th width="80px" style="text-align:center;">
+                                <div><small>จำนวน</small></div>
+                                <div><small>Qty</small></div>
+                            </th>
+                            <!--
+                            <th width="100px" style="text-align:center;">
+                                <div><small>หน่วย</small></div>
+                                <div><small>Unit</small></div>
+                            </th>
+                            -->
+                            <th width="120px" style="text-align:center;">
+                                <div><small>หน่วยละ/บาท</small></div>
+                                <div><small>Qty. Price</small></div>
+                            </th>
+                            <th width="75px" style="text-align:center;">
+                                <div><small>ส่วนลด%</small></div>
+                                <div><small>Discount</small></div>
+                            </th>
+                            <th width="100px" style="min-width:100px;text-align:center;">
+                                <div><small>จำนวนเงิน</small></div>
+                                <div><small>Amount</small></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
+                            <td class="noPrint" style="text-align:center;vertical-align:middle;">
+                                <a href="" class="btn btn-danger btn-xs" ng-click="removeInvoiceDetail(item)"><i class="glyphicon glyphicon-trash"></i></a>
+                            </td>
+                            <td style="text-align:center;vertical-align:middle;">{{item.no}}</td>
+                            <td>
+                                <select class="form-control input-sm" style="max-width:none;" ng-model='item.product' ng-options='option.name for option in data.productList track by option.productID'>
+                                    <option value="">- เลือก -</option>
+                                </select>
+                            </td>
+                            <td style="text-align:center;">
+                                {{item.product.unitsPerPackageText}}
+                            </td>
+                            <td style="text-align:right;">
+                                <input type="number" ng-model="item.qty" style="text-align:right;max-width:none;" ng-required ng-validate="integer" class="form-control input-sm" placeholder="0" />
+                            </td>
+                            <!--
+                            <td style="text-align:center;">
+                                <select class="form-control input-sm" style="max-width:none;" ng-model='item.unitType' ng-options='option.name for option in data.unitTypeList track by option.unitTypeID'>
+                                    <option value="">- เลือก -</option>
+                                </select>
+                            </td>
+                            -->
+                            <td style="text-align:right;">
+                                <input type="number" ng-model="item.pricePerUnit" style="text-align:right;max-width:none;" ng-required ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
+                            </td>
+                            <td style="text-align:center;">
+                                <input type="number" min="0" max="100" ng-model="item.discount" style="text-align:right;max-width:none;" required class="form-control input-sm" placeholder="0" />
+                            </td>
+                            <td style="text-align:right;vertical-align:middle;">
+                                {{calculateAmount(item) | currency: ''}}
+                            </td>
+                        </tr>
+                        <tr class="noPrint">
+                            <td colspan="8">
+                                <a class="btn btn-primary btn-xs" href="" ng-click="addItem()"><i class="glyphicon glyphicon-plus"></i></a>
+                            </td>
+                        </tr>
+                        <tr style="background-color:#f9f9f9;">
+                            <td colspan="5">
+                                <textarea ng-model="newInvoice.notes" class="form-control col-xs-12" rows="3" style="min-width:100%" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
+                                <div>(.........................................................................บาทถ้วน)</div>
+                            </td>
+                            <td colspan="2" style="text-align:right;">
+                                <div>รวมเงิน/SUB TOTAL</div>
+                                <div>ส่วนลด/DISCOUNT</div>
+                                <div>ภาษีมูลค่าเพิ่ม/VAT</div>
+                                <div>จำนวนเงินสุทธิ/NET TOTAL</div>
+                            </td>
+                            <td style="text-align:right;">
+                                <div>{{invoiceSubTotal() | currency: ''}}</div>
+                                <div>{{invoiceTotalDiscount() | currency: ''}}</div>
+                                <div>{{calculateTax() | currency: ''}}</div>
+                                <div>{{calculateNetTotal() | currency: ''}}</div>
+                            </td>
+                        </tr>
+                        <tr style="background-color:white;">
+                            <td colspan="5" style="padding:0px;text-align:center;vertical-align:middle;">
+                                <p>การชำระเงินโปรดจ่ายเช็คขีดคร่อมในนาม</p>
+                                <p>"ห้างหุ่นส่วน เจริญถาวร"</p>
+                            </td>
+                            <td colspan="3" style="padding:0px;text-align:center;">
+                                <div><strong>หจก.เจริญถาวร</strong></div>
+                                <br />
+                                <br />
+                                <br />
+                                <div>ลายเซนต์/SIGNATURE</div>
+                                <br />
+                                <div>วันที่/DATE</div>
+                                <div>
+                                    -----/-----/-----
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group noPrint" style="margin-left:20px;">
+            <button type="submit" ng-click="saveInvoice()" class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-floppy-save"></span> บันทึก {{status}}
+            </button>
+            <button type="submit" class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-print"></span> ตรวจสอบก่อนพิมพ์
+            </button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+}
