@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet5-StoreFertilizers-7ac1ae48-3c42-4189-8166-b7e8f0920279",
   "version": "1.0.0-*",
   "compilationOptions": {
@@ -34,7 +34,10 @@
   },
 
   "frameworks": {
-    "dnx451": { },
+    "dnx451": {
+      "dependencies": {
+      }
+    },
     "dnxcore50": { }
   },
 

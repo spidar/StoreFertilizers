@@ -32,8 +32,8 @@ namespace StoreFertilizers.Models
         public decimal QtyRemain { get; set; }
 
         //[Display(Name = "หน่วย")]
-        public int? UnitTypeID { get; set; }
-        public virtual UnitType UnitType { get; set; }
+        //public int? UnitTypeID { get; set; }
+        //public virtual UnitType UnitType { get; set; }
 
         //[Range(0.1, 999999999, ErrorMessage = "PurchasePrice must be between 1 and 999999999")]
         public decimal PurchasePricePerUnit { get; set; }

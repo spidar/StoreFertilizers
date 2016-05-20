@@ -386,8 +386,7 @@ namespace StoreFertilizers.Migrations
                     IsDeleted = table.Column<bool>(nullable: true),
                     PricePerUnit = table.Column<decimal>(nullable: true),
                     ProductID = table.Column<int>(nullable: false),
-                    Qty = table.Column<decimal>(nullable: false),
-                    UnitTypeID = table.Column<int>(nullable: true)
+                    Qty = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -404,12 +403,6 @@ namespace StoreFertilizers.Migrations
                         principalTable: "Product",
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InvoiceDetails_UnitType_UnitTypeID",
-                        column: x => x.UnitTypeID,
-                        principalTable: "UnitType",
-                        principalColumn: "UnitTypeID",
-                        onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
                 name: "Purchase",
@@ -431,7 +424,6 @@ namespace StoreFertilizers.Migrations
                     Qty = table.Column<decimal>(nullable: false),
                     QtyRemain = table.Column<decimal>(nullable: false),
                     SalePrice = table.Column<decimal>(nullable: false),
-                    UnitTypeID = table.Column<int>(nullable: true),
                     VAT = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -454,12 +446,6 @@ namespace StoreFertilizers.Migrations
                         column: x => x.PurchaseTypePurchaseTypeID,
                         principalTable: "PurchaseType",
                         principalColumn: "PurchaseTypeID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Purchase_UnitType_UnitTypeID",
-                        column: x => x.UnitTypeID,
-                        principalTable: "UnitType",
-                        principalColumn: "UnitTypeID",
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(

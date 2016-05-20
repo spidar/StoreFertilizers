@@ -178,7 +178,7 @@ namespace StoreFertilizers.Models {
                         //invoiceDetails.ProductID = products[new Random(id).Next(0, products.Count - 1)].ProductID;
                         invoiceDetails.Product = products[new Random(id).Next(0, products.Count - 1)];
                         //invoiceDetails.ProductID = invoiceDetails.Product.ProductID;
-                        invoiceDetails.UnitType = unitTypes[new Random(id).Next(0, unitTypes.Count - 1)];
+                        //invoiceDetails.UnitType = unitTypes[new Random(id).Next(0, unitTypes.Count - 1)];
                         //invoiceDetails.UnitTypeID = invoiceDetails.UnitType.UnitTypeID;
                         invoiceDetails.PricePerUnit = new Random(id).Next(100, 9999);
                         invoiceDetails.Qty = new Random(id).Next(5, 10);
@@ -306,7 +306,7 @@ namespace StoreFertilizers.Models {
                         Product = products[new Random(i).Next(0, products.Count - 1)],
                         SalePrice = new Random(i).Next(10, 100),
                         PurchasePricePerUnit = purchasePrice,
-                        UnitType = unitTypes[new Random(i).Next(0, unitTypes.Count - 1)],
+                        //UnitType = unitTypes[new Random(i).Next(0, unitTypes.Count - 1)],
                         Amount = qty * purchasePrice,
                         IsTax = new Random().Next(0, 10) >= 5,
                         //VAT = 7,

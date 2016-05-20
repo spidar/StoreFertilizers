@@ -91,17 +91,17 @@
         <span ng-show="!myForm.product.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
     <td style="text-align:right;">
-        <input type="number" name="qty" ng-model="selected.qty" style="text-align:right;max-width:none;" required ng-pattern="/^[1-9]+(\.[0-9]{1,2})?$/" ng-validate="integer" class="form-control input-sm" placeholder="0" />
+        <input type="number" name="qty" ng-model="selected.qty" min="1" max="99999999" required class="form-control input-sm" style="text-align:right;max-width:none;">
         <span ng-show="!myForm.qty.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
-    <td width="100px" style="text-align:center;">
+    <td width="100px" style="text-align:center;">{{selected.product.unitType.name}}
         <select required class="form-control input-sm" name="unitType" style="max-width:none;" ng-model='selected.unitType' ng-options='option.name for option in data.unitTypeList track by option.unitTypeID'>
             <option value="" disabled>- เลือก -</option>
         </select>
         <span ng-show="!myForm.unitType.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
     <td style="text-align:right;">
-        <input type="number" name="purchasePricePerUnit" ng-model="selected.purchasePricePerUnit" style="text-align:right;max-width:none;" required ng-pattern="/^[1-9]+(\.[0-9]{1,2})?$/" ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
+        <input type="number" name="purchasePricePerUnit" ng-model="selected.purchasePricePerUnit" style="text-align:right;max-width:none;" min="0" max="99999999" required class="form-control input-sm" placeholder="0.00" />
         <span ng-show="!myForm.purchasePricePerUnit.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
     <td style="text-align:center;">

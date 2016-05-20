@@ -24,7 +24,7 @@
                 $scope.showLoading = true;
                 servicesFactory.getPurchases()
                 .then(function (response) {
-                    $scope.purchases = response.data;
+                    $scope.purchases = response.data.content;
                     if(!!$scope.purchases && $scope.purchases.length > 0)
                     {
                         for(var i = 0; i < $scope.purchases.length; i++)

@@ -47,7 +47,7 @@ namespace StoreFertilizers.Controllers
             foreach (var item in invoiceDetails)
             {
                 var invoiceDetailsProduct = _context.Products.Where(i => i.ProductID == item.ProductID).ToList();
-                var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
+                //var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
                 var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID).ToList();
                 var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
             }
