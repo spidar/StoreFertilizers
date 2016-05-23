@@ -9,29 +9,38 @@
     <div class="row">
         <div class="panel panel-default">
             <div class="panel-body">
-                <div class="form-group remove-bottom-margin">
-                    <button type="submit" ng-click="getPurchasesByFilters()" class="col-xs-1 btn btn-primary btn-sm" style="margin-top:5px;margin-left:5px;margin-right:5px;">
-                        <span class="glyphicon glyphicon-search"></span> ค้นหา
-                    </button>&nbsp;
-                    <input type="text" class="col-xs-2 form-control input-sm" style="margin-top:5px;" ng-model="data.filterOptions.filterText" placeholder="ค้นหาจาก เลขที่บิล,ชื่อสินค้า,ซื้อจาก" />
-                    <!--
-                    <md-datepicker datelocaleprovider ng-model="data.filterOptions.fromPurchaseDate" md-placeholder="ซื้อวันที่"></md-datepicker>
-                    <md-datepicker datelocaleprovider ng-model="data.filterOptions.toPurchaseDate" md-placeholder="ถึงวันที่"></md-datepicker>      
-                    -->
-                    {{data.filterOptions.fromPurchaseDate}}
-                    <div class='datepicker input-group date' style="max-width:139px;">
-                        <input type='text' datepicker ng-model="data.filterOptions.fromPurchaseDate" class="form-control input-sm" style="max-width:100px;" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>
-                    <div class='datepicker input-group date' style="max-width:139px;">
-                        <input type='text' datepicker ng-model="data.filterOptions.toPurchaseDate" class="form-control input-sm" style="max-width:100px;" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
-                    </div>              
-                </div>
+                <table class="table borderless" style="margin:0px;">
+                    <tr>
+                        <td width="300px" style="border:none;">
+                            <button type="submit" ng-click="getPurchasesByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;">
+                                <span class="glyphicon glyphicon-search"></span> ค้นหา
+                            </button>&nbsp;
+                            <input type="text" class="col-xs-3 form-control input-sm" ng-model="data.filterOptions.filterText" placeholder="ค้นหาจาก เลขที่บิล,ชื่อสินค้า,ซื้อจาก" />
+                        </td>
+                        <td width="65px" style="text-align:right;vertical-align:middle;border:none;">
+                            วันที่ซื้อ:
+                        </td>
+                        <td width="140px" style="border:none;">
+                            <div class='datepicker input-group date' style="max-width:139px;">
+                                <input type='text' datepicker ng-model="data.filterOptions.fromPurchaseDate" class="form-control input-sm" style="max-width:100px;" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </td>
+                        <td width="40px" style="text-align:center;vertical-align:middle;border:none;">
+                            ถึง
+                        </td>
+                        <td style="border:none;">
+                            <div class='datepicker input-group date' style="max-width:139px;">
+                                <input type='text' datepicker ng-model="data.filterOptions.toPurchaseDate" class="form-control input-sm" style="max-width:100px;" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>  
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -50,7 +59,7 @@
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </th>
-                        <th style="text-align:center;">                            
+                        <th width="100px" style="text-align:center;">                            
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'purchaseDate'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
                                 วันที่ซื้อ
                                 <span ng-show="data.sortOptions.field == 'purchaseDate' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -123,7 +132,7 @@
         <a href="" class="btn btn-warning btn-xs" ng-click="editPurchase(item)"><i class="glyphicon glyphicon-edit"></i></a>
         <a href="" class="btn btn-danger btn-xs" ng-click="removePurchase(item)"><i class="glyphicon glyphicon-trash"></i></a>
     </td>
-    <td style="text-align:center;">{{item.purchaseDate}}</td>
+    <td style="text-align:center;">{{item.purchaseDate | date: 'dd/MM/yyyy'}}</td>
     <td>{{item.billNumber}}</td>
     <td>{{item.product.name}}</td>
     <td style="text-align:right;">{{item.qty}}</td>
@@ -140,15 +149,8 @@
         <a href="" class="btn btn-warning btn-xs" ng-click="reset(item)"><i class="glyphicon glyphicon-remove"></i></a>
     </td>
     <td style="text-align:center;">
-        <!--
-        <md-datepicker style="background:none;"  ng-model="selected.purchaseDate" ng-required class="hide-calendar-icon small-calendar-input"></md-datepicker>
-        -->
-        {{selected.purchaseDate}}
-        <div class='datepicker input-group date' style="max-width:139px;">
-            <input type='text' datepicker ng-model="selected.purchaseDate" ng-required class="form-control input-sm" style="max-width:100px;" />
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
+        <div class='datepicker input-group date' style="max-width:139px;text-align:center;">
+            <input type='text' datepicker ng-model="selected.purchaseDate" ng-required class="form-control input-sm" style="max-width:100px;text-align:center;" />
         </div> 
     </td>
     <td>

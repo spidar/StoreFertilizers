@@ -71,7 +71,7 @@ namespace StoreFertilizers.Controllers
             DateTime from, to;
             if (DateTime.TryParse(fromPurchaseDate, out from) && DateTime.TryParse(toPurchaseDate, out to))
             {
-                purchases_result = purchases_result.Where(x => x.PurchaseDate.Value >= from && x.PurchaseDate.Value <= to);
+                purchases_result = purchases_result.Where(x => x.PurchaseDate.Value.Date >= from.Date && x.PurchaseDate.Value.Date <= to.Date);
             }
             if (!string.IsNullOrEmpty(searchtext))
             {

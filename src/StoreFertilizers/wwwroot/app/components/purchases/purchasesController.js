@@ -26,7 +26,7 @@
                 },
                 sortOptions: {
                     fields: ['purchaseID', 'purchaseDate', 'billNumber', 'productName', 'providerName'],
-                    field: 'purchaseID',
+                    field: 'purchaseDate',
                     directions: ['desc', 'asc'],
                     sortReverse: true
                 },
@@ -65,16 +65,16 @@
                     $scope.data.totalPages = response.data.totalPages;
                     $scope.data.pagingOptions.currentPage = response.data.currentPage;
 
-                    if(!!$scope.purchases && $scope.purchases.length > 0)
-                    {
-                        for(var i = 0; i < $scope.purchases.length; i++)
-                        {
+                    //if(!!$scope.purchases && $scope.purchases.length > 0)
+                    //{
+                        //for(var i = 0; i < $scope.purchases.length; i++)
+                        //{
                             //$scope.purchases[i].purchaseDate = new Date($scope.purchases[i].purchaseDate);
                             //console.log('before : ' + $scope.purchases[i].purchaseDate);
-                            $scope.purchases[i].purchaseDate = moment($scope.purchases[i].purchaseDate).format('DD/MM/YYYY');
+                            //$scope.purchases[i].purchaseDate = moment($scope.purchases[i].purchaseDate).format('DD/MM/YYYY');
                             //console.log('after : ' + $scope.purchases[i].purchaseDate);
-                        }
-                    }
+                        //}
+                    //}
                     $timeout(function () {
                         $scope.showLoading = false;
                         $scope.status = '';
@@ -152,7 +152,7 @@
                     provider: null,
                     providerID: 0,
                     providerName: '',
-                    purchaseDate: moment().format('DD/MM/YYYY'),
+                    purchaseDate: moment().format('YYYY-MM-DDThh:mm:ss'),
                     purchaseNumber: '',
                     purchasePricePerUnit: 0,
                     qty: 0, 
@@ -188,7 +188,6 @@
                     servicesFactory.insertPurchase($scope.selected)
                     .then(function (response) {
                         $scope.selected.purchaseID = response.data.purchaseID;
-                        $scope.selected.purchaseDate = moment($scope.selected.purchaseDate).format('DD/MM/YYYY');
                         $scope.purchases[idx] = angular.copy($scope.selected);
                         $scope.isNewItem = false;
                         $scope.reset();
