@@ -9,6 +9,7 @@
             <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" media="all"/>
             <link rel="stylesheet" href="~/lib/angular-chart.js/dist/angular-chart.min.css" />
             <link rel="stylesheet" href="~/lib/angular-material/angular-material.css" />
+            <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
             <link rel="stylesheet" href="~/css/site.css" />
             <script src="~/lib/jquery/dist/jquery.min.js"></script>
             <script src="~/lib/angular/angular.min.js"></script>
@@ -20,6 +21,7 @@
             <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
             <link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
             <link rel="stylesheet" href="~/lib/angular-chart.js/dist/angular-chart.min.css" />
+            <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/angular/angular.js"></script>
         </environment>
@@ -136,7 +138,7 @@
             <hr />
             <footer>
                 <p>&copy; 2016 - หจก.เจริญถาวร</p>
-            </footer>            
+            </footer>
         </div>
 
         <environment names="Development">
@@ -149,6 +151,9 @@
             <script src="~/lib/moment/moment.js"></script>
             <script src="~/lib/Chart.js/Chart.js"></script>
             <script src="~/lib/angular-chart.js/dist/angular-chart.min.js"></script>
+            <script src="~/lib/angular-ui-bootstrap-pagination/pagination.js"></script>
+            <script src="~/lib/moment/locale/th.js"></script>
+            <script src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
             <script src="~/app/app.js" asp-append-version="true"></script>
             <script src="~/app/services/servicesFactory.js"></script>
@@ -168,6 +173,10 @@
             <script src="~/lib/moment/min/moment.min.js"></script>
             <script src="~/lib/Chart.js/Chart.js"></script>
             <script src="~/lib/angular-chart.js/dist/angular-chart.min.js"></script>
+            <script src="~/lib/angular-ui-bootstrap-pagination/pagination.js"></script>
+            <script src="~/lib/moment/locale/th.js"></script>
+            <script src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+
             <script src="~/js/site.min.js" asp-append-version="true"></script>
         </environment>
 
@@ -199,6 +208,12 @@
                 }
             });
             */
+            $(function () {
+                $('.datepicker').datetimepicker({
+                    locale: 'th',
+                    format: 'DD/MM/YYYY'
+                });
+            });
         </script>
 
     </body>

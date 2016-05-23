@@ -13,27 +13,71 @@
             $scope.data = {
                 providerList: null,
                 productList: null,
-                unitTypeList: null
+                unitTypeList: null,
+
+                totalPages: 0,
+                totalItems: 0,
+                filterOptions: {
+                    filterText: '',
+                    fromPurchaseDate: null,
+                    toPurchaseDate: null,
+                    externalFilter: 'searchText',
+                    useExternalFilter: true
+                },
+                sortOptions: {
+                    fields: ['purchaseID', 'purchaseDate', 'billNumber', 'productName', 'providerName'],
+                    field: 'purchaseID',
+                    directions: ['desc', 'asc'],
+                    sortReverse: true
+                },
+                pagingOptions: {
+                    pageSizes: [20, 50, 100],
+                    pageSize: 20,
+                    currentPage: 1
+                }
             };
 
             $scope.purchases = {};
             $scope.newPurchase = {};
 
+
             // Get All
-            $scope.getAllPurchases = function () {
+            $scope.getPurchasesByFilters = function () {
+                if ($scope.isNewItem) {
+                    $scope.reset($scope.selected);
+                }
                 $scope.showLoading = true;
-                servicesFactory.getPurchases()
+
+                var params = {
+                    searchtext: $scope.data.filterOptions.filterText,
+                    fromPurchaseDate: $scope.data.filterOptions.fromPurchaseDate,
+                    toPurchaseDate: $scope.data.filterOptions.toPurchaseDate,
+                    page: $scope.data.pagingOptions.currentPage,
+                    pageSize: $scope.data.pagingOptions.pageSize,
+                    sortBy: $scope.data.sortOptions.field,
+                    sortDirection: ($scope.data.sortOptions.sortReverse) ? 'desc' : 'asc'
+                };
+
+                servicesFactory.getPurchases(params)
                 .then(function (response) {
                     $scope.purchases = response.data.content;
+                    $scope.data.totalItems = response.data.totalRecords;
+                    $scope.data.totalPages = response.data.totalPages;
+                    $scope.data.pagingOptions.currentPage = response.data.currentPage;
+
                     if(!!$scope.purchases && $scope.purchases.length > 0)
                     {
                         for(var i = 0; i < $scope.purchases.length; i++)
                         {
-                            $scope.purchases[i].purchaseDate = new Date($scope.purchases[i].purchaseDate);
+                            //$scope.purchases[i].purchaseDate = new Date($scope.purchases[i].purchaseDate);
+                            //console.log('before : ' + $scope.purchases[i].purchaseDate);
+                            $scope.purchases[i].purchaseDate = moment($scope.purchases[i].purchaseDate).format('DD/MM/YYYY');
+                            //console.log('after : ' + $scope.purchases[i].purchaseDate);
                         }
                     }
                     $timeout(function () {
                         $scope.showLoading = false;
+                        $scope.status = '';
                     }, 1000);
                 }, function (error) {
                     $scope.status = 'ไม่สามารถโหลดข้อมูลการซื้อสินค้าได้ : ' + error.statusText;
@@ -67,7 +111,6 @@
                 });
             }
             //
-
             $scope.getTemplate = function (purchase) {
                 if (purchase.purchaseID === $scope.selected.purchaseID)
                     return 'edit';
@@ -87,6 +130,11 @@
                     $scope.reset($scope.selected);
                 }
                 $scope.selected = angular.copy(purchase);
+                for (var i = 0; i < $scope.data.unitTypeList.length; i++) {
+                    if ($scope.selected.product.unitTypeID == $scope.data.unitTypeList[i].unitTypeID) {
+                        $scope.selected.product.unitType = angular.copy($scope.data.unitTypeList[i]);
+                    }
+                }
             };
             // Adds an item to the purchases
             $scope.addItem = function () {
@@ -104,7 +152,7 @@
                     provider: null,
                     providerID: 0,
                     providerName: '',
-                    purchaseDate: new Date(),
+                    purchaseDate: moment().format('DD/MM/YYYY'),
                     purchaseNumber: '',
                     purchasePricePerUnit: 0,
                     qty: 0, 
@@ -140,11 +188,13 @@
                     servicesFactory.insertPurchase($scope.selected)
                     .then(function (response) {
                         $scope.selected.purchaseID = response.data.purchaseID;
+                        $scope.selected.purchaseDate = moment($scope.selected.purchaseDate).format('DD/MM/YYYY');
                         $scope.purchases[idx] = angular.copy($scope.selected);
                         $scope.isNewItem = false;
                         $scope.reset();
                         $timeout(function () {
                             $scope.showLoading = false;
+                            $scope.status = '';
                         }, 1000);
                     }, function (error) {
                         $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
@@ -159,6 +209,7 @@
                         $scope.reset();
                         $timeout(function () {
                             $scope.showLoading = false;
+                            $scope.status = '';
                         }, 1000);
                     }, function (error) {
                         $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
@@ -179,6 +230,7 @@
                         $scope.purchases.splice($scope.purchases.indexOf(item), 1);
                         $timeout(function () {
                             $scope.showLoading = false;
+                            $scope.status = '';
                         }, 1000);
                     }, function (error) {
                         $scope.status = 'ไม่สามารถลบข้อมูลได้ : ' + error.statusText;
@@ -192,7 +244,7 @@
 
             //Init all data
             (function init() {
-                $scope.getAllPurchases();
+                $scope.getPurchasesByFilters();
                 $scope.getAllProviders();
                 $scope.getAllProducts();
                 $scope.getAllUnitTypes();

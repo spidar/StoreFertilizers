@@ -9,7 +9,8 @@
         //'servicesFactory'
         // 3rd Party Modules
         'ngMaterial',
-        'chart.js'
+        'chart.js',
+        'ui.bootstrap.pagination'
     ])
 /*
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
@@ -51,8 +52,8 @@
 
     }])
 */
-        
-        .config(function ($mdDateLocaleProvider) {
+     /*   
+    .config(function ($mdDateLocaleProvider) {
 
         // Example of a French localization.
         $mdDateLocaleProvider.months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
@@ -66,29 +67,30 @@
             return m.isValid() ? m.toDate() : new Date(NaN);
         };
         $mdDateLocaleProvider.formatDate = function (date) {
-            return moment(date).format('DD/MM/YYYY');
-
-            /*
-            if (!date)
-            {
-                //return moment(new Date()).format('DD/MM/YYYY');
-                new Date(NaN);
+            if(!date){
+                return date;
             }
-            var offset = moment(date).utcOffset();
-            var dateOffset = new Date(moment(date).add(offset, 'm'));
-            //return moment(dateOffset).format('DD/MM/YYYY');
-            var m = moment(dateOffset).format('DD/MM/YYYY');
-            return m;
-            */
+            return moment(date).format('DD/MM/YYYY');
         };
 
-    }).config(function ($mdThemingProvider) {
+    })
+    */
+    .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
           .primaryPalette('green')
           .accentPalette('orange');
     }).config(function (ChartJsProvider) {
         //ChartJsProvider.setOptions({ colours: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
         ChartJsProvider.setOptions({ colours: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'] });
+    }).config(function (paginationConfig) {
+        paginationConfig.boundaryLinks = true;
+        paginationConfig.rotate = false;
+        paginationConfig.maxSize = 5;
+        paginationConfig.itemsPerPage = 20;
+        paginationConfig.firstText = '«';
+        paginationConfig.previousText = '‹';
+        paginationConfig.nextText = '›';
+        paginationConfig.lastText = '»';
     });
 
 })();

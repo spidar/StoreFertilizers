@@ -1,13 +1,25 @@
 ﻿(function() {
     'use strict';
 
-    angular.module('app').directive('datelocaleprovider', ['$parse', function ($parse) {
+    angular.module('app').directive('datepicker', ['$parse', function ($parse) {
         return {
             restrict: 'A',
             require: 'ngModel',
             link: function (scope, element, attrs, ngModelCtrl) {
                 $(function () {
-                    
+                    var options = {
+                        format: "DD/MM/YYYY",
+                    };
+                    element.datetimepicker(options);
+                    element.bind('blur keyup change', function () {
+                        scope.$apply(function () {
+                            var value = element.val();
+                            var offset = moment(value, 'DD/MM/YYYY').utcOffset();
+                            var dateOffset = new Date(moment(value, 'DD/MM/YYYY').add(offset, 'm'));
+                            ngModelCtrl.$setViewValue(dateOffset);
+                        });
+                    });
+                    /*
                     var toView = function (val) {
                         var offset = moment(val).utcOffset();
                         var date = new Date(moment(val).add(offset, 'm'));
@@ -25,7 +37,7 @@
 
                     ngModelCtrl.$formatters.push(toView);
                     ngModelCtrl.$parsers.push(toModel);
-
+                    */
                     /*
                     element.datepicker({
                         //language: 'th-th',

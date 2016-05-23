@@ -1,0 +1,20 @@
+{
+  "name": "angular-ui-bootstrap-pagination",
+  "version": "0.12.0",
+  "homepage": "https://github.com/sathyapulse/angular-ui-bootstrap-pagination",
+  "authors": [
+    "(Sathiyamoorthy Venkatesan <sathyapulse@gmail.com>)"
+  ],
+  "description": "Angular UI bootstrap pagination",
+  "license": "MIT",
+  "_release": "0.12.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.12.0",
+    "commit": "0c1264458227fc7497d6771ccc27dc6f52187760"
+  },
+  "_source": "https://github.com/sathyapulse/angular-ui-bootstrap-pagination.git",
+  "_target": "^0.12.0",
+  "_originalSource": "angular-ui-bootstrap-pagination",
+  "_direct": true
+}

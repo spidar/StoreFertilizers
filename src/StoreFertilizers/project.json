@@ -36,9 +36,9 @@
   "frameworks": {
     "dnx451": {
       "dependencies": {
+        "System.Linq.Dynamic": "1.0.6"
       }
-    },
-    "dnxcore50": { }
+    }
   },
 
   "exclude": [

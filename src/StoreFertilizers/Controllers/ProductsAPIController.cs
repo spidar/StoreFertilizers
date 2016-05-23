@@ -22,7 +22,7 @@ namespace StoreFertilizers.Controllers
         [HttpGet]
         public IEnumerable<Product> GetProducts()
         {
-            return _context.Products;
+            return _context.Products.Include(i => i.ProductType).Include(i => i.UnitType);
         }
 
         // GET: api/ProductsAPI/5
@@ -34,7 +34,7 @@ namespace StoreFertilizers.Controllers
                 return HttpBadRequest(ModelState);
             }
 
-            Product product = _context.Products.Single(m => m.ProductID == id);
+            Product product = _context.Products.Include(i => i.ProductType).Include(i => i.UnitType).Single(m => m.ProductID == id);
 
             if (product == null)
             {

@@ -7,6 +7,9 @@ using StoreFertilizers.Models;
 using System;
 using StoreFertilizers.Models.Paging;
 //using System.Collections;
+using System.Linq.Dynamic;
+using System.Collections;
+using StoreFertilizers.Models.ModelView;
 
 namespace StoreFertilizers.Controllers
 {
@@ -29,96 +32,63 @@ namespace StoreFertilizers.Controllers
         }
 
         [HttpGet]
-        public PagedList GetPurchasesPaging(string searchtext, int page = 1, int pageSize = 10, string sortBy = "purchaseID", string sortDirection = "asc")
+        public PagedList GetPurchasesPaging(string searchtext = "", string fromPurchaseDate = "", string toPurchaseDate = "", int page = 1, int pageSize = 250, string sortBy = "", string sortDirection = "desc")
         {
+            //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
-            //Order
-            if(!string.IsNullOrEmpty(sortDirection) && sortDirection.Equals("desc"))
-            {
-                switch (sortBy)
-                {
-                    case "purchaseDate":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.PurchaseDate).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "billNumber":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.BillNumber).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "product":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.Product.Name).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "qty":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.Qty).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "purchasePricePerUnit":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.PurchasePricePerUnit).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "isTax":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.IsTax).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "provider":
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.Provider.Name).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    default:
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                }
 
-            }
-            else
-            {
-                switch (sortBy)
+            var purchases_result = _context.Purchases.Include(products => products.Product).Include(providers => providers.Provider)
+                .Select(purc => new
                 {
-                    case "purchaseDate":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.PurchaseDate).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "billNumber":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.BillNumber).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "product":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.Product.Name).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "qty":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.Qty).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "purchasePricePerUnit":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.PurchasePricePerUnit).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "isTax":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.IsTax).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    case "provider":
-                        pagedRecord.Content = _context.Purchases.OrderBy(x => x.Provider.Name).ThenBy(y => y.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                    default:
-                        pagedRecord.Content = _context.Purchases.OrderByDescending(x => x.PurchaseID).Skip((page - 1) * pageSize).Take(pageSize).Include(i => i.Product).Include(i => i.Provider);
-                        break;
-                }
-            }
-
+                    PurchaseID = purc.PurchaseID,
+                    PurchaseDate = purc.PurchaseDate,
+                    BillNumber = purc.BillNumber,
+                    ProductID = purc.ProductID,
+                    Product = purc.Product,
+                    ProductName = purc.Product.Name,
+                    ProductUnitTypeName = purc.Product.UnitType.Name,
+                    Qty = purc.Qty,
+                    QtyRemain = purc.QtyRemain,
+                    PurchasePricePerUnit = purc.PurchasePricePerUnit,
+                    //SalePrice = purc.SalePrice,
+                    Amount = purc.Amount,
+                    IsTax = purc.IsTax,
+                    //VAT = purc.VAT,
+                    ProviderID = purc.ProviderID,
+                    Provider = purc.Provider,
+                    ProviderName = purc.Provider.Name,
+                    Notes = purc.Notes
+                });
             /*
-            pagedRecord.Content = db.Customers
-                .Where(x => searchtext == null ||
-                        ((x.CustomerID.Contains(searchtext)) ||
-                        (x.ContactName.Contains(searchtext)) ||
-                        (x.ContactTitle.Contains(searchtext)) ||
-                        (x.City.Contains(searchtext)) ||
-                        (x.Country.Contains(searchtext))
-                    ))
-                .OrderBy(sortBy + " " + sortDirection)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
-
-            // Count
-            pagedRecord.TotalRecords = db.Customers
-                        .Where(x => searchtext == null ||
-                                ((x.CustomerID.Contains(searchtext)) ||
-                                (x.ContactName.Contains(searchtext)) ||
-                                (x.ContactTitle.Contains(searchtext)) ||
-                                (x.City.Contains(searchtext)) ||
-                                (x.Country.Contains(searchtext))
-                            )).Count();
+            foreach (var item in purchases_result)
+            {
+                if (item.Product.UnitTypeID > 0)
+                {
+                    item.Product.UnitType = _context.UnitTypes.SingleOrDefault(i => i.UnitTypeID == item.Product.UnitTypeID);
+                }
+            }
             */
+            DateTime from, to;
+            if (DateTime.TryParse(fromPurchaseDate, out from) && DateTime.TryParse(toPurchaseDate, out to))
+            {
+                purchases_result = purchases_result.Where(x => x.PurchaseDate.Value >= from && x.PurchaseDate.Value <= to);
+            }
+            if (!string.IsNullOrEmpty(searchtext))
+            {
+                purchases_result = purchases_result.Where(x => searchtext == null ||
+                        (x.BillNumber.Contains(searchtext)) ||
+                        (x.ProductName.Contains(searchtext)) ||
+                        (x.ProviderName.Contains(searchtext))
+                    );
+            }
+
+            if(!string.IsNullOrEmpty(sortBy))
+            {
+                purchases_result = purchases_result.OrderBy(sortBy + " " + sortDirection);
+            }
+
+            pagedRecord.TotalRecords = purchases_result.Count();
+            pagedRecord.Content = purchases_result.Skip((page - 1) * pageSize).Take(pageSize);
             pagedRecord.CurrentPage = page;
             pagedRecord.PageSize = pageSize;
 
@@ -176,6 +146,27 @@ namespace StoreFertilizers.Controllers
 
             _context.Entry(purchase).State = EntityState.Modified;
 
+            // Handle stock
+            var productInStock = _context.Stock.Single(i => i.ProductID == purchase.ProductID);
+            if (productInStock != null)
+            {
+                productInStock.Balance += purchase.Qty;
+                productInStock.LastUpdated = DateTime.Now;
+                _context.Entry(productInStock).State = EntityState.Modified;
+            }
+            else
+            {//It supposes to be there.
+                Stock newProductInStock = new Stock()
+                {
+                    ProductID = purchase.ProductID,
+                    Product = purchase.Product,
+                    Balance = purchase.Qty,
+                    LastUpdated = DateTime.Now
+                };
+                _context.Stock.Add(newProductInStock);
+            }
+            //
+
             try
             {
                 _context.SaveChanges();
@@ -213,17 +204,19 @@ namespace StoreFertilizers.Controllers
             if(productInStock != null)
             {
                 productInStock.Balance += purchase.Qty;
+                productInStock.LastUpdated = DateTime.Now;
                 _context.Entry(productInStock).State = EntityState.Modified;
             }
             else
             {
-                Stock newProductInStaok = new Stock()
+                Stock newProductInStock = new Stock()
                 {
+                    ProductID = purchase.ProductID,
                     Product = purchase.Product,
                     Balance = purchase.Qty,
                     LastUpdated = DateTime.Now
                 };
-                _context.Stock.Add(newProductInStaok);
+                _context.Stock.Add(newProductInStock);
             }
 
             try

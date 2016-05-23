@@ -6,12 +6,40 @@
 
 <form name="myForm" class="form-horizontal" role="form" ng-controller="purchasesController">
     <br />
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group remove-bottom-margin">
+                    <button type="submit" ng-click="getPurchasesByFilters()" class="col-xs-1 btn btn-primary btn-sm" style="margin-top:5px;margin-left:5px;margin-right:5px;">
+                        <span class="glyphicon glyphicon-search"></span> ค้นหา
+                    </button>&nbsp;
+                    <input type="text" class="col-xs-2 form-control input-sm" style="margin-top:5px;" ng-model="data.filterOptions.filterText" placeholder="ค้นหาจาก เลขที่บิล,ชื่อสินค้า,ซื้อจาก" />
+                    <!--
+                    <md-datepicker datelocaleprovider ng-model="data.filterOptions.fromPurchaseDate" md-placeholder="ซื้อวันที่"></md-datepicker>
+                    <md-datepicker datelocaleprovider ng-model="data.filterOptions.toPurchaseDate" md-placeholder="ถึงวันที่"></md-datepicker>      
+                    -->
+                    {{data.filterOptions.fromPurchaseDate}}
+                    <div class='datepicker input-group date' style="max-width:139px;">
+                        <input type='text' datepicker ng-model="data.filterOptions.fromPurchaseDate" class="form-control input-sm" style="max-width:100px;" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div class='datepicker input-group date' style="max-width:139px;">
+                        <input type='text' datepicker ng-model="data.filterOptions.toPurchaseDate" class="form-control input-sm" style="max-width:100px;" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>              
+                </div>
+            </div>
+        </div>
+    </div>
     <div ng-show="status!=''" class="alert alert-danger" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         {{status}}
     </div>
     <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
-    <br />
     <div ng-show="!showLoading" class="widget stacked widget-table action-table">
         <div class="table-responsive widget-content">
             <table class="table table-bordered table-striped table-hover">
@@ -22,29 +50,61 @@
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </th>
-                        <th style="text-align:center;">
-                            วันที่ซื้อ
+                        <th style="text-align:center;">                            
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'purchaseDate'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                วันที่ซื้อ
+                                <span ng-show="data.sortOptions.field == 'purchaseDate' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'purchaseDate' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
                         <th width="100px" style="text-align:center;">
-                            เลขบิล
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'billNumber'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                เลขบิล
+                                <span ng-show="data.sortOptions.field == 'billNumber' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'billNumber' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
-                        <th style="min-width:150px;text-align:center;">
-                            สินค้า
+                        <th style="min-width:150px;text-align:center;">                            
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'productName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                สินค้า
+                                <span ng-show="data.sortOptions.field == 'productName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'productName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
                         <th width="80px" style="text-align:center;">
-                            จำนวน
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'qty'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                จำนวน
+                                <span ng-show="data.sortOptions.field == 'qty' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'qty' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
                         <th style="text-align:center;">
-                            หน่วย
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'productUnitTypeName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                หน่วย
+                                <span ng-show="data.sortOptions.field == 'productUnitTypeName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'productUnitTypeName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
                         <th style="text-align:center;min-width:90px;">
-                            ราคาต่อชิ้น
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'purchasePricePerUnit'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                ราคาต่อชิ้น
+                                <span ng-show="data.sortOptions.field == 'purchasePricePerUnit' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'purchasePricePerUnit' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
-                        <th width="50px" style="text-align:center;">
-                            ภาษี
+                        <th width="70px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'isTax'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                ภาษี
+                                <span ng-show="data.sortOptions.field == 'isTax' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'isTax' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
                         <th style="min-width:150px;text-align:center;">
-                            ซื้อจาก
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'providerName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getPurchasesByFilters()">
+                                ซื้อจาก
+                                <span ng-show="data.sortOptions.field == 'providerName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'providerName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
                         </th>
                     </tr>
                 </thead>
@@ -53,7 +113,8 @@
                 </tbody>
             </table>
         </div>
-    </div>    
+    </div>
+    <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getPurchasesByFilters()" class="pagination-sm"></pagination>
 </form>
 
 @section Scripts {
@@ -62,11 +123,11 @@
         <a href="" class="btn btn-warning btn-xs" ng-click="editPurchase(item)"><i class="glyphicon glyphicon-edit"></i></a>
         <a href="" class="btn btn-danger btn-xs" ng-click="removePurchase(item)"><i class="glyphicon glyphicon-trash"></i></a>
     </td>
-    <td style="text-align:center;">{{item.purchaseDate | date:"dd/MM/yyyy" }}</td>
+    <td style="text-align:center;">{{item.purchaseDate}}</td>
     <td>{{item.billNumber}}</td>
     <td>{{item.product.name}}</td>
     <td style="text-align:right;">{{item.qty}}</td>
-    <td style="text-align:center;">{{item.unitType.name}}</td>
+    <td style="text-align:center;">{{item.productUnitTypeName}}</td>
     <td style="text-align:right;">{{item.purchasePricePerUnit | number:2}}</td>
     <td style="text-align:center;">
         <input type="checkbox" ng-disabled="true" ng-model="item.isTax">
@@ -79,7 +140,16 @@
         <a href="" class="btn btn-warning btn-xs" ng-click="reset(item)"><i class="glyphicon glyphicon-remove"></i></a>
     </td>
     <td style="text-align:center;">
-        <md-datepicker style="background:none;" datelocaleprovider ng-model="selected.purchaseDate" class="hide-calendar-icon small-calendar-input"></md-datepicker>
+        <!--
+        <md-datepicker style="background:none;"  ng-model="selected.purchaseDate" ng-required class="hide-calendar-icon small-calendar-input"></md-datepicker>
+        -->
+        {{selected.purchaseDate}}
+        <div class='datepicker input-group date' style="max-width:139px;">
+            <input type='text' datepicker ng-model="selected.purchaseDate" ng-required class="form-control input-sm" style="max-width:100px;" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div> 
     </td>
     <td>
         <input type="text" name="billNumber" style="max-width:100px;" ng-model="selected.billNumber" />        
@@ -94,12 +164,7 @@
         <input type="number" name="qty" ng-model="selected.qty" min="1" max="99999999" required class="form-control input-sm" style="text-align:right;max-width:none;">
         <span ng-show="!myForm.qty.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
-    <td width="100px" style="text-align:center;">{{selected.product.unitType.name}}
-        <select required class="form-control input-sm" name="unitType" style="max-width:none;" ng-model='selected.unitType' ng-options='option.name for option in data.unitTypeList track by option.unitTypeID'>
-            <option value="" disabled>- เลือก -</option>
-        </select>
-        <span ng-show="!myForm.unitType.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
-    </td>
+    <td width="100px" style="text-align:center;">{{selected.product.unitType.name}}</td>
     <td style="text-align:right;">
         <input type="number" name="purchasePricePerUnit" ng-model="selected.purchasePricePerUnit" style="text-align:right;max-width:none;" min="0" max="99999999" required class="form-control input-sm" placeholder="0.00" />
         <span ng-show="!myForm.purchasePricePerUnit.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
@@ -113,6 +178,5 @@
         </select>
         <span ng-show="!myForm.provider.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
-
 </script>
 }
