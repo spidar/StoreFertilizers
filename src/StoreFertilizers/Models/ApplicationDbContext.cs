@@ -22,7 +22,7 @@ namespace StoreFertilizers.Models
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<InvoiceDetails> InvoiceDetails { get; set; }
-        public DbSet<Stock> Stock { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
 
         public DbSet<Bank> Banks { get; set; }
         public DbSet<Employee> Employees { get; set; }

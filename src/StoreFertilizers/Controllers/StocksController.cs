@@ -21,7 +21,7 @@ namespace StoreFertilizers.Controllers
         // GET: Stocks
         public IActionResult Index()
         {
-            var applicationDbContext = _context.Stock.Include(s => s.Product).Include(i => i.Product.UnitType);
+            var applicationDbContext = _context.Stocks.Include(s => s.Product).Include(i => i.Product.UnitType);
             return View(applicationDbContext.ToList());
         }
 
@@ -33,7 +33,7 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
-            Stock stock = _context.Stock.Single(m => m.StockID == id);
+            Stock stock = _context.Stocks.Single(m => m.StockID == id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -74,7 +74,7 @@ namespace StoreFertilizers.Controllers
                 }
                 */
                 stock.LastUpdated = DateTime.Now;
-                _context.Stock.Add(stock);
+                _context.Stocks.Add(stock);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -90,7 +90,7 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
-            Stock stock = _context.Stock.Single(m => m.StockID == id);
+            Stock stock = _context.Stocks.Single(m => m.StockID == id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -142,7 +142,7 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
-            Stock stock = _context.Stock.Single(m => m.StockID == id);
+            Stock stock = _context.Stocks.Single(m => m.StockID == id);
             if (stock == null)
             {
                 return HttpNotFound();
@@ -158,8 +158,8 @@ namespace StoreFertilizers.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            Stock stock = _context.Stock.Single(m => m.StockID == id);
-            _context.Stock.Remove(stock);
+            Stock stock = _context.Stocks.Single(m => m.StockID == id);
+            _context.Stocks.Remove(stock);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }        

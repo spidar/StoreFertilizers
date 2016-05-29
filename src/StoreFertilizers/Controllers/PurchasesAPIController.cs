@@ -1,15 +1,12 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
-using System;
 using StoreFertilizers.Models.Paging;
-//using System.Collections;
 using System.Linq.Dynamic;
-using System.Collections;
-using StoreFertilizers.Models.ModelView;
 
 namespace StoreFertilizers.Controllers
 {
@@ -32,7 +29,7 @@ namespace StoreFertilizers.Controllers
         }
 
         [HttpGet]
-        public PagedList GetPurchasesPaging(string searchtext = "", string fromPurchaseDate = "", string toPurchaseDate = "", int page = 1, int pageSize = 250, string sortBy = "", string sortDirection = "desc")
+        public PagedList GetPurchasesPaging(string searchtext = "", string fromPurchaseDate = "", string toPurchaseDate = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "desc")
         {
             //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
@@ -44,11 +41,14 @@ namespace StoreFertilizers.Controllers
                     PurchaseDate = purc.PurchaseDate,
                     BillNumber = purc.BillNumber,
                     ProductID = purc.ProductID,
+                    OrgProductID = purc.ProductID,
                     Product = purc.Product,
                     ProductName = purc.Product.Name,
                     ProductUnitTypeName = purc.Product.UnitType.Name,
                     Qty = purc.Qty,
+                    OrgQty = purc.Qty,
                     QtyRemain = purc.QtyRemain,
+                    OrgQtyRemain = purc.QtyRemain,
                     PurchasePricePerUnit = purc.PurchasePricePerUnit,
                     //SalePrice = purc.SalePrice,
                     Amount = purc.Amount,
@@ -59,26 +59,27 @@ namespace StoreFertilizers.Controllers
                     ProviderName = purc.Provider.Name,
                     Notes = purc.Notes
                 });
-            /*
-            foreach (var item in purchases_result)
-            {
-                if (item.Product.UnitTypeID > 0)
-                {
-                    item.Product.UnitType = _context.UnitTypes.SingleOrDefault(i => i.UnitTypeID == item.Product.UnitTypeID);
-                }
-            }
-            */
+            #region Handle from and to purchase date
             DateTime from, to;
+            if (!string.IsNullOrEmpty(fromPurchaseDate) && string.IsNullOrEmpty(toPurchaseDate))
+            {
+                toPurchaseDate = DateTime.Now.ToString();
+            }
+            if (!string.IsNullOrEmpty(toPurchaseDate) && string.IsNullOrEmpty(fromPurchaseDate))
+            {
+                fromPurchaseDate = DateTime.MinValue.ToString();
+            }
             if (DateTime.TryParse(fromPurchaseDate, out from) && DateTime.TryParse(toPurchaseDate, out to))
             {
                 purchases_result = purchases_result.Where(x => x.PurchaseDate.Value.Date >= from.Date && x.PurchaseDate.Value.Date <= to.Date);
             }
+            #endregion
             if (!string.IsNullOrEmpty(searchtext))
             {
-                purchases_result = purchases_result.Where(x => searchtext == null ||
-                        (x.BillNumber.Contains(searchtext)) ||
-                        (x.ProductName.Contains(searchtext)) ||
-                        (x.ProviderName.Contains(searchtext))
+                purchases_result = purchases_result.Where(x =>
+                        (!string.IsNullOrEmpty(x.BillNumber) && x.BillNumber.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.ProductName) && x.ProductName.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.ProviderName) && x.ProviderName.Contains(searchtext))
                     );
             }
 
@@ -140,32 +141,68 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpBadRequest();
             }
+                        
+            Stock orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.OrgProductID);
+            decimal diffQty = purchase.Qty - purchase.OrgQty;
+            if (purchase.Product.ProductID != purchase.OrgProductID)
+            {
+                purchase.QtyRemain = purchase.Qty;
+
+                #region Handle stock
+                //Old one            
+                if (orgProductInStock != null)
+                {
+                    /*
+                    if(purchase.Qty >= purchase.OrgQty)
+                    {
+                        orgProductInStock.Balance -= purchase.OrgQty;
+                    }
+                    else
+                    {
+                        orgProductInStock.Balance -= (purchase.OrgQty - purchase.Qty);
+                    }
+                    */
+                    orgProductInStock.Balance -= purchase.OrgQty;
+                    orgProductInStock.LastUpdated = DateTime.Now;
+                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                }
+                //New one
+                Stock newProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.Product.ProductID);
+                if (newProductInStock != null)
+                {
+                    newProductInStock.Balance += purchase.Qty;
+                    newProductInStock.LastUpdated = DateTime.Now;
+                    _context.Entry(newProductInStock).State = EntityState.Modified;
+                }
+                else
+                {
+                    Stock pInStock = new Stock()
+                    {
+                        ProductID = purchase.ProductID,
+                        Product = purchase.Product,
+                        Balance = purchase.Qty,
+                        LastUpdated = DateTime.Now
+                    };
+                    _context.Stocks.Add(pInStock);
+                }
+                #endregion
+            }else
+            {
+                purchase.QtyRemain += diffQty;
+
+                #region Handle stock            
+                if (orgProductInStock != null && diffQty != 0)
+                {
+                    orgProductInStock.Balance += diffQty;
+                    orgProductInStock.LastUpdated = DateTime.Now;
+                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                }
+                #endregion
+            }
 
             purchase.Amount = purchase.Qty * purchase.PurchasePricePerUnit;
-            purchase.QtyRemain = purchase.Qty;
 
             _context.Entry(purchase).State = EntityState.Modified;
-
-            // Handle stock
-            var productInStock = _context.Stock.Single(i => i.ProductID == purchase.ProductID);
-            if (productInStock != null)
-            {
-                productInStock.Balance += purchase.Qty;
-                productInStock.LastUpdated = DateTime.Now;
-                _context.Entry(productInStock).State = EntityState.Modified;
-            }
-            else
-            {//It supposes to be there.
-                Stock newProductInStock = new Stock()
-                {
-                    ProductID = purchase.ProductID,
-                    Product = purchase.Product,
-                    Balance = purchase.Qty,
-                    LastUpdated = DateTime.Now
-                };
-                _context.Stock.Add(newProductInStock);
-            }
-            //
 
             try
             {
@@ -200,7 +237,7 @@ namespace StoreFertilizers.Controllers
 
             _context.Purchases.Add(purchase);
 
-            var productInStock = _context.Stock.Single(i => i.ProductID == purchase.ProductID);
+            var productInStock = _context.Stocks.Single(i => i.ProductID == purchase.ProductID);
             if(productInStock != null)
             {
                 productInStock.Balance += purchase.Qty;
@@ -216,7 +253,7 @@ namespace StoreFertilizers.Controllers
                     Balance = purchase.Qty,
                     LastUpdated = DateTime.Now
                 };
-                _context.Stock.Add(newProductInStock);
+                _context.Stocks.Add(newProductInStock);
             }
 
             try

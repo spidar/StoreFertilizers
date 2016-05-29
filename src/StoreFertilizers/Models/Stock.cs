@@ -7,38 +7,16 @@ namespace StoreFertilizers.Models
     {
         public int StockID { get; set; }
 
-        [Display(Name = "สินค้า")]
-        [Required(ErrorMessage = "กรุณาระบุสินค้า")]
         public int ProductID { get; set; }
         public virtual Product Product { get; set; }
-
-        [Display(Name = "สถานที่จัดเก็บ")]
         public string Location { get; set; }
-
-        [Display(Name = "คงเหลือ")]
-        [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
         public decimal Balance { get; set; }
-
-        [Display(Name = "ค่าจำนวนเต็มของสต๊อค")]
-        [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
         public decimal FullCapStock { get; set; }
-
-        [Display(Name = "ค่าจำนวนต่ำสุดของสต๊อค")]
-        [Range(0.00, 999999999, ErrorMessage = "ค่าต้องอยู่ระหว่าง 0.00 ถึง 999999999")]
         public decimal LowCapStock { get; set; }
-
-        [Display(Name = "ตั้งเตือน")]
         public bool AlertLowStock { get; set; }
-
         //[Display(Name = "รูปสินค้า")]
         //public Byte[] ProductImage { get; set; }
-
-        [Display(Name = "ปรับปรุงล่าสุด")]
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
-        [DataType(DataType.Date)]
         public DateTime? LastUpdated { get; set; }
-
-        [Display(Name = "หมายเหตุ")]
         public string Notes { get; set; }
     }
 }

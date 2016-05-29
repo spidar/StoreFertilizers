@@ -3,72 +3,161 @@
 @{
     ViewData["Title"] = "ใบกำกับสินค้า";
 }
-<h2>รายการใบกำกับสินค้าทั้งหมด</h2>
-<p>
-    <button type="button" class="btn btn-info">
-        <span class="glyphicon glyphicon-search"></span> ค้นหา
-    </button>
-</p>
-<div class="widget stacked widget-table action-table">
-    <div class="table-responsive widget-content">
-        <table class="table table-striped table-hover">
-            <tr class="widget-header">
-                <th style="text-align:center">เลขที่</th>
-                <th style="text-align:center">ผู้ซื้อ</th>
-                <th style="text-align:center">วันที่</th>
-                <th style="text-align:right">รวมเงินสุทธิ</th>
-                <th style="text-align:center">ชำระ</th>
-                <th style="text-align:center">ครบกำหนด</th>
-                <th>หมายเหตุ</th>
-                <th class="noprint"></th>
-            </tr>
 
-            @foreach (var item in Model)
-        {
-        <tr>
-            <td align="center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.InvoiceNumber)
-            </td>
-            <td style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Customer.Name)
-            </td>
-            <td align="center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td align="right" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.NetTotal)
-            </td>
-            <td align="center" style="vertical-align:middle;">
-                @if (item.Paid != null && item.Paid == true)
-            {
-                    <input type="checkbox" value="" checked disabled>
-            }
-            else
-            {
-                    <input type="checkbox" value="" disabled>
-            }
-            </td>
-            <td align="center" style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.DueDate)
-            </td>
-            <td style="vertical-align:middle;">
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.InvoiceID" class="btn btn-warning btn-xs" role="button">
-                    <i class="glyphicon glyphicon-edit"></i>
-                </a>
-                <!--
-                <a asp-action="Details" asp-route-id="@item.InvoiceID" class="btn btn-info btn-xs" role="button">
-                    <i class="glyphicon glyphicon-info-sign"></i>
-                </a>
-                -->
-                <a asp-action="Delete" asp-route-id="@item.InvoiceID" class="btn btn-danger btn-xs" role="button">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </a>
-            </td>
-        </tr>
-        }
-        </table>
+<form name="myForm" class="form-horizontal" role="form" ng-controller="invoicesIndexController">
+    <br />
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table borderless" style="margin:0px;">
+                    <tr>
+                        <td width="200px" style="border:none;">
+                            <input type="text" class="col-xs-3 form-control input-sm" style="max-width:none;" ng-model="data.filterOptions.filterText" placeholder="ค้นหาจาก เลขที่,ผู้ซื้อ,หมายเหตุ" />
+                        </td>
+                        <td width="100px" style="border:none;vertical-align:middle;">
+                            <span for="isTax">บิลทั่วไป/ภาษี</span>                            
+                        </td>
+                        <td width="100px" style="border:none;vertical-align:middle;">
+                            <select class="form-control input-sm display-inline" ng-model='data.filterOptions.isTax' style="max-width:80px;">
+                                <option value="">ทั้งหมด</option>
+                                <option value="notax">ทั่วไป</option>
+                                <option value="tax">ภาษี</option>
+                            </select>
+                        </td>
+                        <td width="45px" style="vertical-align:middle;border:none;">
+                            วันที่
+                        </td>
+                        <td width="140px" style="border:none;vertical-align:middle;">
+                            <div class='datepicker input-group date' style="max-width:139px;">
+                                <input type='text' customdatepicker ng-model="data.filterOptions.fromCreatedDate" class="form-control input-sm" style="max-width:100px;" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </td>
+                        <td width="30px" style="text-align:center;vertical-align:middle;border:none;">
+                            ถึง
+                        </td>
+                        <td width="140px" style="border:none;vertical-align:middle;">
+                            <div class='datepicker input-group date' style="max-width:139px;">
+                                <input type='text' customdatepicker ng-model="data.filterOptions.toCreatedDate" class="form-control input-sm" style="max-width:100px;" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </td>
+                        <td width="85px" style="border:none;vertical-align:middle;">ครบกำหนด</td>
+                        <td width="100px" style="border:none;vertical-align:middle;">
+                            <select class="form-control input-sm display-inline" ng-model='data.filterOptions.dueIn' style="max-width:100px;">
+                                <option value="">  ---  </option>
+                                <option value="over">เกิน</option>
+                                <option value="today">วันนี้</option>
+                                <option value="tomorrow">พรุ่งนี้</option>
+                                <option value="next3">อีก 3 วัน</option>
+                                <option value="next7">อีก 7 วัน</option>
+                            </select>
+                        </td>
+                        <td style="border:none;vertical-align:middle;">
+                            <button type="submit" ng-click="getInvoicesByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="width:120px;">
+                                <span class="glyphicon glyphicon-search"></span> ค้นหา
+                            </button>&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
+    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        {{status}}
+    </div>
+    <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
+    <div ng-show="!showLoading" class="widget stacked widget-table action-table">
+        <div class="table-responsive widget-content">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-inverse">
+                    <tr class="widget-header">
+                        <th width="70px" style="text-align:center;min-width:70px"></th>
+                        <th width="100px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'createdDate'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                วันที่
+                                <span ng-show="data.sortOptions.field == 'createdDate' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'createdDate' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="40px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'isTax'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                ภาษี
+                                <span ng-show="data.sortOptions.field == 'isTax' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'isTax' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="100px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'invoiceNumber'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                เลขที่
+                                <span ng-show="data.sortOptions.field == 'invoiceNumber' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'invoiceNumber' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th style="min-width:150px;text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'customerName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                ผู้ซื้อ
+                                <span ng-show="data.sortOptions.field == 'customerName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'customerName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="100px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'netTotal'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                จำนวนเงิน
+                                <span ng-show="data.sortOptions.field == 'netTotal' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'netTotal' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="40px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'paid'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                ชำระ
+                                <span ng-show="data.sortOptions.field == 'paid' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'paid' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th style="text-align:center;min-width:90px;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'dueDate'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                ครบกำหนด
+                                <span ng-show="data.sortOptions.field == 'dueDate' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'dueDate' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th style="min-width:150px;text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'notes'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
+                                หมายเหตุ
+                                <span ng-show="data.sortOptions.field == 'notes' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'notes' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in invoices">
+                        <td class="noPrint" style="text-align:center;vertical-align:middle;">
+                            <a href="Invoices/Edit/{{item.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="" class="btn btn-danger btn-xs" ng-click="removeInvoice(item)"><i class="glyphicon glyphicon-trash"></i></a>
+                        </td>
+                        <td style="text-align:center;">{{item.createdDate | date: 'dd/MM/yyyy'}}</td>
+                        <td style="text-align:center;">
+                            <input type="checkbox" ng-disabled="true" ng-model="item.isTax">
+                        </td>
+                        <td>{{item.invoiceNumber}}</td>
+                        <td>{{item.customerName}}</td>
+                        <td style="text-align:right;">{{item.netTotal | number:2}}</td>
+                        <td style="text-align:center;">
+                            <input type="checkbox" ng-disabled="true" ng-model="item.paid">
+                        </td>
+                        <td style="text-align:center;">{{item.dueDate | date: 'dd/MM/yyyy'}}</td>
+                        <td class="text-overflow">{{item.notes}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
+</form>

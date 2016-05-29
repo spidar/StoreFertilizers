@@ -79,6 +79,18 @@ textarea {
     width: 100px;
 }
 
+md-autocomplete{
+    height: 30px !important;
+    padding: 0px !important;
+}
+md-autocomplete md-autocomplete-wrap{
+    height: 28px !important;
+    padding: 0px !important;
+}
+md-autocomplete md-autocomplete-wrap input{
+    height: 28px !important;
+    padding: 0px 5px !important;
+}
 
 
 /* Print */

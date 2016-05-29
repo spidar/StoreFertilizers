@@ -11,6 +11,7 @@
             var invoiceAPI = '/InvoicesAPI';
             var invoiceDetailsAPI = '/InvoiceDetailsAPI';
             var purchasesAPI = '/PurchasesAPI';
+            var stocksAPI = '/StocksAPI';
             var providersAPI = '/ProvidersAPI'
             var customerAPI = '/CustomersAPI';
             var employeeAPI = '/EmployeesAPI';
@@ -20,8 +21,10 @@
             var paymentTypesAPI = '/PaymentTypesAPI';
 
             /* Invoices */
-            servicesFactory.getInvoices = function () {
-                return $http.get(urlBase + invoiceAPI);
+            servicesFactory.getInvoices = function (parameters) {
+                return $http.get(urlBase + invoiceAPI, {
+                    params: parameters
+                });
             };
             servicesFactory.getInvoiceByID = function (id) {
                 return $http.get(urlBase + invoiceAPI + '/' + id);
@@ -81,6 +84,28 @@
 
             servicesFactory.deletePurchaseByID = function (id) {
                 return $http.delete(urlBase + purchasesAPI + '/' + id);
+            };
+
+            /* Stocks */
+            servicesFactory.getStocks = function (parameters) {
+                return $http.get(urlBase + stocksAPI, {
+                    params: parameters
+                });
+            };
+            servicesFactory.getStockByID = function (id) {
+                return $http.get(urlBase + stocksAPI + '/' + id);
+            };
+
+            servicesFactory.insertStock = function (stock) {
+                return $http.post(urlBase + stocksAPI, stock);
+            };
+
+            servicesFactory.updateStock = function (stock) {
+                return $http.put(urlBase + stocksAPI + '/' + stock.stockID, stock)
+            };
+
+            servicesFactory.deleteStockByID = function (id) {
+                return $http.delete(urlBase + stocksAPI + '/' + id);
             };
 
             /* Customers */

@@ -1,9 +1,12 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
+using StoreFertilizers.Models.Paging;
+using System.Linq.Dynamic;
 
 namespace StoreFertilizers.Controllers
 {
@@ -19,10 +22,97 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: api/InvoicesAPI
-        [HttpGet]
+        [HttpGet("AllInvoices")]
         public IEnumerable<Invoice> GetInvoices()
         {
             return _context.Invoices;
+        }
+
+        [HttpGet]
+        public PagedList GetInvoicesPaging(string searchtext = "", string isTax = "", string fromCreatedDate = "", string toCreatedDate = "", string dueIn = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
+        {
+            //sortDirection "asc", "desc"
+            var pagedRecord = new PagedList();
+
+            var invoices_result = _context.Invoices.Include(cus => cus.Customer).ToList()
+                .Select(invoice => new
+                {
+                    InvoiceID = invoice.InvoiceID,
+                    InvoiceNumber = invoice.InvoiceNumber,
+                    CreatedDate = invoice.CreatedDate,
+                    DueDate = invoice.DueDate,
+                    CustomerName = (invoice.Customer!=null) ? invoice.Customer.Name : invoice.CustomerName,
+                    Paid = invoice.Paid,
+                    NetTotal = invoice.NetTotal,
+                    IsTax = invoice.IsTax,
+                    Notes = invoice.Notes
+                });
+            if (!string.IsNullOrEmpty(isTax))
+            {
+                bool tax = isTax.Equals("tax") ? true : false;
+                invoices_result = invoices_result.Where(x => x.IsTax == tax);
+            }
+            #region Handle from and to purchase date
+            DateTime from, to;
+            if (!string.IsNullOrEmpty(fromCreatedDate) && string.IsNullOrEmpty(toCreatedDate))
+            {
+                toCreatedDate = DateTime.Now.ToString();
+            }
+            if (!string.IsNullOrEmpty(toCreatedDate) && string.IsNullOrEmpty(fromCreatedDate))
+            {
+                fromCreatedDate = DateTime.MinValue.ToString();
+            }
+            if (DateTime.TryParse(fromCreatedDate, out from) && DateTime.TryParse(toCreatedDate, out to))
+            {
+                invoices_result = invoices_result.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date);
+            }
+            #endregion
+            if (!string.IsNullOrEmpty(searchtext))
+            {
+                invoices_result = invoices_result.Where(x =>
+                        (!string.IsNullOrEmpty(x.InvoiceNumber) && x.InvoiceNumber.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.CustomerName) && x.CustomerName.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.Notes) && x.Notes.Contains(searchtext))
+                    );
+            }
+            if (!string.IsNullOrEmpty(dueIn))
+            {
+                invoices_result = invoices_result.Where(x => x.Paid != null && x.Paid.Value == false && x.DueDate != null);
+                switch (dueIn)
+                {
+                    case "over":
+                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date < DateTime.Now.Date );
+                        break;
+                    case "today":
+                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date == DateTime.Now.Date);
+                        break;
+                    case "tomorrow":
+                        DateTime tomorrow = DateTime.Now.AddDays(1);
+                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date == tomorrow.Date);
+                        break;
+                    case "next3":
+                        DateTime next3 = DateTime.Now.AddDays(3);
+                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next3.Date);
+                        break;
+                    case "next7":
+                        DateTime next7 = DateTime.Now.AddDays(7);
+                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next7.Date);
+                        break;
+                }
+                
+            }
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                invoices_result = invoices_result.OrderBy(sortBy + " " + sortDirection);
+            }
+
+            pagedRecord.TotalNetAmount = invoices_result.Sum(x => x.NetTotal);
+            pagedRecord.TotalRecords = invoices_result.Count();
+            pagedRecord.Content = invoices_result.Skip((page - 1) * pageSize).Take(pageSize);
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+
+            return pagedRecord;
         }
 
         // GET: api/InvoicesAPI/5
@@ -90,7 +180,10 @@ namespace StoreFertilizers.Controllers
             //var modifiedEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Modified).Select(x => x.Entity).ToList();
             //var addEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Added).Select(x => x.Entity).ToList();
             //var deletedEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted).Select(x => x.Entity).ToList();
-
+            if (invoice.Customer != null)
+            {
+                invoice.CustomerName = invoice.Customer.Name;
+            }
             _context.Entry(invoice).State = EntityState.Modified;
 
             #region "Handle Add detailInvoices"
@@ -121,8 +214,7 @@ namespace StoreFertilizers.Controllers
                 }
             }
             #endregion
-
-            
+                        
             try
             {
                 _context.SaveChanges();
@@ -150,7 +242,10 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpBadRequest(ModelState);
             }
-
+            if(invoice.Customer != null)
+            {
+                invoice.CustomerName = invoice.Customer.Name;
+            }
             _context.Invoices.Add(invoice);
             try
             {

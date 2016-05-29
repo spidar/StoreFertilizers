@@ -28,5 +28,9 @@ namespace StoreFertilizers.Models
         public virtual Provider Provider { get; set; }
         public string Notes { get; set; }
 
+        [NotMapped]
+        public int OrgProductID { get; set; }
+        [NotMapped]
+        public decimal OrgQty { get; set; }
     }
 }

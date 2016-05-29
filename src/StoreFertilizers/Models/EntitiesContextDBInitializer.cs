@@ -316,7 +316,7 @@ namespace StoreFertilizers.Models {
             };
             foreach (Stock p in stocks)
             {
-                context.Stock.Add(p);
+                context.Stocks.Add(p);
             }
             #endregion
 

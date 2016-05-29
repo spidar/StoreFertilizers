@@ -1,7 +1,7 @@
 ﻿(function() {
     'use strict';
 
-    angular.module('app').directive('datepicker', ['$parse', function ($parse) {
+    angular.module('app').directive('customdatepicker', ['$parse', function ($parse) {
         return {
             restrict: 'A',
             require: 'ngModel',
