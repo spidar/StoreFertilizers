@@ -8,7 +8,7 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25590520173621_StoreFertilizersDB")]
+    [Migration("25590601035301_StoreFertilizersDB")]
     partial class StoreFertilizersDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -415,15 +415,11 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<int?>("ProviderID");
 
-                    b.Property<string>("ProviderName");
-
                     b.Property<DateTime?>("PurchaseDate");
 
                     b.Property<string>("PurchaseNumber");
 
                     b.Property<decimal>("PurchasePricePerUnit");
-
-                    b.Property<int?>("PurchaseTypePurchaseTypeID");
 
                     b.Property<decimal>("Qty");
 
@@ -434,19 +430,6 @@ namespace StoreFertilizers.Migrations
                     b.Property<decimal>("VAT");
 
                     b.HasKey("PurchaseID");
-                });
-
-            modelBuilder.Entity("StoreFertilizers.Models.PurchaseType", b =>
-                {
-                    b.Property<int>("PurchaseTypeID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descr");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("PurchaseTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Stock", b =>
@@ -590,10 +573,6 @@ namespace StoreFertilizers.Migrations
                     b.HasOne("StoreFertilizers.Models.Provider")
                         .WithMany()
                         .HasForeignKey("ProviderID");
-
-                    b.HasOne("StoreFertilizers.Models.PurchaseType")
-                        .WithMany()
-                        .HasForeignKey("PurchaseTypePurchaseTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Stock", b =>

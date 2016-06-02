@@ -52,7 +52,11 @@ namespace StoreFertilizers.Models {
             List<ProductType> productTypes = new List<ProductType>
             {
                 new ProductType { Name = "ปุ๋ย", Descr = "" },
-                new ProductType { Name = "ยา", Descr = "" }
+                new ProductType { Name = "ปุ๋ยเกร็ด", Descr = "" },
+                new ProductType { Name = "ยา", Descr = "" },
+                new ProductType { Name = "ยาฆ่าหญ้า", Descr = "" },
+                new ProductType { Name = "ฮอร์โมน", Descr = "" },
+                new ProductType { Name = "พรีเมี่ยม", Descr = "" }
             };
             foreach (ProductType item in productTypes)
             {
@@ -77,6 +81,7 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region let's add some dummy Bank data:
+            /*
             List<Bank> banks = new List<Bank>
             {
                 new Bank { Name = "กรุงเทพ", Descr = "" },
@@ -92,9 +97,11 @@ namespace StoreFertilizers.Models {
             {
                 context.Banks.Add(item);
             }
+            */
             #endregion
 
             #region let's add some dummy PaymentType data:
+            /*
             List<PaymentType> paymentTypes = new List<PaymentType>
             {
                 new PaymentType { Name = "เงินสด", Descr = "" },
@@ -105,6 +112,7 @@ namespace StoreFertilizers.Models {
             {
                 context.PaymentTypes.Add(pt);
             }
+            */
             #endregion
 
             #region let's add some dummy employee data:
@@ -143,8 +151,6 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region Add some dummy random invoices
-            //var dummy_services = new string[] { "ปุ๋ย-กระต่าย", "ปุ๋ย-ยาร่า", "ออติว่า ขนาด 500 ซีซี", "ไธอะ โนซาน ขนาด 1 กก.", "ปุ๋ย-นิโตรฟอสก้า Perfect 15-5-20", "พรีมาตรอน" };
-
             string invoice_number = string.Empty;
             for (int m = 1; m <= DateTime.Now.Month; m++)
             {
@@ -215,6 +221,7 @@ namespace StoreFertilizers.Models {
                     }
 
                     invoice.Paid = new Random().Next(0, 10) >= 1; //low probability of unpaid
+                    /*
                     if (invoice.Paid.Value)
                     {
                         invoice.PaymentType = paymentTypes[new Random(m).Next(0, paymentTypes.Count - 1)]; //random payment type
@@ -234,6 +241,7 @@ namespace StoreFertilizers.Models {
                         invoice.PaidCollector = "ผู้รับเงินหมายเลข " + i;
                         invoice.PaidCollectedDate = invoice.PaidDate;
                     }
+                    */
                     invoice.DeliveryByPerson = "ผู้ส่งของหมายเลข " + i;
                     invoice.ReceivedByPerson = "ผู้รับสินค้าหมายเลข " + i;
                     invoice.ReceivedProductDate = invoice.DeliveryDate;

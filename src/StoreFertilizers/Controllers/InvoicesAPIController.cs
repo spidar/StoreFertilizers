@@ -150,6 +150,7 @@ namespace StoreFertilizers.Controllers
             {
                 invoice.Customer = _context.Customers.SingleOrDefault(i => i.CustomerID == invoice.CustomerID);
             }
+            /*
             if (invoice.PaymentTypeID != null)
             {
                 invoice.PaymentType = _context.PaymentTypes.SingleOrDefault(i => i.PaymentTypeID == invoice.PaymentTypeID);
@@ -158,6 +159,7 @@ namespace StoreFertilizers.Controllers
             {
                 invoice.Bank = _context.Banks.SingleOrDefault(i => i.BankID == invoice.BankID);
             }
+            */
             #endregion
 
             return Ok(invoice);

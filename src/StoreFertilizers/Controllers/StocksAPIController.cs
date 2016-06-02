@@ -28,7 +28,7 @@ namespace StoreFertilizers.Controllers
             return _context.Stocks;
         }
 
-        public PagedList GetStocksPaging(string searchtext = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
+        public PagedList GetStocksPaging(string searchtext = "", int productTypeID = 0, int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
         {
             //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
@@ -41,6 +41,7 @@ namespace StoreFertilizers.Controllers
                     Product = stock.Product,
                     ProductNumber = stock.Product.ProductNumber,
                     ProductName = stock.Product.Name,
+                    ProductTypeID = stock.Product.ProductType.ProductTypeID,
                     ProductUnitTypeName = stock.Product.UnitType.Name,
                     Location = stock.Location,
                     Balance = stock.Balance,
@@ -50,6 +51,10 @@ namespace StoreFertilizers.Controllers
                     LastUpdated = stock.LastUpdated,
                     Notes = stock.Notes
                 });
+            if (productTypeID > 0)
+            {
+                stock_result = stock_result.Where(x => x.ProductTypeID == productTypeID);
+            }
             if (!string.IsNullOrEmpty(searchtext))
             {
                 stock_result = stock_result.Where(x =>

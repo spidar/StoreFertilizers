@@ -16,6 +16,7 @@
             var customerAPI = '/CustomersAPI';
             var employeeAPI = '/EmployeesAPI';
             var productAPI = '/ProductsAPI';
+            var productTypesAPI = '/ProductTypesAPI';
             var unitTypeAPI = '/UnitTypesAPI';
             var bankAPI = '/BanksAPI';
             var paymentTypesAPI = '/PaymentTypesAPI';
@@ -138,6 +139,14 @@
             };
             servicesFactory.getProductByID = function (id) {
                 return $http.get(urlBase + productAPI + '/' + id);
+            }; 
+
+            /* ProductType */
+            servicesFactory.getProductTypes = function () {
+                return $http.get(urlBase + productTypesAPI);
+            };
+            servicesFactory.getProductTypeByID = function (id) {
+                return $http.get(urlBase + productTypesAPI + '/' + id);
             };
 
             /* UnitType */

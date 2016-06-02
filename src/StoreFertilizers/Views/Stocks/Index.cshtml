@@ -9,7 +9,12 @@
             <div class="panel-body">
                 <table class="table borderless" style="margin:0px;">
                     <tr>
-                        <td width="300px" style="border:none;">
+                        <td width="120px" style="border:none;vertical-align:middle;">
+                            <select class="form-control input-sm display-inline" style="width:120px;" ng-model="data.filterOptions.productType" ng-options='option.name for option in data.productTypeList'>
+                                <option value="">-ทุกชนิดสินค้า-</option>
+                            </select>
+                        </td>
+                        <td style="border:none;">
                             <input type="text" ng-model="data.filterOptions.filterText" class="col-xs-3 form-control input-sm" style="max-width:300px;" placeholder="ค้นหาจาก รหัส,ชื่อสินค้า,ที่เก็บ,หมายเหตุ" />
                             <button type="submit" ng-click="getStocksByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;margin:0px 5px;">
                                 <span class="glyphicon glyphicon-search"></span> ค้นหา

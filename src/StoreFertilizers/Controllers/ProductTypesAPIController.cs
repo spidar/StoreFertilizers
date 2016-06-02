@@ -8,57 +8,57 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Controllers
 {
     [Produces("application/json")]
-    [Route("api/PaymentTypesAPI")]
-    public class PaymentTypesAPIController : Controller
+    [Route("api/ProductTypesAPI")]
+    public class ProductTypesAPIController : Controller
     {
         private ApplicationDbContext _context;
 
-        public PaymentTypesAPIController(ApplicationDbContext context)
+        public ProductTypesAPIController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/PaymentTypesAPI
+        // GET: api/ProductTypesAPI
         [HttpGet]
-        public IEnumerable<PaymentType> GetPaymentTypes()
+        public IEnumerable<ProductType> GetProductTypes()
         {
-            return _context.PaymentTypes;
+            return _context.ProductTypes;
         }
 
-        // GET: api/PaymentTypesAPI/5
-        [HttpGet("{id}", Name = "GetPaymentType")]
-        public IActionResult GetPaymentType([FromRoute] int id)
+        // GET: api/ProductTypesAPI/5
+        [HttpGet("{id}", Name = "GetProductType")]
+        public IActionResult GetProductType([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            PaymentType paymentType = _context.PaymentTypes.Single(m => m.PaymentTypeID == id);
+            ProductType productType = _context.ProductTypes.Single(m => m.ProductTypeID == id);
 
-            if (paymentType == null)
+            if (productType == null)
             {
                 return HttpNotFound();
             }
 
-            return Ok(paymentType);
+            return Ok(productType);
         }
 
-        // PUT: api/PaymentTypesAPI/5
+        // PUT: api/ProductTypesAPI/5
         [HttpPut("{id}")]
-        public IActionResult PutPaymentType(int id, [FromBody] PaymentType paymentType)
+        public IActionResult PutProductType(int id, [FromBody] ProductType productType)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            if (id != paymentType.PaymentTypeID)
+            if (id != productType.ProductTypeID)
             {
                 return HttpBadRequest();
             }
 
-            _context.Entry(paymentType).State = EntityState.Modified;
+            _context.Entry(productType).State = EntityState.Modified;
 
             try
             {
@@ -66,7 +66,7 @@ namespace StoreFertilizers.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PaymentTypeExists(id))
+                if (!ProductTypeExists(id))
                 {
                     return HttpNotFound();
                 }
@@ -79,23 +79,23 @@ namespace StoreFertilizers.Controllers
             return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
         }
 
-        // POST: api/PaymentTypesAPI
+        // POST: api/ProductTypesAPI
         [HttpPost]
-        public IActionResult PostPaymentType([FromBody] PaymentType paymentType)
+        public IActionResult PostProductType([FromBody] ProductType productType)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            _context.PaymentTypes.Add(paymentType);
+            _context.ProductTypes.Add(productType);
             try
             {
                 _context.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (PaymentTypeExists(paymentType.PaymentTypeID))
+                if (ProductTypeExists(productType.ProductTypeID))
                 {
                     return new HttpStatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -105,28 +105,28 @@ namespace StoreFertilizers.Controllers
                 }
             }
 
-            return CreatedAtRoute("GetPaymentType", new { id = paymentType.PaymentTypeID }, paymentType);
+            return CreatedAtRoute("GetProductType", new { id = productType.ProductTypeID }, productType);
         }
 
-        // DELETE: api/PaymentTypesAPI/5
+        // DELETE: api/ProductTypesAPI/5
         [HttpDelete("{id}")]
-        public IActionResult DeletePaymentType(int id)
+        public IActionResult DeleteProductType(int id)
         {
             if (!ModelState.IsValid)
             {
                 return HttpBadRequest(ModelState);
             }
 
-            PaymentType paymentType = _context.PaymentTypes.Single(m => m.PaymentTypeID == id);
-            if (paymentType == null)
+            ProductType productType = _context.ProductTypes.Single(m => m.ProductTypeID == id);
+            if (productType == null)
             {
                 return HttpNotFound();
             }
 
-            _context.PaymentTypes.Remove(paymentType);
+            _context.ProductTypes.Remove(productType);
             _context.SaveChanges();
 
-            return Ok(paymentType);
+            return Ok(productType);
         }
 
         protected override void Dispose(bool disposing)
@@ -138,9 +138,9 @@ namespace StoreFertilizers.Controllers
             base.Dispose(disposing);
         }
 
-        private bool PaymentTypeExists(int id)
+        private bool ProductTypeExists(int id)
         {
-            return _context.PaymentTypes.Count(e => e.PaymentTypeID == id) > 0;
+            return _context.ProductTypes.Count(e => e.ProductTypeID == id) > 0;
         }
     }
 }

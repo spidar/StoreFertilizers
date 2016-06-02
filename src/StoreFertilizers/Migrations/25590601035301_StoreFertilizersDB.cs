@@ -151,19 +151,6 @@ namespace StoreFertilizers.Migrations
                     table.PrimaryKey("PK_Provider", x => x.ProviderID);
                 });
             migrationBuilder.CreateTable(
-                name: "PurchaseType",
-                columns: table => new
-                {
-                    PurchaseTypeID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Descr = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PurchaseType", x => x.PurchaseTypeID);
-                });
-            migrationBuilder.CreateTable(
                 name: "UnitType",
                 columns: table => new
                 {
@@ -416,11 +403,9 @@ namespace StoreFertilizers.Migrations
                     Notes = table.Column<string>(nullable: true),
                     ProductID = table.Column<int>(nullable: false),
                     ProviderID = table.Column<int>(nullable: true),
-                    ProviderName = table.Column<string>(nullable: true),
                     PurchaseDate = table.Column<DateTime>(nullable: true),
                     PurchaseNumber = table.Column<string>(nullable: true),
                     PurchasePricePerUnit = table.Column<decimal>(nullable: false),
-                    PurchaseTypePurchaseTypeID = table.Column<int>(nullable: true),
                     Qty = table.Column<decimal>(nullable: false),
                     QtyRemain = table.Column<decimal>(nullable: false),
                     SalePrice = table.Column<decimal>(nullable: false),
@@ -440,12 +425,6 @@ namespace StoreFertilizers.Migrations
                         column: x => x.ProviderID,
                         principalTable: "Provider",
                         principalColumn: "ProviderID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Purchase_PurchaseType_PurchaseTypePurchaseTypeID",
-                        column: x => x.PurchaseTypePurchaseTypeID,
-                        principalTable: "PurchaseType",
-                        principalColumn: "PurchaseTypeID",
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
@@ -501,7 +480,6 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("AspNetUsers");
             migrationBuilder.DropTable("Invoice");
             migrationBuilder.DropTable("Provider");
-            migrationBuilder.DropTable("PurchaseType");
             migrationBuilder.DropTable("Product");
             migrationBuilder.DropTable("Bank");
             migrationBuilder.DropTable("Customer");

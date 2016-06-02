@@ -13,11 +13,13 @@
             $scope.data = {
                 providerList: null,
                 productList: null,
+                productTypeList: null,
                 unitTypeList: null,
 
                 totalPages: 0,
                 totalItems: 0,
                 filterOptions: {
+                    productType: null,
                     filterText: '',
                     fromPurchaseDate: null,
                     toPurchaseDate: null,
@@ -50,6 +52,7 @@
 
                 var params = {
                     searchtext: $scope.data.filterOptions.filterText,
+                    productTypeID: (!$scope.data.filterOptions.productType) ? 0 : $scope.data.filterOptions.productType.productTypeID,
                     fromPurchaseDate: $scope.data.filterOptions.fromPurchaseDate,
                     toPurchaseDate: $scope.data.filterOptions.toPurchaseDate,
                     page: $scope.data.pagingOptions.currentPage,
@@ -99,6 +102,14 @@
                     $scope.data.providerList = response.data;
                 }, function (error) {
                     $scope.status = 'ไม่สามารถโหลดข้อมูลผู้ให้บริการได้: ' + error.statusText;
+                });
+            }
+            $scope.getAllProductTypes = function () {
+                servicesFactory.getProductTypes()
+                .then(function (response) {
+                    $scope.data.productTypeList = response.data;
+                }, function (error) {
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลชนิดสินค้าได้: ' + error.statusText;
                 });
             }
             $scope.getAllUnitTypes = function () {
@@ -266,8 +277,8 @@
                 $scope.getPurchasesByFilters();
                 $scope.getAllProviders();
                 $scope.getAllProducts();
+                $scope.getAllProductTypes();
                 $scope.getAllUnitTypes();
-
             })()
             //End init
         }

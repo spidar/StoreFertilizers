@@ -12,11 +12,13 @@
             $scope.showLoading = false;
             $scope.data = {
                 productList: null,
+                productTypeList: null,
                 unitTypeList: null,
 
                 totalPages: 0,
                 totalItems: 0,
                 filterOptions: {
+                    productType: null,
                     filterText: '',
                     externalFilter: 'searchText',
                     useExternalFilter: true
@@ -45,6 +47,7 @@
 
                 var params = {
                     searchtext: $scope.data.filterOptions.filterText,
+                    productTypeID: (!$scope.data.filterOptions.productType) ? 0 : $scope.data.filterOptions.productType.productTypeID,
                     page: $scope.data.pagingOptions.currentPage,
                     pageSize: $scope.data.pagingOptions.pageSize,
                     sortBy: $scope.data.sortOptions.field,
@@ -74,6 +77,14 @@
                     $scope.data.productList = response.data;
                 }, function (error) {
                     $scope.status = 'ไม่สามารถโหลดข้อมูลสินค้าได้: ' + error.statusText;
+                });
+            }
+            $scope.getAllProductTypes = function () {
+                servicesFactory.getProductTypes()
+                .then(function (response) {
+                    $scope.data.productTypeList = response.data;
+                }, function (error) {
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลชนิดสินค้าได้: ' + error.statusText;
                 });
             }
             $scope.getAllUnitTypes = function () {
@@ -224,8 +235,8 @@
             (function init() {
                 $scope.getStocksByFilters();
                 $scope.getAllProducts();
+                $scope.getAllProductTypes();
                 $scope.getAllUnitTypes();
-
             })()
             //End init
         }

@@ -414,15 +414,11 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<int?>("ProviderID");
 
-                    b.Property<string>("ProviderName");
-
                     b.Property<DateTime?>("PurchaseDate");
 
                     b.Property<string>("PurchaseNumber");
 
                     b.Property<decimal>("PurchasePricePerUnit");
-
-                    b.Property<int?>("PurchaseTypePurchaseTypeID");
 
                     b.Property<decimal>("Qty");
 
@@ -433,19 +429,6 @@ namespace StoreFertilizers.Migrations
                     b.Property<decimal>("VAT");
 
                     b.HasKey("PurchaseID");
-                });
-
-            modelBuilder.Entity("StoreFertilizers.Models.PurchaseType", b =>
-                {
-                    b.Property<int>("PurchaseTypeID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descr");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("PurchaseTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Stock", b =>
@@ -589,10 +572,6 @@ namespace StoreFertilizers.Migrations
                     b.HasOne("StoreFertilizers.Models.Provider")
                         .WithMany()
                         .HasForeignKey("ProviderID");
-
-                    b.HasOne("StoreFertilizers.Models.PurchaseType")
-                        .WithMany()
-                        .HasForeignKey("PurchaseTypePurchaseTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Stock", b =>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 
 namespace StoreFertilizers.Models
@@ -23,10 +19,9 @@ namespace StoreFertilizers.Models
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<InvoiceDetails> InvoiceDetails { get; set; }
         public DbSet<Stock> Stocks { get; set; }
-
-        public DbSet<Bank> Banks { get; set; }
+        //public DbSet<Bank> Banks { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<PaymentType> PaymentTypes { get; set; }
+        //public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<UnitType> UnitTypes { get; set; }

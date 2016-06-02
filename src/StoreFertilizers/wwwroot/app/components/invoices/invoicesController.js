@@ -15,8 +15,8 @@
                 employeeList: null,
                 productList: null,
                 unitTypeList: null,
-                bankList: null,
-                paymentTypeList: null,
+                //bankList: null,
+                //paymentTypeList: null,
                 purchaseList: null
             };
 
@@ -272,8 +272,8 @@
                 $scope.getAllEmployee();
                 $scope.getAllProducts();
                 $scope.getAllUnitTypes();
-                $scope.getAllBanks();
-                $scope.getAllPaymentTypes();
+                //$scope.getAllBanks();
+                //$scope.getAllPaymentTypes();
                 $scope.getAllPurchases();
 
                 var absUrl = $location.absUrl();

@@ -29,7 +29,7 @@ namespace StoreFertilizers.Controllers
         }
 
         [HttpGet]
-        public PagedList GetPurchasesPaging(string searchtext = "", string fromPurchaseDate = "", string toPurchaseDate = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "desc")
+        public PagedList GetPurchasesPaging(string searchtext = "", int productTypeID = 0, string fromPurchaseDate = "", string toPurchaseDate = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "desc")
         {
             //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
@@ -44,6 +44,7 @@ namespace StoreFertilizers.Controllers
                     OrgProductID = purc.ProductID,
                     Product = purc.Product,
                     ProductName = purc.Product.Name,
+                    ProductTypeID = purc.Product.ProductType.ProductTypeID,
                     ProductUnitTypeName = purc.Product.UnitType.Name,
                     Qty = purc.Qty,
                     OrgQty = purc.Qty,
@@ -59,6 +60,10 @@ namespace StoreFertilizers.Controllers
                     ProviderName = purc.Provider.Name,
                     Notes = purc.Notes
                 });
+            if (productTypeID > 0)
+            {
+                purchases_result = purchases_result.Where(x => x.ProductTypeID == productTypeID);
+            }
             #region Handle from and to purchase date
             DateTime from, to;
             if (!string.IsNullOrEmpty(fromPurchaseDate) && string.IsNullOrEmpty(toPurchaseDate))
