@@ -104,7 +104,7 @@ namespace StoreFertilizers
 
                         var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
 
-                        if (context != null && context.Products.Count() > 0)
+                        if (context != null && context.Products.Any() == false)
                         {
                             EntitiesContextInitializer.Seed(context);
                         }

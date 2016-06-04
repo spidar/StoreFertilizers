@@ -298,6 +298,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<decimal>("Amount");
 
+                    b.Property<DateTime?>("CreatedDate");
+
                     b.Property<decimal?>("Discount");
 
                     b.Property<decimal?>("ExpectedProfit");

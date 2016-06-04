@@ -12,6 +12,7 @@ namespace StoreFertilizers.Models
         [Display(Name = "ใบส่งสินค้าเลขที่")]
         public int InvoiceID { get; set; }
         //public virtual Invoice Invoice { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         [Display(Name = "สินค้า")]
         //[Required(ErrorMessage = "กรุณาระบุสินค้า")]

@@ -111,7 +111,7 @@ namespace StoreFertilizers.Controllers
             pagedRecord.Content = invoices_result.Skip((page - 1) * pageSize).Take(pageSize);
             pagedRecord.CurrentPage = page;
             pagedRecord.PageSize = pageSize;
-
+            
             return pagedRecord;
         }
 
@@ -202,6 +202,7 @@ namespace StoreFertilizers.Controllers
             #region "Handle Edit and Delete"
             foreach (var item in invoice.InvoiceDetails)
             {
+                item.CreatedDate = invoice.CreatedDate;
                 if (item.InvoiceDetailsID > 0)
                 {
                     bool isDeleted = (item.IsDeleted != null && item.IsDeleted.Value);
@@ -247,6 +248,10 @@ namespace StoreFertilizers.Controllers
             if(invoice.Customer != null)
             {
                 invoice.CustomerName = invoice.Customer.Name;
+            }
+            foreach(var item in invoice.InvoiceDetails)
+            {
+                item.CreatedDate = invoice.CreatedDate;
             }
             _context.Invoices.Add(invoice);
             try

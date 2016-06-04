@@ -47,7 +47,7 @@
                             </div>
                         </td>
                         <td style="border:none;vertical-align:middle;">
-                            <button type="submit" ng-click="getInvoicesByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="width:120px;">
+                            <button type="submit" ng-click="updateViewByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="width:120px;">
                                 <span class="glyphicon glyphicon-search"></span> ค้นหา
                             </button>&nbsp;
                         </td>
@@ -62,7 +62,7 @@
     </div>
     <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
     <div class="row" ng-show="!showLoading" style="padding-top:10px;">
-        <div class="col-xs-3" style="padding-left:5px;padding-right:5px;">
+        <div class="col-xs-6" style="padding-left:5px;padding-right:5px;">
             <div class="panel panel-primary" style="margin:0px;">
                 <div class="panel-heading" style="min-height:100px;">
                     <div class="row">
@@ -80,19 +80,7 @@
                     <div class="row">
                         <div class="col-xs-12 text-center">
                             <div style="font-size: 40px;">{{data.totalItems}}</div>
-                            <div>รายการทั้งหมด</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-3" style="padding-left:5px;padding-right:5px;">
-            <div class="panel panel-danger" style="margin:0px;">
-                <div class="panel-heading" style="min-height:100px;">
-                    <div class="row">
-                        <div class="col-xs-12 text-center">
-                            <div style="font-size: 40px;">--</div>
-                            <div>ต้นทุนสินค้า</div>
+                            <div>บิลทั้งหมด</div>
                         </div>
                     </div>
                 </div>
@@ -103,8 +91,8 @@
                 <div class="panel-heading" style="min-height:100px;">
                     <div class="row">
                         <div class="col-xs-12 text-center">
-                            <div style="font-size: 40px;">--</div>
-                            <div>กำไรหลังหักต้นทุน</div>
+                            <div style="font-size: 40px;">{{data.totalProductDetails}}</div>
+                            <div>สินค้าทั้งหมด</div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +102,7 @@
     <div ng-show="!showLoading">
         <md-tabs md-dynamic-height md-border-bottom>
             <md-tab label="ตารางใบรายการส่งของ">
-                <div ng-show="!showLoading" class="widget stacked widget-table action-table">
+                <div class="widget stacked widget-table action-table">
                     <div class="table-responsive widget-content">
                         <table class="table table-bordered table-striped table-hover">
                             <thead class="thead-inverse">
@@ -127,7 +115,7 @@
                                             <span ng-show="data.sortOptions.field == 'createdDate' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                                         </a>
                                     </th>
-                                    <th width="40px" style="text-align:center;">
+                                    <th width="70px" style="text-align:center;">
                                         <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'isTax'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
                                             ภาษี
                                             <span ng-show="data.sortOptions.field == 'isTax' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -155,7 +143,7 @@
                                             <span ng-show="data.sortOptions.field == 'netTotal' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                                         </a>
                                     </th>
-                                    <th width="40px" style="text-align:center;">
+                                    <th width="70px" style="text-align:center;">
                                         <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'paid'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
                                             ชำระ
                                             <span ng-show="data.sortOptions.field == 'paid' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -201,6 +189,91 @@
                     </div>
                 </div>
                 <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
+            </md-tab>
+            <md-tab label="ตารางรายการสินค้า">
+                <div class="widget stacked widget-table action-table">
+                    <div class="table-responsive widget-content">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="thead-inverse">
+                                <tr class="widget-header">
+                                    <th width="40px" style="text-align:center;"></th>
+                                    <th width="100px" style="text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'createdDate'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            วันที่
+                                            <span ng-show="data.sortOptions.fieldDetails == 'createdDate' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'createdDate' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th width="100px" style="text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'productTypeName'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            ชนิดสินค้า
+                                            <span ng-show="data.sortOptions.fieldDetails == 'productTypeName' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'productTypeName' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th style="min-width:150px;text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'productName'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            ชื่อสินค้า
+                                            <span ng-show="data.sortOptions.fieldDetails == 'productName' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'productName' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th width="100px" style="text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'qty'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            จำนวน
+                                            <span ng-show="data.sortOptions.fieldDetails == 'qty' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'qty' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th width="90px" style="text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'productUnitTypeName'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            หน่วย
+                                            <span ng-show="data.sortOptions.fieldDetails == 'productUnitTypeName' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'productUnitTypeName' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th style="text-align:center;min-width:100px;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'pricePerUnit'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            ราคาต่อหน่วย
+                                            <span ng-show="data.sortOptions.fieldDetails == 'pricePerUnit' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'pricePerUnit' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th width="100px" style="text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'discount'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            ส่วนลด%
+                                            <span ng-show="data.sortOptions.fieldDetails == 'discount' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'discount' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                    <th style="min-width:100px;text-align:center;">
+                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'amount'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
+                                            จำนวนเงิน
+                                            <span ng-show="data.sortOptions.fieldDetails == 'amount' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
+                                            <span ng-show="data.sortOptions.fieldDetails == 'amount' && !data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in invoiceDetails">
+                                    <td class="noPrint" style="text-align:center;vertical-align:middle;">
+                                        <a href="Invoices/Edit/{{item.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                    </td>
+                                    <td style="text-align:center;">{{item.createdDate | date: 'dd/MM/yyyy'}}</td>
+                                    <td style="text-align:center;">{{item.productTypeName}}</td>
+                                    <td>{{item.productName}}</td>
+                                    <td style="text-align:right;">{{item.qty}}</td>
+                                    <td style="text-align:center;">{{item.productUnitTypeName}}</td>
+                                    <td style="text-align:right;">{{item.pricePerUnit | number:2}}</td>
+                                    <td style="text-align:center;">{{item.discount}}</td>
+                                    <td style="text-align:right;">{{item.amount | number:2}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <pagination total-items="data.totalItemsDetails" ng-model="data.pagingOptions.currentPageDetails" ng-change="getInvoiceDetailsByFilters()" class="pagination-sm"></pagination>
             </md-tab>
             <md-tab label="กราฟ">
                 <md-content class="md-padding">

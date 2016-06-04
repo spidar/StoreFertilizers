@@ -181,6 +181,7 @@ namespace StoreFertilizers.Models {
                         var fiftyDiscount = new Random().Next(0, 1);
                         var fiftyProfit = new Random().Next(0, 1);
 
+                        invoiceDetails.CreatedDate = invoice.CreatedDate;
                         //invoiceDetails.ProductID = products[new Random(id).Next(0, products.Count - 1)].ProductID;
                         invoiceDetails.Product = products[new Random(id).Next(0, products.Count - 1)];
                         //invoiceDetails.ProductID = invoiceDetails.Product.ProductID;

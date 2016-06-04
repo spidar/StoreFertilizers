@@ -44,8 +44,10 @@
             };
 
             /* InvoiceDetails */
-            servicesFactory.getInvoiceDetails = function () {
-                return $http.get(urlBase + invoiceDetailsAPI);
+            servicesFactory.getInvoiceDetails = function (parameters) {
+                return $http.get(urlBase + invoiceDetailsAPI, {
+                    params: parameters
+                });
             };
             servicesFactory.getInvoiceDetailByID = function (id) {
                 return $http.get(urlBase + invoiceDetailsAPI + '/' + id);

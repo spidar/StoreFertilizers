@@ -17,11 +17,18 @@
                 totalNetAmount: 0,
                 totalPages: 0,
                 totalItems: 0,
+                totalNetAmountDetails: 0,
+                totalPagesDetails: 0,
+                totalItemsDetails: 0,
+                totalProductDetails: 0,
                 filterOptions: {
                     filterText: '',
+                    filterTextDetails: '',
                     isTax: 'notax',
                     fromCreatedDate: dateOffset,
                     toCreatedDate: dateOffset,
+                    fromCreatedDateDetails: dateOffset,
+                    toCreatedDateDetails: dateOffset,
                     sumIn: 'today',
                     externalFilter: 'searchText',
                     useExternalFilter: true
@@ -30,12 +37,16 @@
                     fields: ['invoiceID', 'createdDate', 'invoiceNumber', 'cueDate', 'providerName'],
                     field: 'createdDate',
                     directions: ['desc', 'asc'],
-                    sortReverse: true
+                    fieldDetails: 'createdDate',
+                    directionsDetails: ['desc', 'asc'],
+                    sortReverse: true,
+                    sortReverseDetails: true
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
                     pageSize: 20,
-                    currentPage: 1
+                    currentPage: 1,
+                    currentPageDetails: 1
                 }
             };
 
@@ -46,6 +57,7 @@
             // End Line Chart
 
             $scope.invoices = {};
+            $scope.invoiceDetails = {};
 
             $scope.sumInChange = function (item) {
                 var today = new Date($scope.data.filterOptions.toCreatedDate);
@@ -91,6 +103,8 @@
                     $scope.data.totalPages = response.data.totalPages;
                     $scope.data.pagingOptions.currentPage = response.data.currentPage;
                     // Fill Chart
+                    $scope.lineChartLabels = [];//["ม.ค.", "ก.พ.", "ม.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค."];
+                    $scope.lineChartData = [[]];
                     for (var i = 0; i < $scope.invoices.length; i++) {
                         $scope.lineChartLabels.push(moment($scope.invoices[i].createdDate).format('DD/MM/YYYY'));
                         $scope.lineChartData[0].push($scope.invoices[i].netTotal);
@@ -107,10 +121,55 @@
                     }, 1000);
                 });
             }
+            $scope.getInvoiceDetailsByFilters = function () {
+                $scope.showLoading = true;
+
+                var params = {
+                    searchtext: $scope.data.filterOptions.filterText,
+                    fromCreatedDate: $scope.data.filterOptions.fromCreatedDate,
+                    toCreatedDate: $scope.data.filterOptions.toCreatedDate,
+                    page: $scope.data.pagingOptions.currentPageDetails,
+                    pageSize: $scope.data.pagingOptions.pageSize,
+                    sortBy: $scope.data.sortOptions.fieldDetails,
+                    sortDirection: ($scope.data.sortOptions.sortReverseDetails) ? 'desc' : 'asc'
+                };
+
+                servicesFactory.getInvoiceDetails(params)
+                .then(function (response) {
+                    $scope.invoiceDetails = response.data.contentDetails;
+                    $scope.data.totalProductDetails = response.data.totalProductDetails;
+                    $scope.data.totalNetAmountDetails = response.data.totalNetAmountDetails;
+                    $scope.data.totalItemsDetails = response.data.totalRecordsDetails;
+                    $scope.data.totalPagesDetails = response.data.totalPagesDetails;
+                    $scope.data.pagingOptions.currentPageDetails = response.data.currentPageDetails;
+                    // Fill Chart
+                    /*
+                    for (var i = 0; i < $scope.invoices.length; i++) {
+                        $scope.lineChartLabels.push(moment($scope.invoices[i].createdDate).format('DD/MM/YYYY'));
+                        $scope.lineChartData[0].push($scope.invoices[i].netTotal);
+                    }
+                    */
+                    //
+                    $timeout(function () {
+                        $scope.showLoading = false;
+                        $scope.status = '';
+                    }, 1000);
+                }, function (error) {
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลได้ : ' + error.statusText;
+                    $timeout(function () {
+                        $scope.showLoading = false;
+                    }, 1000);
+                });
+            }
             //
+            $scope.updateViewByFilters = function () {
+                $scope.getInvoicesByFilters();
+                $scope.getInvoiceDetailsByFilters();
+            }
 
             //Init all data
             $scope.getInvoicesByFilters();
+            $scope.getInvoiceDetailsByFilters();
             //End init
         }
         ]);

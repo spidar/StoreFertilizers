@@ -367,6 +367,7 @@ namespace StoreFertilizers.Migrations
                     InvoiceDetailsID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<decimal>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
                     Discount = table.Column<decimal>(nullable: true),
                     ExpectedProfit = table.Column<decimal>(nullable: true),
                     InvoiceID = table.Column<int>(nullable: false),
