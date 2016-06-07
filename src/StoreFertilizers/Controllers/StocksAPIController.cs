@@ -27,7 +27,7 @@ namespace StoreFertilizers.Controllers
         {
             return _context.Stocks;
         }
-
+        [HttpGet]
         public PagedList GetStocksPaging(string searchtext = "", int productTypeID = 0, int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
         {
             //sortDirection "asc", "desc"

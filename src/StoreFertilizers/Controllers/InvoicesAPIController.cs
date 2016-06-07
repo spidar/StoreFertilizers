@@ -7,6 +7,7 @@ using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
 using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
+using StoreFertilizers.Models.ModelView;
 
 namespace StoreFertilizers.Controllers
 {
@@ -33,25 +34,7 @@ namespace StoreFertilizers.Controllers
         {
             //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
-
-            var invoices_result = _context.Invoices.Include(cus => cus.Customer).ToList()
-                .Select(invoice => new
-                {
-                    InvoiceID = invoice.InvoiceID,
-                    InvoiceNumber = invoice.InvoiceNumber,
-                    CreatedDate = invoice.CreatedDate,
-                    DueDate = invoice.DueDate,
-                    CustomerName = (invoice.Customer!=null) ? invoice.Customer.Name : invoice.CustomerName,
-                    Paid = invoice.Paid,
-                    NetTotal = invoice.NetTotal,
-                    IsTax = invoice.IsTax,
-                    Notes = invoice.Notes
-                });
-            if (!string.IsNullOrEmpty(isTax))
-            {
-                bool tax = isTax.Equals("tax") ? true : false;
-                invoices_result = invoices_result.Where(x => x.IsTax == tax);
-            }
+            IEnumerable<InvoiceView> invoices_result = null;
             #region Handle from and to purchase date
             DateTime from, to;
             if (!string.IsNullOrEmpty(fromCreatedDate) && string.IsNullOrEmpty(toCreatedDate))
@@ -64,24 +47,45 @@ namespace StoreFertilizers.Controllers
             }
             if (DateTime.TryParse(fromCreatedDate, out from) && DateTime.TryParse(toCreatedDate, out to))
             {
-                invoices_result = invoices_result.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date);
+                invoices_result = _context.Invoices.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date).Include(cus => cus.Customer).ToList()
+                .Select(invoice => new InvoiceView()
+                {
+                    InvoiceID = invoice.InvoiceID,
+                    InvoiceNumber = invoice.InvoiceNumber,
+                    CreatedDate = invoice.CreatedDate,
+                    DueDate = invoice.DueDate,
+                    CustomerName = (invoice.Customer != null) ? invoice.Customer.Name : invoice.CustomerName,
+                    Paid = invoice.Paid,
+                    NetTotal = invoice.NetTotal,
+                    IsTax = invoice.IsTax,
+                    Notes = invoice.Notes
+                });
+            }
+            else
+            {
+                invoices_result = _context.Invoices.Include(cus => cus.Customer).ToList()
+                .Select(invoice => new InvoiceView()
+                {
+                    InvoiceID = invoice.InvoiceID,
+                    InvoiceNumber = invoice.InvoiceNumber,
+                    CreatedDate = invoice.CreatedDate,
+                    DueDate = invoice.DueDate,
+                    CustomerName = (invoice.Customer != null) ? invoice.Customer.Name : invoice.CustomerName,
+                    Paid = invoice.Paid,
+                    NetTotal = invoice.NetTotal,
+                    IsTax = invoice.IsTax,
+                    Notes = invoice.Notes
+                });
             }
             #endregion
-            if (!string.IsNullOrEmpty(searchtext))
-            {
-                invoices_result = invoices_result.Where(x =>
-                        (!string.IsNullOrEmpty(x.InvoiceNumber) && x.InvoiceNumber.Contains(searchtext)) ||
-                        (!string.IsNullOrEmpty(x.CustomerName) && x.CustomerName.Contains(searchtext)) ||
-                        (!string.IsNullOrEmpty(x.Notes) && x.Notes.Contains(searchtext))
-                    );
-            }
+            #region "Handle DueDate"
             if (!string.IsNullOrEmpty(dueIn))
             {
                 invoices_result = invoices_result.Where(x => x.Paid != null && x.Paid.Value == false && x.DueDate != null);
                 switch (dueIn)
                 {
                     case "over":
-                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date < DateTime.Now.Date );
+                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date < DateTime.Now.Date);
                         break;
                     case "today":
                         invoices_result = invoices_result.Where(x => x.DueDate.Value.Date == DateTime.Now.Date);
@@ -99,8 +103,23 @@ namespace StoreFertilizers.Controllers
                         invoices_result = invoices_result.Where(x => x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next7.Date);
                         break;
                 }
-                
+
             }
+            #endregion
+            if (!string.IsNullOrEmpty(isTax))
+            {
+                bool tax = isTax.Equals("tax") ? true : false;
+                invoices_result = invoices_result.Where(x => x.IsTax == tax);
+            }
+            if (!string.IsNullOrEmpty(searchtext))
+            {
+                invoices_result = invoices_result.Where(x =>
+                        (!string.IsNullOrEmpty(x.InvoiceNumber) && x.InvoiceNumber.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.CustomerName) && x.CustomerName.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.Notes) && x.Notes.Contains(searchtext))
+                    );
+            }
+            
             if (!string.IsNullOrEmpty(sortBy))
             {
                 invoices_result = invoices_result.OrderBy(sortBy + " " + sortDirection);

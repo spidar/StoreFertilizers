@@ -1,66 +1,95 @@
-@model IEnumerable<StoreFertilizers.Models.Product>
-
 @{
+    ViewData["Title"] = "สินค้า";
 }
-<hr />
-<p>
-    <a asp-action="Create" class="btn btn-success" role="button">
-        <i class="glyphicon glyphicon-plus"></i> เพิ่มสินค้า
-    </a>
-    <button type="button" class="btn btn-info">
-        <span class="glyphicon glyphicon-search"></span> ค้นหา
-    </button>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            หมายเลขสินค้า
-        </th>
-        <th>
-            ชื่อ
-        </th>
-        <th>
-            คำอธิบาย
-        </th>
-        <th>
-            ราคาทุน
-        </th>
-        <th>
-            ราคาขาย
-        </th>
-        <th></th>
-    </tr>
-    
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descr)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OriginalPrice)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            <a asp-action="Edit" asp-route-id="@item.ProductID" class="btn btn-warning btn-xs" role="button">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
-            <!--
-            <a asp-action="Details" asp-route-id="@item.ProductID" class="btn btn-info btn-xs" role="button">
-                <i class="glyphicon glyphicon-info-sign"></i>
-            </a>
-            -->
-            <a asp-action="Delete" asp-route-id="@item.ProductID" class="btn btn-danger btn-xs" role="button">
-                <i class="glyphicon glyphicon-remove"></i>
-            </a>
-        </td>
-    </tr>
-}
-</table>
+<form name="myForm" class="form-horizontal" role="form" ng-controller="productsController">
+    <br />
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <table class="table borderless" style="margin:0px;">
+                    <tr>
+                        <td style="border:none;">
+                            <input type="text" ng-model="data.filterOptions.filterText" class="col-xs-3 form-control input-sm" style="max-width:300px;" placeholder="ค้นหาจาก รหัส,ชื่อสินค้า,ที่เก็บ,หมายเหตุ" />
+                            <button type="submit" ng-click="getProductsByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;margin:0px 5px;">
+                                <span class="glyphicon glyphicon-search"></span> ค้นหา
+                            </button>&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        {{status}}
+    </div>
+    <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
+    <div ng-show="!showLoading" class="widget stacked widget-table action-table">
+        <div class="table-responsive widget-content">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="thead-inverse">
+                    <tr class="widget-header">
+                        <th width="70px" style="text-align:center;min-width:70px">
+                            <a asp-action="Create" class="btn btn-success btn-xs" role="button">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </a>
+                        </th>
+                        <th width="100px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'productNumber'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProductsByFilters()">
+                                รหัสสินค้า
+                                <span ng-show="data.sortOptions.field == 'productNumber' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'productNumber' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="120px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'productTypeName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProductsByFilters()">
+                                ชนิดสินค้า
+                                <span ng-show="data.sortOptions.field == 'productTypeName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'productTypeName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th style="min-width:150px;text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'ProductName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProductsByFilters()">
+                                ชื่อสินค้า
+                                <span ng-show="data.sortOptions.field == 'ProductName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'ProductName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="100px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'price'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProductsByFilters()">
+                                ราคาขาย
+                                <span ng-show="data.sortOptions.field == 'price' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'price' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                        <th width="140px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'unitsPerPackageText'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProductsByFilters()">
+                                หน่วยต่อแพ็ค
+                                <span ng-show="data.sortOptions.field == 'unitsPerPackageText' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'unitsPerPackageText' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in products">
+                        <td class="noPrint" style="text-align:center;vertical-align:middle;">
+                            <a asp-action="Edit" class="btn btn-warning btn-xs" role="button">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a asp-action="Edit" class="btn btn-danger btn-xs" role="button">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </td>
+                        <td>{{item.productNumber}}</td>
+                        <td>{{item.productTypeName}}</td>
+                        <td>{{item.productName}}</td>
+                        <td style="text-align:right;">{{item.price | number}}</td>
+                        <td style="text-align:center;">{{item.unitsPerPackageText}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getProductsByFilters()" class="pagination-sm"></pagination>
+</form>

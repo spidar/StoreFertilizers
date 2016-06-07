@@ -21,8 +21,9 @@ namespace StoreFertilizers.Controllers
         // GET: Products
         public IActionResult Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.ProductType).Include(p => p.UnitType);
-            return View(applicationDbContext.ToList());
+            //var applicationDbContext = _context.Products.Include(p => p.ProductType).Include(p => p.UnitType);
+            //return View(applicationDbContext.ToList());
+            return View(null);
         }
 
         // GET: Products/Details/5

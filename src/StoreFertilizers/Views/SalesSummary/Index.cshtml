@@ -3,7 +3,7 @@
 }
 <form name="myForm" class="form-horizontal" role="form" ng-controller="salesSummaryController">
     <br />
-    <div class="row" ng-show="!showLoading">
+    <div class="row">
         <div class="panel panel-default" style="margin:0px;">
             <div class="panel-body">
                 <table class="table borderless" style="margin:0px;">
@@ -61,7 +61,7 @@
         {{status}}
     </div>
     <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
-    <div class="row" ng-show="!showLoading" style="padding-top:10px;">
+    <div class="row" style="padding-top:10px;">
         <div class="col-xs-6" style="padding-left:5px;padding-right:5px;">
             <div class="panel panel-primary" style="margin:0px;">
                 <div class="panel-heading" style="min-height:100px;">
@@ -99,8 +99,7 @@
             </div>
         </div>
     </div>
-    <div ng-show="!showLoading">
-        <md-tabs md-dynamic-height md-border-bottom>
+    <md-tabs md-dynamic-height md-border-bottom>
             <md-tab label="ตารางใบรายการส่งของ">
                 <div class="widget stacked widget-table action-table">
                     <div class="table-responsive widget-content">
@@ -188,7 +187,7 @@
                         </table>
                     </div>
                 </div>
-                <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
+                <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
             </md-tab>
             <md-tab label="ตารางรายการสินค้า">
                 <div class="widget stacked widget-table action-table">
@@ -204,7 +203,7 @@
                                             <span ng-show="data.sortOptions.fieldDetails == 'createdDate' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-up"></span>
                                         </a>
                                     </th>
-                                    <th width="100px" style="text-align:center;">
+                                    <th width="120px" style="text-align:center;">
                                         <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'productTypeName'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
                                             ชนิดสินค้า
                                             <span ng-show="data.sortOptions.fieldDetails == 'productTypeName' && data.sortOptions.sortReverseDetails" class="glyphicon glyphicon-chevron-down"></span>
@@ -255,25 +254,43 @@
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr ng-repeat="item in invoiceDetails">
+                            <tbody ng-repeat="item in invoiceDetails" ng-show="data.totalItems > 0">                                
+                                <tr>
                                     <td class="noPrint" style="text-align:center;vertical-align:middle;">
-                                        <a href="Invoices/Edit/{{item.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                        <button type="button" ng-click="data.toggleOptions.itemID = item.productID; data.toggleOptions.itemCollape = !data.toggleOptions.itemCollape;" class="btn btn-success btn-xs">
+                                            <span class="glyphicon glyphicon-collapse-down"></span>
+                                        </button>
                                     </td>
-                                    <td style="text-align:center;">{{item.createdDate | date: 'dd/MM/yyyy'}}</td>
-                                    <td style="text-align:center;">{{item.productTypeName}}</td>
-                                    <td>{{item.productName}}</td>
-                                    <td style="text-align:right;">{{item.qty}}</td>
-                                    <td style="text-align:center;">{{item.productUnitTypeName}}</td>
-                                    <td style="text-align:right;">{{item.pricePerUnit | number:2}}</td>
-                                    <td style="text-align:center;">{{item.discount}}</td>
-                                    <td style="text-align:right;">{{item.amount | number:2}}</td>
+                                    <td colspan="3"><strong>{{item.productTypeName}} - {{item.productName}}</strong></td>
+                                    <td style="text-align:right;"><strong>{{item.sumQty}}</strong></td>
+                                    <td style="text-align:center;"><strong>{{item.productUnitTypeName}}</strong></td>
+                                    <td style="text-align:right;"></td>
+                                    <td style="text-align:center;"></td>
+                                    <td style="text-align:right;"><strong>{{item.sumAmount | number:2}}</strong></td>
+                                </tr>
+                                <tr ng-show="data.toggleOptions.itemID == itemDetail.productID && data.toggleOptions.itemCollape" ng-repeat="itemDetail in item.fullDetails">
+                                    <td class="noPrint" style="text-align:center;vertical-align:middle;">
+                                        <a href="Invoices/Edit/{{itemDetail.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-info-sign"></i></a>
+                                    </td>
+                                    <td style="text-align:center;">{{itemDetail.createdDate | date: 'dd/MM/yyyy'}}</td>
+                                    <td style="text-align:center;">{{itemDetail.productTypeName}}</td>
+                                    <td>{{itemDetail.productName}}</td>
+                                    <td style="text-align:right;">{{itemDetail.qty}}</td>
+                                    <td style="text-align:center;">{{itemDetail.productUnitTypeName}}</td>
+                                    <td style="text-align:right;">{{itemDetail.pricePerUnit | number:2}}</td>
+                                    <td style="text-align:center;">{{itemDetail.discount}}</td>
+                                    <td style="text-align:right;">{{itemDetail.amount | number:2}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-show="data.totalItems == 0">
+                                <tr>
+                                    <td colspan="9">ไม่พบข้อมูล</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <pagination total-items="data.totalItemsDetails" ng-model="data.pagingOptions.currentPageDetails" ng-change="getInvoiceDetailsByFilters()" class="pagination-sm"></pagination>
+                <pagination total-items="data.totalItemsDetails" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPageDetails" ng-change="getInvoiceDetailsByFilters()" class="pagination-sm"></pagination>
             </md-tab>
             <md-tab label="กราฟ">
                 <md-content class="md-padding">
@@ -284,5 +301,4 @@
                 </md-content>
             </md-tab>
         </md-tabs>
-    </div>
 </form>

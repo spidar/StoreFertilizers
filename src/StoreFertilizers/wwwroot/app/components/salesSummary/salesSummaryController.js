@@ -21,6 +21,10 @@
                 totalPagesDetails: 0,
                 totalItemsDetails: 0,
                 totalProductDetails: 0,
+                toggleOptions:{
+                    itemID: '',
+                    itemCollape: false
+                },
                 filterOptions: {
                     filterText: '',
                     filterTextDetails: '',
@@ -44,7 +48,7 @@
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
-                    pageSize: 20,
+                    pageSize: 500,
                     currentPage: 1,
                     currentPageDetails: 1
                 }
@@ -128,6 +132,7 @@
                     searchtext: $scope.data.filterOptions.filterText,
                     fromCreatedDate: $scope.data.filterOptions.fromCreatedDate,
                     toCreatedDate: $scope.data.filterOptions.toCreatedDate,
+                    groupping: true,
                     page: $scope.data.pagingOptions.currentPageDetails,
                     pageSize: $scope.data.pagingOptions.pageSize,
                     sortBy: $scope.data.sortOptions.fieldDetails,
@@ -136,12 +141,12 @@
 
                 servicesFactory.getInvoiceDetails(params)
                 .then(function (response) {
-                    $scope.invoiceDetails = response.data.contentDetails;
-                    $scope.data.totalProductDetails = response.data.totalProductDetails;
-                    $scope.data.totalNetAmountDetails = response.data.totalNetAmountDetails;
-                    $scope.data.totalItemsDetails = response.data.totalRecordsDetails;
-                    $scope.data.totalPagesDetails = response.data.totalPagesDetails;
-                    $scope.data.pagingOptions.currentPageDetails = response.data.currentPageDetails;
+                    $scope.invoiceDetails = response.data.content;
+                    $scope.data.totalProductDetails = response.data.totalProducts;
+                    $scope.data.totalNetAmountDetails = response.data.totalNetAmount;
+                    $scope.data.totalItemsDetails = response.data.totalRecords;
+                    $scope.data.totalPagesDetails = response.data.totalPages;
+                    $scope.data.pagingOptions.currentPageDetails = response.data.currentPage;
                     // Fill Chart
                     /*
                     for (var i = 0; i < $scope.invoices.length; i++) {

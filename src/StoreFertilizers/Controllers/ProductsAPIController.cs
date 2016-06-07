@@ -4,6 +4,8 @@ using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
+using StoreFertilizers.Models.Paging;
+using System.Linq.Dynamic;
 
 namespace StoreFertilizers.Controllers
 {
@@ -18,12 +20,49 @@ namespace StoreFertilizers.Controllers
             _context = context;
         }
 
-        // GET: api/ProductsAPI
-        [HttpGet]
-        public IEnumerable<Product> GetProducts()
+        [HttpGet("GetAllStocks")]
+        public IEnumerable<Product> GetAllProducts()
         {
             return _context.Products.Include(i => i.ProductType).Include(i => i.UnitType);
         }
+        // GET: api/ProductsAPI
+        [HttpGet]
+        public PagedList GetProductsPaging(string searchtext = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
+        {
+            //sortDirection "asc", "desc"
+            var pagedRecord = new PagedList();
+
+            var product_result = _context.Products.Include(i => i.ProductType).Include(i => i.UnitType)
+                .Select(product => new
+                {
+                    ProductNumber = product.ProductNumber,
+                    ProductTypeName = product.ProductType.Name,
+                    ProductName = product.Name,
+                    Price = product.Price,
+                    unitsPerPackageText = product.UnitsPerPackageText
+                });
+            if (!string.IsNullOrEmpty(searchtext))
+            {
+                product_result = product_result.Where(x =>
+                        (!string.IsNullOrEmpty(x.ProductNumber) && x.ProductNumber.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.ProductName) && x.ProductName.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.ProductTypeName) && x.ProductTypeName.Contains(searchtext))
+                    );
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                product_result = product_result.OrderBy(sortBy + " " + sortDirection);
+            }
+
+            pagedRecord.TotalRecords = product_result.Count();
+            pagedRecord.Content = product_result.Skip((page - 1) * pageSize).Take(pageSize);
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+
+            return pagedRecord;
+        }
+
 
         // GET: api/ProductsAPI/5
         [HttpGet("{id}", Name = "GetProduct")]

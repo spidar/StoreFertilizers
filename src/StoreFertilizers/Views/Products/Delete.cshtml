@@ -1,42 +1,31 @@
 @model StoreFertilizers.Models.Product
 
 @{
+    ViewData["Title"] = "ลบสินค้า";
 }
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>คุณแน่ใจที่จะลบข้อมูลสินค้านี้หรือไม่?</h3>
 <div>
-    <h4>Product</h4>
+    <h4>ลบข้อมูลสินค้า</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Descr)
+            หมายเลขสินค้า
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Descr)
+            @Html.DisplayFor(model => model.ProductNumber)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            ชื่อสินค้า
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OriginalPrice)
+            คำอธิบาย
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.OriginalPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProductNumber)
+            @Html.DisplayFor(model => model.Descr)
         </dd>
     </dl>
     

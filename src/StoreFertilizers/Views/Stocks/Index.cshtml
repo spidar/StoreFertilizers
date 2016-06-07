@@ -97,7 +97,7 @@
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getStocksByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getStocksByFilters()" class="pagination-sm"></pagination>
 </form>
 
 @section Scripts {

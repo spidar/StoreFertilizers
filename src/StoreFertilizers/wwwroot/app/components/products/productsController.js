@@ -3,35 +3,31 @@
 
     angular
         .module('app')
-        .controller('invoicesIndexController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
+        .controller('productsController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
         function ($scope, $location, $timeout, $filter, servicesFactory) {
 
-            var today = new Date();
-            var val = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
-            var offset = moment(val, 'DD/MM/YYYY').utcOffset();
-            var dateOffset = new Date(moment(val, 'DD/MM/YYYY').add(offset, 'm'));
-            var totalDays = moment(val, 'DD/MM/YYYY').add(offset, 'm');
-
             $scope.status = '';
+            $scope.selected = {};
+            $scope.isNewItem = false;
             $scope.showLoading = false;
             $scope.data = {
-                totalNetAmount: 0,
+                productList: null,
+                productTypeList: null,
+                unitTypeList: null,
+
                 totalPages: 0,
                 totalItems: 0,
                 filterOptions: {
+                    productType: null,
                     filterText: '',
-                    isTax: 'notax',                    
-                    fromCreatedDate: new Date(totalDays.subtract(3, 'day')),
-                    toCreatedDate: dateOffset,
-                    dueIn: '',
                     externalFilter: 'searchText',
                     useExternalFilter: true
                 },
                 sortOptions: {
-                    fields: ['invoiceID', 'createdDate', 'invoiceNumber', 'cueDate', 'providerName'],
-                    field: 'createdDate',
+                    fields: ['stockID', 'productNumber', 'productName', 'location', 'notes'],
+                    field: 'productName',
                     directions: ['desc', 'asc'],
-                    sortReverse: true
+                    sortReverse: false
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
@@ -40,28 +36,27 @@
                 }
             };
 
-            $scope.invoices = {};
+            $scope.products = {};
 
             // Get All
-            $scope.getInvoicesByFilters = function () {
+            $scope.getProductsByFilters = function () {
+                if ($scope.isNewItem) {
+                    $scope.reset($scope.selected);
+                }
                 $scope.showLoading = true;
 
                 var params = {
                     searchtext: $scope.data.filterOptions.filterText,
-                    fromCreatedDate: $scope.data.filterOptions.fromCreatedDate,
-                    toCreatedDate: $scope.data.filterOptions.toCreatedDate,
-                    isTax: $scope.data.filterOptions.isTax,
-                    dueIn: $scope.data.filterOptions.dueIn,
+                    productTypeID: (!$scope.data.filterOptions.productType) ? 0 : $scope.data.filterOptions.productType.productTypeID,
                     page: $scope.data.pagingOptions.currentPage,
                     pageSize: $scope.data.pagingOptions.pageSize,
                     sortBy: $scope.data.sortOptions.field,
                     sortDirection: ($scope.data.sortOptions.sortReverse) ? 'desc' : 'asc'
                 };
 
-                servicesFactory.getInvoices(params)
+                servicesFactory.getProducts(params)
                 .then(function (response) {
-                    $scope.invoices = response.data.content;
-                    $scope.data.totalNetAmount = response.data.totalNetAmount;
+                    $scope.products = response.data.content;
                     $scope.data.totalItems = response.data.totalRecords;
                     $scope.data.totalPages = response.data.totalPages;
                     $scope.data.pagingOptions.currentPage = response.data.currentPage;
@@ -70,16 +65,17 @@
                         $scope.status = '';
                     }, 1000);
                 }, function (error) {
-                    $scope.status = 'ไม่สามารถโหลดข้อมูลได้ : ' + error.statusText;
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลสต๊อกได้ : ' + error.statusText;
                     $timeout(function () {
                         $scope.showLoading = false;
                     }, 1000);
                 });
-            }
-            //
+            };
 
             //Init all data
-            $scope.getInvoicesByFilters();
+            (function init() {
+                $scope.getProductsByFilters();
+            })()
             //End init
         }
         ]);

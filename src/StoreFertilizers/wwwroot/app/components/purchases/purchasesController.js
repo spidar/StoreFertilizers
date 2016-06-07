@@ -6,6 +6,12 @@
         .controller('purchasesController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
         function ($scope, $location, $timeout, $filter, servicesFactory) {
 
+            var today = new Date();
+            var val = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+            var offset = moment(val, 'DD/MM/YYYY').utcOffset();
+            var dateOffset = new Date(moment(val, 'DD/MM/YYYY').add(offset, 'm'));
+            var totalDays = moment(val, 'DD/MM/YYYY').add(offset, 'm');
+
             $scope.status = '';
             $scope.selected = {};
             $scope.isNewItem = false;
@@ -21,8 +27,8 @@
                 filterOptions: {
                     productType: null,
                     filterText: '',
-                    fromPurchaseDate: null,
-                    toPurchaseDate: null,
+                    fromPurchaseDate: new Date(totalDays.subtract(3, 'day')),
+                    toPurchaseDate: dateOffset,
                     externalFilter: 'searchText',
                     useExternalFilter: true
                 },
@@ -34,7 +40,7 @@
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
-                    pageSize: 20,
+                    pageSize: 50,
                     currentPage: 1
                 }
             };

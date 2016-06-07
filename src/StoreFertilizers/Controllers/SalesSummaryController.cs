@@ -18,8 +18,9 @@ namespace StoreFertilizers.Controllers
         // GET: SalesSummary
         public IActionResult Index()
         {
-            var applicationDbContext = _context.Invoices.Include(i => i.Bank).Include(i => i.Customer).Include(i => i.Employee).Include(i => i.PaymentType);
-            return View(applicationDbContext.ToList());
+            //var applicationDbContext = _context.Invoices.Include(i => i.Bank).Include(i => i.Customer).Include(i => i.Employee).Include(i => i.PaymentType);
+            //return View(applicationDbContext.ToList());
+            return View(null);
         }
 
         // GET: SalesSummary/Details/5

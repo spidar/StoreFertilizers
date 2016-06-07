@@ -64,6 +64,20 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-md-2 control-label">หน่วยต่อแพ็ค</label>
+            <div class="col-md-10">
+                <input asp-for="UnitsPerPackage" class="form-control" />
+                <span asp-validation-for="UnitsPerPackage" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">ตัวอักษรหน่วยต่อแพ็ค (ต.ย. ลัง*24)</label>
+            <div class="col-md-10">
+                <input asp-for="UnitsPerPackageText" class="form-control" />
+                <span asp-validation-for="UnitsPerPackageText" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="บันทึก" class="btn btn-default" />
             </div>

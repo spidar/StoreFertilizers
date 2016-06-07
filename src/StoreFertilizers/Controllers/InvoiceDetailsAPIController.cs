@@ -7,6 +7,7 @@ using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
 using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
+using StoreFertilizers.Models.ModelView;
 
 namespace StoreFertilizers.Controllers
 {
@@ -23,29 +24,13 @@ namespace StoreFertilizers.Controllers
 
         // GET: api/InvoiceDetailsAPI
         [HttpGet]
-        public PagedList GetInvoiceDetails(string searchtext = "", string fromCreatedDate = "", string toCreatedDate = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
+        public PagedList GetInvoiceDetails(string searchtext = "", string fromCreatedDate = "", string toCreatedDate = "", bool groupping = false, int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
         {
             //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
 
-            var prod_resutls = _context.InvoiceDetails.Include(p => p.Product).Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).ToList();
-            var invoices_details_result = _context.InvoiceDetails.Include(p => p.Product).Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).ToList()
-                .Select(details => new
-                {
-                    InvoiceDetailsID = details.InvoiceDetailsID,
-                    InvoiceID = details.InvoiceID,
-                    CreatedDate = details.CreatedDate,
-                    ProductID = details.ProductID,
-                    //Product = details.Product,
-                    ProductName = details.Product.Name,
-                    ProductTypeID = details.Product.ProductType.ProductTypeID,
-                    ProductTypeName = details.Product.ProductType.Name,
-                    ProductUnitTypeName = details.Product.UnitType.Name,
-                    Qty = details.Qty,
-                    PricePerUnit = details.PricePerUnit,
-                    Discount = details.Discount,
-                    Amount = details.Amount
-                });
+            IEnumerable<InvoiceDetailsView> invoices_details_result = null;
+
             #region Handle from and to created date
             DateTime from, to;
             if (!string.IsNullOrEmpty(fromCreatedDate) && string.IsNullOrEmpty(toCreatedDate))
@@ -58,9 +43,39 @@ namespace StoreFertilizers.Controllers
             }
             if (DateTime.TryParse(fromCreatedDate, out from) && DateTime.TryParse(toCreatedDate, out to))
             {
-                invoices_details_result = invoices_details_result.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date);
+                invoices_details_result = _context.InvoiceDetails.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date).Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).
+                    Select(details => new InvoiceDetailsView()
+                    {
+                        InvoiceID = details.InvoiceID,
+                        CreatedDate = details.CreatedDate,
+                        ProductID = details.ProductID,
+                        ProductName = details.Product.Name,
+                        ProductTypeName = details.Product.ProductType.Name,
+                        ProductUnitTypeName = details.Product.UnitType.Name,
+                        Qty = details.Qty,
+                        PricePerUnit = details.PricePerUnit,
+                        Discount = details.Discount,
+                        Amount = details.Amount
+                    });
             }
             #endregion
+            if (invoices_details_result == null)
+            {
+                invoices_details_result = _context.InvoiceDetails.Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).
+                    Select(details => new InvoiceDetailsView()
+                    {
+                        InvoiceID = details.InvoiceID,
+                        CreatedDate = details.CreatedDate,
+                        ProductID = details.ProductID,
+                        ProductName = details.Product.Name,
+                        ProductTypeName = details.Product.ProductType.Name,
+                        ProductUnitTypeName = details.Product.UnitType.Name,
+                        Qty = details.Qty,
+                        PricePerUnit = details.PricePerUnit,
+                        Discount = details.Discount,
+                        Amount = details.Amount
+                    });
+            }
             if (!string.IsNullOrEmpty(searchtext))
             {
                 invoices_details_result = invoices_details_result.Where(x =>
@@ -73,13 +88,32 @@ namespace StoreFertilizers.Controllers
                 invoices_details_result = invoices_details_result.OrderBy(sortBy + " " + sortDirection);
             }
 
-            pagedRecord.TotalProductDetails = invoices_details_result.GroupBy(x => x.ProductID).Count();
-
-            pagedRecord.TotalNetAmountDetails = invoices_details_result.Sum(x => x.Amount);
-            pagedRecord.TotalRecordsDetails = invoices_details_result.Count();
-            pagedRecord.ContentDetails = invoices_details_result.Skip((page - 1) * pageSize).Take(pageSize);
-            pagedRecord.CurrentPageDetails = page;
-            pagedRecord.PageSizeDetails = pageSize;
+            pagedRecord.TotalNetAmount = invoices_details_result.Sum(x => x.Amount);
+            pagedRecord.TotalProducts = invoices_details_result.GroupBy(x => x.ProductID).Count();
+            pagedRecord.TotalRecords = invoices_details_result.Count();
+            invoices_details_result = invoices_details_result.Skip((page - 1) * pageSize).Take(pageSize);
+            if (groupping)
+            {
+                pagedRecord.Content = invoices_details_result.GroupBy(x => x.ProductName)
+                    .Select(row => new
+                    {
+                        ProductID = row.First().ProductID,
+                        ProductTypeName = row.First().ProductTypeName,
+                        ProductName = row.First().ProductName,
+                        ProductUnitTypeName = row.First().ProductUnitTypeName,
+                        SumQty = row.Sum(q => q.Qty),
+                        SumAmount = row.Sum(a => a.Amount),
+                        FullDetails = row.ToList()
+                    }).ToList().OrderBy("ProductName " + sortDirection);
+            }
+            else
+            {
+                pagedRecord.Content = invoices_details_result;
+            }
+            //pagedRecord.Content = invoices_details_result.Skip((page - 1) * pageSize).Take(pageSize);
+            
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
 
             return pagedRecord;
         }

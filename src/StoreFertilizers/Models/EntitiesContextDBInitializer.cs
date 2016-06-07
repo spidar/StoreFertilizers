@@ -26,7 +26,7 @@ namespace StoreFertilizers.Models {
                 new Customer {Name="สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", Address2 = "", ZipCode="10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
                 new Customer {Name="ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ", Address2 = "เขตสาทร กรุงเทพ 10120", ZipCode="10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
             };
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 500; i++)
             {
                 customers.Add(new Customer()
                 {
@@ -152,6 +152,7 @@ namespace StoreFertilizers.Models {
 
             #region Add some dummy random invoices
             string invoice_number = string.Empty;
+            //for(int a = 1; a <= 100; a++)
             for (int m = 1; m <= DateTime.Now.Month; m++)
             {
                 for (int i = 0; i < 5; i++) {
@@ -281,6 +282,7 @@ namespace StoreFertilizers.Models {
 
             #region randon Expenses
             //var articles_dummy = new string[] { "Food expense", "Car expense", "Computer item", "Train ticket", "Plain ticket" };
+            //for (int a = 1; a <= 100; a++)
             for (int m = 1; m < DateTime.Now.Month; m++)
             {
                 int expenses_count_per_month = new Random(m).Next(5, 15);

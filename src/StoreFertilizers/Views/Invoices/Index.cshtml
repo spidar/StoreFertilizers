@@ -137,7 +137,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in invoices">
+                    <tr ng-repeat="item in invoices" ng-show="data.totalItems > 0">
                         <td class="noPrint" style="text-align:center;vertical-align:middle;">
                             <a href="Invoices/Edit/{{item.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="" class="btn btn-danger btn-xs" ng-click="removeInvoice(item)"><i class="glyphicon glyphicon-trash"></i></a>
@@ -155,9 +155,12 @@
                         <td style="text-align:center;">{{item.dueDate | date: 'dd/MM/yyyy'}}</td>
                         <td class="text-overflow">{{item.notes}}</td>
                     </tr>
+                    <tr ng-show="data.totalItems == 0">
+                        <td colspan="9">ไม่พบข้อมูล</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
 </form>

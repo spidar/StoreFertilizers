@@ -136,8 +136,10 @@
             };
 
             /* Product */
-            servicesFactory.getProducts = function () {
-                return $http.get(urlBase + productAPI);
+            servicesFactory.getProducts = function (parameters) {
+                return $http.get(urlBase + productAPI, {
+                    params: parameters
+                });
             };
             servicesFactory.getProductByID = function (id) {
                 return $http.get(urlBase + productAPI + '/' + id);

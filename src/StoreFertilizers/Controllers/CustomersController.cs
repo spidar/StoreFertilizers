@@ -18,7 +18,8 @@ namespace StoreFertilizers.Controllers
         // GET: Customers
         public IActionResult Index()
         {
-            return View(_context.Customers.ToList());
+            //return View(_context.Customers.ToList());
+            return View(null);
         }
 
         // GET: Customers/Details/5

@@ -21,8 +21,9 @@ namespace StoreFertilizers.Controllers
         // GET: Stocks
         public IActionResult Index()
         {
-            var applicationDbContext = _context.Stocks.Include(s => s.Product).Include(i => i.Product.UnitType);
-            return View(applicationDbContext.ToList());
+            //var applicationDbContext = _context.Stocks.Include(s => s.Product).Include(i => i.Product.UnitType);
+            //return View(applicationDbContext.ToList());
+            return View(null);
         }
 
         // GET: Stocks/Details/5

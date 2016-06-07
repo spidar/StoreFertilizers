@@ -60,7 +60,7 @@
                 <thead class="thead-inverse">
                     <tr class="widget-header">
                         <th width="70px" style="text-align:center;min-width:70px">
-                            <button type="submit" ng-click="addItem()" class="btn btn-success btn-xs">
+                            <button ng-show="data.pagingOptions.currentPage == 1" type="submit" ng-click="addItem()" class="btn btn-success btn-xs">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </th>
@@ -123,12 +123,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in purchases" ng-include="getTemplate(item)"></tr>
+                    <tr ng-show="data.totalItems > 0" ng-repeat="item in purchases" ng-include="getTemplate(item)"></tr>
+                    <tr ng-show="data.totalItems == 0"><td colspan="9">ไม่พบข้อมูล</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" ng-model="data.pagingOptions.currentPage" ng-change="getPurchasesByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getPurchasesByFilters()" class="pagination-sm"></pagination>
 </form>
 
 @section Scripts {
