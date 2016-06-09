@@ -1,0 +1,32 @@
+@model StoreFertilizers.Models.UnitType
+
+@{
+    ViewData["Title"] = "ลบ";
+}
+
+<h3>คุณต้องการลบข้อมูลนี้หรือไม่?</h3>
+<div>
+    <h4>หน่วยสินค้า</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            ชื่อ
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            คำอธิบายเพิ่มเติม
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descr)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="ลบ" class="btn btn-default" /> |
+            <a asp-action="Index">ย้อนกลับ</a>
+        </div>
+    </form>
+</div>

@@ -195,7 +195,9 @@
                         <table class="table table-bordered table-striped table-hover">
                             <thead class="thead-inverse">
                                 <tr class="widget-header">
-                                    <th width="40px" style="text-align:center;"></th>
+                                    <th width="40px" style="text-align:center;">
+                                        <input type="checkbox" ng-model="data.toggleOptions.itemGroupping" ng-click="data.toggleOptions.itemGroupping == !data.toggleOptions.itemGroupping">
+                                    </th>
                                     <th width="100px" style="text-align:center;">
                                         <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.fieldDetails = 'createdDate'; data.sortOptions.sortReverseDetails = !data.sortOptions.sortReverseDetails; getInvoiceDetailsByFilters()">
                                             วันที่
@@ -255,7 +257,7 @@
                                 </tr>
                             </thead>
                             <tbody ng-repeat="item in invoiceDetails" ng-show="data.totalItems > 0">                                
-                                <tr>
+                                <tr ng-show="data.toggleOptions.itemGroupping">
                                     <td class="noPrint" style="text-align:center;vertical-align:middle;">
                                         <button type="button" ng-click="data.toggleOptions.itemID = item.productID; data.toggleOptions.itemCollape = !data.toggleOptions.itemCollape;" class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-collapse-down"></span>
@@ -268,7 +270,7 @@
                                     <td style="text-align:center;"></td>
                                     <td style="text-align:right;"><strong>{{item.sumAmount | number:2}}</strong></td>
                                 </tr>
-                                <tr ng-show="data.toggleOptions.itemID == itemDetail.productID && data.toggleOptions.itemCollape" ng-repeat="itemDetail in item.fullDetails">
+                                <tr ng-show="(data.toggleOptions.itemID == itemDetail.productID && data.toggleOptions.itemCollape) || (!data.toggleOptions.itemGroupping)" ng-repeat="itemDetail in item.fullDetails">
                                     <td class="noPrint" style="text-align:center;vertical-align:middle;">
                                         <a href="Invoices/Edit/{{itemDetail.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-info-sign"></i></a>
                                     </td>

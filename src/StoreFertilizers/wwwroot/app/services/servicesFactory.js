@@ -13,15 +13,21 @@
             var purchasesAPI = '/PurchasesAPI';
             var stocksAPI = '/StocksAPI';
             var providersAPI = '/ProvidersAPI'
+            var getProvidersList = '/GetProvidersList';
             var customerAPI = '/CustomersAPI';
+            var getCustomersList = '/GetCustomersList';
             var employeeAPI = '/EmployeesAPI';
             var productAPI = '/ProductsAPI';
+            var productAPI_GetProductsList = '/GetProductsList';
             var productTypesAPI = '/ProductTypesAPI';
             var unitTypeAPI = '/UnitTypesAPI';
             var bankAPI = '/BanksAPI';
             var paymentTypesAPI = '/PaymentTypesAPI';
 
             /* Invoices */
+            servicesFactory.getInvoices = function () {
+                return $http.get(urlBase + invoiceAPI);
+            };
             servicesFactory.getInvoices = function (parameters) {
                 return $http.get(urlBase + invoiceAPI, {
                     params: parameters
@@ -111,9 +117,14 @@
                 return $http.delete(urlBase + stocksAPI + '/' + id);
             };
 
-            /* Customers */
+            /* Providers */
             servicesFactory.getProviders = function () {
-                return $http.get(urlBase + providersAPI);
+                return $http.get(urlBase + providersAPI + getProvidersList);
+            };
+            servicesFactory.getProvidersByParams = function (parameters) {
+                return $http.get(urlBase + providersAPI, {
+                    params: parameters
+                });
             };
             servicesFactory.getProviderByID = function (id) {
                 return $http.get(urlBase + providersAPI + '/' + id);
@@ -121,7 +132,12 @@
 
             /* Customers */
             servicesFactory.getCustomers = function () {
-                return $http.get(urlBase + customerAPI);
+                return $http.get(urlBase + customerAPI + getCustomersList);
+            };
+            servicesFactory.getCustomersByParams = function (parameters) {
+                return $http.get(urlBase + customerAPI, {
+                    params: parameters
+                });
             };
             servicesFactory.getCustomerByID = function (id) {
                 return $http.get(urlBase + customerAPI + '/' + id);
@@ -136,6 +152,9 @@
             };
 
             /* Product */
+            servicesFactory.getProductsList = function () {
+                return $http.get(urlBase + productAPI + productAPI_GetProductsList);
+            };
             servicesFactory.getProducts = function (parameters) {
                 return $http.get(urlBase + productAPI, {
                     params: parameters

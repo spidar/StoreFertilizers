@@ -6,6 +6,7 @@ using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
 using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
+using System.Collections;
 
 namespace StoreFertilizers.Controllers
 {
@@ -20,10 +21,19 @@ namespace StoreFertilizers.Controllers
             _context = context;
         }
 
-        [HttpGet("GetAllStocks")]
-        public IEnumerable<Product> GetAllProducts()
+        [HttpGet("GetProductsList")]
+        public IEnumerable GetProductsList()
         {
-            return _context.Products.Include(i => i.ProductType).Include(i => i.UnitType);
+            return _context.Products.Include(i => i.ProductType).Include(i => i.UnitType).Select(product => new
+            {
+                ProductID = product.ProductID,
+                ProductNumber = product.ProductNumber,
+                ProductTypeName = product.ProductType.Name,
+                ProductUnitTypeName = product.UnitType.Name,
+                Name = product.Name,
+                Price = product.Price,
+                UnitsPerPackageText = product.UnitsPerPackageText
+            });
         }
         // GET: api/ProductsAPI
         [HttpGet]
@@ -35,11 +45,12 @@ namespace StoreFertilizers.Controllers
             var product_result = _context.Products.Include(i => i.ProductType).Include(i => i.UnitType)
                 .Select(product => new
                 {
+                    ProductID = product.ProductID,
                     ProductNumber = product.ProductNumber,
                     ProductTypeName = product.ProductType.Name,
                     ProductName = product.Name,
                     Price = product.Price,
-                    unitsPerPackageText = product.UnitsPerPackageText
+                    UnitsPerPackageText = product.UnitsPerPackageText
                 });
             if (!string.IsNullOrEmpty(searchtext))
             {

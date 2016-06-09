@@ -1,22 +1,22 @@
-@model StoreFertilizers.Models.Customer
+@model StoreFertilizers.Models.Provider
 
 @{
-    ViewData["Title"] = "ลบข้อมูลลูกค้า";
+    ViewData["Title"] = "ลบ";
 }
 
 <h3>คุณแน่ใจที่จะลบข้อมูลนี่หรือไม่?</h3>
 <div>
-    <h4>ลูกค้า</h4>
+    <h4>ผู้จัดหา</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            รหัสลูกค้า
+            รหัส
         </dt>
         <dd>
             @Html.DisplayFor(model => model.CompanyNumber)
         </dd>
         <dt>
-            ชื่อลูกค้า / บริษัท
+            ชื่อ
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Name)
@@ -46,7 +46,7 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <div class="form-actions no-color">
             <input type="submit" value="ลบ" class="btn btn-default" /> |
@@ -54,3 +54,4 @@
         </div>
     </form>
 </div>
+

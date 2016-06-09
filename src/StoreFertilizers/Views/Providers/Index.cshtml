@@ -1,8 +1,8 @@
 @{
-    ViewData["Title"] = "ลูกค้า";
+    ViewData["Title"] = "ผู้จัดหา";
 }
 
-<form name="myForm" class="form-horizontal" role="form" ng-controller="customersController">
+<form name="myForm" class="form-horizontal" role="form" ng-controller="providersController">
     <br />
     <div class="row">
         <div class="panel panel-default">
@@ -11,7 +11,7 @@
                     <tr>
                         <td style="border:none;">
                             <input type="text" ng-model="data.filterOptions.filterText" class="col-xs-3 form-control input-sm" style="max-width:300px;" placeholder="ค้นหา" />
-                            <button type="submit" ng-click="getCustomersByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;margin:0px 5px;">
+                            <button type="submit" ng-click="getProvidersByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;margin:0px 5px;">
                                 <span class="glyphicon glyphicon-search"></span> ค้นหา
                             </button>&nbsp;
                         </td>
@@ -36,42 +36,42 @@
                             </a>
                         </th>
                         <th width="100px" style="text-align:center;">
-                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'companyNumber'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
-                                รหัสลูกค้า
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'companyNumber'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProvidersByFilters()">
+                                รหัส
                                 <span ng-show="data.sortOptions.field == 'companyNumber' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'companyNumber' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
                         <th width="150px" style="text-align:center;">
-                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'name'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'name'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProvidersByFilters()">
                                 ชื่อ
                                 <span ng-show="data.sortOptions.field == 'name' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'name' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
                         <th style="min-width:150px;text-align:center;">
-                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'address'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'address'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProvidersByFilters()">
                                 ที่อยู่
                                 <span ng-show="data.sortOptions.field == 'address' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'address' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
                         <th width="120px" style="text-align:center;">
-                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'phone1'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'phone1'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProvidersByFilters()">
                                 เบอร์โทร
                                 <span ng-show="data.sortOptions.field == 'phone1' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'phone1' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
                         <th width="120px" style="text-align:center;">
-                            <a href="#" ng-click="data.sortOptions.field = 'fax'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
-                                แฟกซ์
+                            <a href="#" ng-click="data.sortOptions.field = 'fax'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProvidersByFilters()">
+                               แฟกซ์
                                 <span ng-show="data.sortOptions.field == 'fax' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'fax' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
                         <th width="140px" style="text-align:center;">
-                            <a href="#" ng-click="data.sortOptions.field = 'email'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
+                            <a href="#" ng-click="data.sortOptions.field = 'email'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getProvidersByFilters()">
                                 อีเมลล์
                                 <span ng-show="data.sortOptions.field == 'email' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'email' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
@@ -80,10 +80,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in customers">
+                    <tr ng-repeat="item in providers">
                         <td class="noPrint" style="text-align:center;vertical-align:middle;">
-                            <a href="Customers/Edit/{{item.customerID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="Customers/Delete/{{item.customerID}}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a href="Providers/Edit/{{item.providerID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a href="Providers/Delete/{{item.providerID}}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                         <td style="text-align:center;">{{item.companyNumber}}</td>
                         <td>{{item.name}}</td>
@@ -96,5 +96,5 @@
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getCustomersByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getProvidersByFilters()" class="pagination-sm"></pagination>
 </form>

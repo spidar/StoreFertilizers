@@ -60,7 +60,7 @@
                 <thead class="thead-inverse">
                     <tr class="widget-header">
                         <th width="70px" style="text-align:center;min-width:70px">
-                            <button ng-show="data.pagingOptions.currentPage == 1" type="submit" ng-click="addItem()" class="btn btn-success btn-xs">
+                            <button ng-show="data.pagingOptions.currentPage == 1" type="submit" ng-click="addItem();" class="btn btn-success btn-xs">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
                         </th>
@@ -123,8 +123,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-show="data.totalItems > 0" ng-repeat="item in purchases" ng-include="getTemplate(item)"></tr>
-                    <tr ng-show="data.totalItems == 0"><td colspan="9">ไม่พบข้อมูล</td></tr>
+                    <tr ng-repeat="item in purchases" ng-include="getTemplate(item)"></tr>
                 </tbody>
             </table>
         </div>
@@ -176,7 +175,7 @@
         <input type="number" name="qty" ng-model="selected.qty" min="1" max="99999999" required class="form-control input-sm" style="text-align:right;max-width:none;">
         <span ng-show="!myForm.qty.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
     </td>
-    <td width="100px" style="text-align:center;">{{selected.product.unitType.name}}</td>
+    <td width="100px" style="text-align:center;">{{selected.product.productUnitTypeName}}</td>
     <td style="text-align:right;">
         <input type="number" name="purchasePricePerUnit" ng-model="selected.purchasePricePerUnit" style="text-align:right;max-width:none;" min="0" max="99999999" required class="form-control input-sm" placeholder="0.00" />
         <span ng-show="!myForm.purchasePricePerUnit.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>

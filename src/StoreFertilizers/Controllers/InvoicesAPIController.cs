@@ -124,7 +124,11 @@ namespace StoreFertilizers.Controllers
             {
                 invoices_result = invoices_result.OrderBy(sortBy + " " + sortDirection);
             }
-
+            pagedRecord.SumNetTotalEachDay = invoices_result.GroupBy(g => g.CreatedDate).Select(row => new
+            {
+                CreatedDate = row.First().CreatedDate,
+                SumNetTotalPerDay = row.Sum(a => a.NetTotal)
+            }).ToList();
             pagedRecord.TotalNetAmount = invoices_result.Sum(x => x.NetTotal);
             pagedRecord.TotalRecords = invoices_result.Count();
             pagedRecord.Content = invoices_result.Skip((page - 1) * pageSize).Take(pageSize);

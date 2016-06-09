@@ -4,6 +4,9 @@ using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
+using System.Collections;
+using StoreFertilizers.Models.Paging;
+using System.Linq.Dynamic;
 
 namespace StoreFertilizers.Controllers
 {
@@ -18,11 +21,43 @@ namespace StoreFertilizers.Controllers
             _context = context;
         }
 
-        // GET: api/ProvidersAPI
-        [HttpGet]
-        public IEnumerable<Provider> GetProviders()
+        [HttpGet("GetProvidersList")]
+        public IEnumerable GetProvidersList()
         {
             return _context.Providers;
+        }
+
+        // GET: api/ProvidersAPI
+        [HttpGet]
+        [HttpGet]
+        public PagedList GetProvidersPaging(string searchtext = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
+        {
+            //sortDirection "asc", "desc"
+            var pagedRecord = new PagedList();
+
+            var results = _context.Providers.ToList();
+            if (!string.IsNullOrEmpty(searchtext))
+            {
+                results = results.Where(x =>
+                        (!string.IsNullOrEmpty(x.CompanyNumber) && x.CompanyNumber.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.Name) && x.Name.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.Address) && x.Address.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.Phone1) && x.Phone1.Contains(searchtext)) ||
+                        (!string.IsNullOrEmpty(x.Fax) && x.Fax.Contains(searchtext))
+                    ).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                results = results.OrderBy(sortBy + " " + sortDirection).ToList();
+            }
+
+            pagedRecord.TotalRecords = results.Count();
+            pagedRecord.Content = results.Skip((page - 1) * pageSize).Take(pageSize);
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+
+            return pagedRecord;
         }
 
         // GET: api/ProvidersAPI/5

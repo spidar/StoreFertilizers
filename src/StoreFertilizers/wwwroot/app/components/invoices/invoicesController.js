@@ -67,7 +67,7 @@
             }
 
             $scope.getAllProducts = function()  {
-                servicesFactory.getProducts()
+                servicesFactory.getProductsList()
                 .then(function (response) {
                     $scope.data.productList = response.data;
                 }, function (error) {

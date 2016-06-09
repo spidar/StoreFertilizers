@@ -45,8 +45,6 @@ namespace StoreFertilizers.Models
         [RegularExpression(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", ErrorMessage = "Wrong email format")]
         public string Email { get; set; }
 
-        public string Notes { get; set; }
-
         //public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

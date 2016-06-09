@@ -31,7 +31,6 @@ namespace StoreFertilizers.Models {
                 customers.Add(new Customer()
                 {
                     ContactPerson = "ชื่อผู้ติดต่อสำหรับ " + i,
-                    Notes = "หมายเหตุ " + i,
                     Name = "ลูกค้า " + i,
                     Address = "ที่อยู่สำหรับลูกค้า " + i,
                     Address2 = "" + i,

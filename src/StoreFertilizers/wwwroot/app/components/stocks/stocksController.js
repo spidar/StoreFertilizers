@@ -72,7 +72,7 @@
                 });
             }
             $scope.getAllProducts = function () {
-                servicesFactory.getProducts()
+                servicesFactory.getProductsList()
                 .then(function (response) {
                     $scope.data.productList = response.data;
                 }, function (error) {
@@ -115,11 +115,14 @@
                     $scope.reset($scope.selected);
                 }
                 $scope.selected = angular.copy(stock);
+                $scope.selected.product.productUnitTypeName = stock.productUnitTypeName;
+                /*
                 for (var i = 0; i < $scope.data.unitTypeList.length; i++) {
                     if ($scope.selected.product.unitTypeID == $scope.data.unitTypeList[i].unitTypeID) {
                         $scope.selected.product.unitType = angular.copy($scope.data.unitTypeList[i]);
                     }
                 }
+                */
             };
             // Adds an item to the stocks
             $scope.addItem = function () {
@@ -160,7 +163,7 @@
                     servicesFactory.insertStock($scope.selected)
                     .then(function (response) {
                         $scope.stocks[idx] = angular.copy(response.data);
-                        $scope.stocks[idx].productUnitTypeName = response.data.product.unitType.name;
+                        $scope.stocks[idx].productUnitTypeName = response.data.productUnitTypeName;
                         $scope.isNewItem = false;
                         $scope.reset();
                         $timeout(function () {
@@ -236,7 +239,7 @@
                 $scope.getStocksByFilters();
                 $scope.getAllProducts();
                 $scope.getAllProductTypes();
-                $scope.getAllUnitTypes();
+                //$scope.getAllUnitTypes();
             })()
             //End init
         }

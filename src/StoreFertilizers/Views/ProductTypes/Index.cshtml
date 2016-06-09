@@ -1,0 +1,43 @@
+@model IEnumerable<StoreFertilizers.Models.ProductType>
+
+@{
+    ViewData["Title"] = "หน้าหลัก";
+}
+
+<h2>หน้าหลัก</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary" role="button">
+        <i class="glyphicon glyphicon-plus"></i> สร้างชนิดสินค้าใหม่
+    </a>
+</p>
+<div ng-show="!showLoading" class="widget stacked widget-table action-table">
+        <div class="table-responsive widget-content">
+            <table class="table table-bordered table-striped table-hover">
+                <tr>
+                    <th width="70px"></th>                    
+                    <th style="text-align:center;">
+                        ชื่อชนิดสินค้า
+                    </th>
+                    <th style="text-align:center;">
+                        คำอธิบายเพิ่มเติม
+                    </th>
+                </tr>
+                
+            @foreach (var item in Model) {
+                <tr>                    
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ProductTypeID" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.ProductTypeID" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
+                    </td>
+                    <td style="text-align:center;">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descr)
+                    </td>
+                </tr>
+            }
+            </table>
+        </div>
+    </div>

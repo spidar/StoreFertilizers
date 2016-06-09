@@ -1,24 +1,24 @@
-@model StoreFertilizers.Models.Customer
+@model StoreFertilizers.Models.Provider
 
 @{
-    ViewData["Title"] = "แก้ไขข้อมูลลูกค้า";
+    ViewData["Title"] = "แก้ไข";
 }
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>ลูกค้า</h4>
+        <h4>ผู้จัดหา</h4>
         <hr />
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="CustomerID" />
+        <input type="hidden" asp-for="ProviderID" />
         <div class="form-group">
-            <label asp-for="CompanyNumber" class="col-md-2 control-label">รหัสลูกค้า</label>
+            <label asp-for="CompanyNumber" class="col-md-2 control-label">รหัส</label>
             <div class="col-md-10">
                 <input asp-for="CompanyNumber" class="form-control" />
                 <span asp-validation-for="CompanyNumber" class="text-danger" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Name" class="col-md-2 control-label">ชื่อลูกค้า/บริษัท</label>
+            <label asp-for="Name" class="col-md-2 control-label">ชื่อ</label>
             <div class="col-md-10">
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger" />

@@ -23,7 +23,8 @@
                 totalProductDetails: 0,
                 toggleOptions:{
                     itemID: '',
-                    itemCollape: false
+                    itemCollape: false,
+                    itemGroupping: true
                 },
                 filterOptions: {
                     filterText: '',
@@ -109,9 +110,11 @@
                     // Fill Chart
                     $scope.lineChartLabels = [];//["ม.ค.", "ก.พ.", "ม.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค."];
                     $scope.lineChartData = [[]];
-                    for (var i = 0; i < $scope.invoices.length; i++) {
-                        $scope.lineChartLabels.push(moment($scope.invoices[i].createdDate).format('DD/MM/YYYY'));
-                        $scope.lineChartData[0].push($scope.invoices[i].netTotal);
+                    if (!!response.data.sumNetTotalEachDay) {
+                        for (var i = 0; i < response.data.sumNetTotalEachDay.length; i++) {
+                            $scope.lineChartLabels.push(moment(response.data.sumNetTotalEachDay[i].createdDate).format('DD/MM/YYYY'));
+                            $scope.lineChartData[0].push(response.data.sumNetTotalEachDay[i].sumNetTotalPerDay);
+                        }
                     }
                     //
                     $timeout(function () {
@@ -132,7 +135,7 @@
                     searchtext: $scope.data.filterOptions.filterText,
                     fromCreatedDate: $scope.data.filterOptions.fromCreatedDate,
                     toCreatedDate: $scope.data.filterOptions.toCreatedDate,
-                    groupping: true,
+                    groupping: $scope.data.toggleOptions.itemGroupping,
                     page: $scope.data.pagingOptions.currentPageDetails,
                     pageSize: $scope.data.pagingOptions.pageSize,
                     sortBy: $scope.data.sortOptions.fieldDetails,

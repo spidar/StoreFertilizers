@@ -134,7 +134,7 @@
             <input type="number" name="balance" ng-model="selected.balance" min="1" max="99999999" required class="form-control input-sm" style="text-align:right;max-width:none;">
             <span ng-show="!myForm.balance.$valid" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
         </td>
-        <td width="100px" style="text-align:center;">{{selected.product.unitType.name}}</td>
+        <td width="100px" style="text-align:center;">{{selected.product.productUnitTypeName}}</td>
         <td style="text-align:center;">
             <input type="checkbox" ng-model="selected.alertLowStock">
         </td>

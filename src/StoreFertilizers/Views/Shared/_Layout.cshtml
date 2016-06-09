@@ -123,9 +123,11 @@
                             </text>
                          }<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ตั้งค่า <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a asp-controller="Home" asp-action="SettingOfApplication">ทั่วไป</a></li>
-                                <li><a asp-controller="Home" asp-action="SettingOfApplication">ลูกค้า</a></li>
+                                <li><a asp-controller="ProductTypes" asp-action="Index">ชนิดสินค้า</a></li>
                                 <li><a asp-controller="Products" asp-action="Index">สินค้า</a></li>
+                                <li><a asp-controller="Customers" asp-action="Index">ลูกค้า</a></li>
+                                <li><a asp-controller="Providers" asp-action="Index">ผู้จัดหา</a></li>
+                                <li><a asp-controller="UnitTypes" asp-action="Index">หน่วย</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -165,6 +167,8 @@
             <script src="~/app/components/stocks/stocksController.js"></script>
             <script src="~/app/components/salesSummary/salesSummaryController.js"></script>
             <script src="~/app/components/products/productsController.js"></script>
+            <script src="~/app/components/customers/customersController.js"></script>
+            <script src="~/app/components/providers/providersController.js"></script>
             <script src="~/js/site.js" asp-append-version="true"></script>
         </environment>
         <environment names="Staging,Production">

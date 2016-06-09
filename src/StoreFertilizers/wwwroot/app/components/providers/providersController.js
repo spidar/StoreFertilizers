@@ -3,29 +3,23 @@
 
     angular
         .module('app')
-        .controller('productsController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
+        .controller('providersController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
         function ($scope, $location, $timeout, $filter, servicesFactory) {
 
             $scope.status = '';
-            $scope.selected = {};
-            $scope.isNewItem = false;
             $scope.showLoading = false;
             $scope.data = {
-                productList: null,
-                productTypeList: null,
-                unitTypeList: null,
 
                 totalPages: 0,
                 totalItems: 0,
                 filterOptions: {
-                    productType: null,
                     filterText: '',
                     externalFilter: 'searchText',
                     useExternalFilter: true
                 },
                 sortOptions: {
-                    fields: ['stockID', 'productNumber', 'productName', 'location', 'notes'],
-                    field: 'productName',
+                    fields: [],
+                    field: 'name',
                     directions: ['desc', 'asc'],
                     sortReverse: false
                 },
@@ -36,10 +30,10 @@
                 }
             };
 
-            $scope.products = {};
+            $scope.providers = {};
 
             // Get All
-            $scope.getProductsByFilters = function () {
+            $scope.getProvidersByFilters = function () {
                 if ($scope.isNewItem) {
                     $scope.reset($scope.selected);
                 }
@@ -47,16 +41,15 @@
 
                 var params = {
                     searchtext: $scope.data.filterOptions.filterText,
-                    productTypeID: (!$scope.data.filterOptions.productType) ? 0 : $scope.data.filterOptions.productType.productTypeID,
                     page: $scope.data.pagingOptions.currentPage,
                     pageSize: $scope.data.pagingOptions.pageSize,
                     sortBy: $scope.data.sortOptions.field,
                     sortDirection: ($scope.data.sortOptions.sortReverse) ? 'desc' : 'asc'
                 };
 
-                servicesFactory.getProducts(params)
+                servicesFactory.getProvidersByParams(params)
                 .then(function (response) {
-                    $scope.products = response.data.content;
+                    $scope.providers = response.data.content;
                     $scope.data.totalItems = response.data.totalRecords;
                     $scope.data.totalPages = response.data.totalPages;
                     $scope.data.pagingOptions.currentPage = response.data.currentPage;
@@ -74,7 +67,7 @@
 
             //Init all data
             (function init() {
-                $scope.getProductsByFilters();
+                $scope.getProvidersByFilters();
             })()
             //End init
         }
