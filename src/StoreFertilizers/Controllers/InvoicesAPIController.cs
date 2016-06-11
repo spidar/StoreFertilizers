@@ -165,10 +165,10 @@ namespace StoreFertilizers.Controllers
                 var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
             }
 
-            if (invoice.EmployeeID != null)
-            {
-                invoice.Employee = _context.Employees.SingleOrDefault(i => i.EmployeeID == invoice.EmployeeID);
-            }
+            //if (invoice.EmployeeID != null)
+            //{
+            //    invoice.Employee = _context.Employees.SingleOrDefault(i => i.EmployeeID == invoice.EmployeeID);
+            //}
             if (invoice.CustomerID != null)
             {
                 invoice.Customer = _context.Customers.SingleOrDefault(i => i.CustomerID == invoice.CustomerID);

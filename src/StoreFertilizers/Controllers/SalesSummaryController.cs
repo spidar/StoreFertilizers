@@ -63,7 +63,7 @@ namespace StoreFertilizers.Controllers
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Bank", invoice.BankID);
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer", invoice.CustomerID);
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee", invoice.EmployeeID);
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "PaymentType", invoice.PaymentTypeID);
             return View(invoice);
         }
@@ -83,7 +83,7 @@ namespace StoreFertilizers.Controllers
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Bank", invoice.BankID);
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer", invoice.CustomerID);
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee", invoice.EmployeeID);
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "PaymentType", invoice.PaymentTypeID);
             return View(invoice);
         }
@@ -101,7 +101,7 @@ namespace StoreFertilizers.Controllers
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Bank", invoice.BankID);
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer", invoice.CustomerID);
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee", invoice.EmployeeID);
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "PaymentType", invoice.PaymentTypeID);
             return View(invoice);
         }

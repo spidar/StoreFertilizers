@@ -47,19 +47,6 @@ namespace StoreFertilizers.Migrations
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
                 });
             migrationBuilder.CreateTable(
-                name: "Bank",
-                columns: table => new
-                {
-                    BankID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Descr = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bank", x => x.BankID);
-                });
-            migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
                 {
@@ -73,7 +60,6 @@ namespace StoreFertilizers.Migrations
                     Email = table.Column<string>(nullable: true),
                     Fax = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Notes = table.Column<string>(nullable: true),
                     Phone1 = table.Column<string>(nullable: true),
                     Phone2 = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(nullable: true)
@@ -103,19 +89,6 @@ namespace StoreFertilizers.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employee", x => x.EmployeeID);
-                });
-            migrationBuilder.CreateTable(
-                name: "PaymentType",
-                columns: table => new
-                {
-                    PaymentTypeID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Descr = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PaymentType", x => x.PaymentTypeID);
                 });
             migrationBuilder.CreateTable(
                 name: "ProductType",
@@ -267,8 +240,8 @@ namespace StoreFertilizers.Migrations
                 {
                     InvoiceID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Bank = table.Column<string>(nullable: true),
                     BankBranch = table.Column<string>(nullable: true),
-                    BankID = table.Column<int>(nullable: true),
                     ChequeNumber = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: true),
                     CustomerID = table.Column<int>(nullable: true),
@@ -279,7 +252,7 @@ namespace StoreFertilizers.Migrations
                     DeliveryRefNumber = table.Column<string>(nullable: true),
                     Discount = table.Column<decimal>(nullable: true),
                     DueDate = table.Column<DateTime>(nullable: true),
-                    EmployeeID = table.Column<int>(nullable: true),
+                    EmployeeName = table.Column<string>(nullable: true),
                     InvoiceNumber = table.Column<string>(nullable: true),
                     IsTax = table.Column<bool>(nullable: false),
                     NetTotal = table.Column<decimal>(nullable: false),
@@ -289,7 +262,7 @@ namespace StoreFertilizers.Migrations
                     PaidCollectedDate = table.Column<DateTime>(nullable: true),
                     PaidCollector = table.Column<string>(nullable: true),
                     PaidDate = table.Column<DateTime>(nullable: true),
-                    PaymentTypeID = table.Column<int>(nullable: true),
+                    PaymentType = table.Column<string>(nullable: true),
                     ReceivedByPerson = table.Column<string>(nullable: true),
                     ReceivedProductDate = table.Column<DateTime>(nullable: true),
                     ReferencePONumber = table.Column<string>(nullable: true),
@@ -303,28 +276,10 @@ namespace StoreFertilizers.Migrations
                 {
                     table.PrimaryKey("PK_Invoice", x => x.InvoiceID);
                     table.ForeignKey(
-                        name: "FK_Invoice_Bank_BankID",
-                        column: x => x.BankID,
-                        principalTable: "Bank",
-                        principalColumn: "BankID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Invoice_Customer_CustomerID",
                         column: x => x.CustomerID,
                         principalTable: "Customer",
                         principalColumn: "CustomerID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Invoice_Employee_EmployeeID",
-                        column: x => x.EmployeeID,
-                        principalTable: "Employee",
-                        principalColumn: "EmployeeID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Invoice_PaymentType_PaymentTypeID",
-                        column: x => x.PaymentTypeID,
-                        principalTable: "PaymentType",
-                        principalColumn: "PaymentTypeID",
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
@@ -473,6 +428,7 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
+            migrationBuilder.DropTable("Employee");
             migrationBuilder.DropTable("InvoiceDetails");
             migrationBuilder.DropTable("Purchase");
             migrationBuilder.DropTable("Stock");
@@ -482,10 +438,7 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("Invoice");
             migrationBuilder.DropTable("Provider");
             migrationBuilder.DropTable("Product");
-            migrationBuilder.DropTable("Bank");
             migrationBuilder.DropTable("Customer");
-            migrationBuilder.DropTable("Employee");
-            migrationBuilder.DropTable("PaymentType");
             migrationBuilder.DropTable("ProductType");
             migrationBuilder.DropTable("UnitType");
         }

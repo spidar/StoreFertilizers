@@ -166,7 +166,7 @@ namespace StoreFertilizers.Models {
                     invoice.TermOfPayment = "เครดิต 90 วัน";
                     invoice.DeliveryDate = invoice.CreatedDate.Value.AddDays(3);
                     invoice.ReferencePONumber = "PO-0000" + i;
-                    invoice.Employee = employees[new Random(m).Next(0, employees.Count - 1)]; //random employee
+                    //invoice.Employee = employees[new Random(m).Next(0, employees.Count - 1)]; //random employee
                     //invoice.EmployeeID = invoice.Employee.EmployeeID;
                     invoice.ShipTo = "ตามที่อยู่ลูกค้า";
                     invoice.ShipBy = "รถ";

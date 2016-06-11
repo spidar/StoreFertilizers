@@ -67,7 +67,7 @@ namespace StoreFertilizers.Controllers
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
             return View(invoice);
         }
@@ -87,7 +87,7 @@ namespace StoreFertilizers.Controllers
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
             return View(invoice);
         }
@@ -105,7 +105,7 @@ namespace StoreFertilizers.Controllers
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
             return View(invoice);
         }

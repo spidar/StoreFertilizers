@@ -33,6 +33,10 @@ textarea {
     }
 }
 
+.table-bordernocolor tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
+    border-color:transparent;
+}
+
 .green_grad {
 	background: -webkit-linear-gradient(#FFF, #19cd37); /* For Safari 5.1 to 6.0 */
 	background: -o-linear-gradient(#FFF, #19cd37); /* For Opera 11.1 to 12.0 */

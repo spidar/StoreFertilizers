@@ -30,12 +30,15 @@
                         });
                     });
                     var toView = function (val) {
+                        if (!val) {
+                            return '';
+                        }
                         return moment(val).format('DD/MM/YYYY');
                     };
                     ngModelCtrl.$formatters.push(toView);
                     scope.$watch(attrs.ngModel, function (val) {
                         if (!val) {
-                            return false;
+                            return '';
                         }
                         //console.log(val);
                         element.val(moment(val).format('DD/MM/YYYY'));

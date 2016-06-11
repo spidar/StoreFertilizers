@@ -8,7 +8,7 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25590607042359_StoreFertilizersDB")]
+    [Migration("25590609151127_StoreFertilizersDB")]
     partial class StoreFertilizersDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,19 +147,6 @@ namespace StoreFertilizers.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
-            modelBuilder.Entity("StoreFertilizers.Models.Bank", b =>
-                {
-                    b.Property<int>("BankID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descr");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("BankID");
-                });
-
             modelBuilder.Entity("StoreFertilizers.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerID")
@@ -180,8 +167,6 @@ namespace StoreFertilizers.Migrations
                     b.Property<string>("Fax");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("Notes");
 
                     b.Property<string>("Phone1");
 
@@ -227,9 +212,9 @@ namespace StoreFertilizers.Migrations
                     b.Property<int>("InvoiceID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BankBranch");
+                    b.Property<string>("Bank");
 
-                    b.Property<int?>("BankID");
+                    b.Property<string>("BankBranch");
 
                     b.Property<string>("ChequeNumber");
 
@@ -251,7 +236,7 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<DateTime?>("DueDate");
 
-                    b.Property<int?>("EmployeeID");
+                    b.Property<string>("EmployeeName");
 
                     b.Property<string>("InvoiceNumber");
 
@@ -271,7 +256,7 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<DateTime?>("PaidDate");
 
-                    b.Property<int?>("PaymentTypeID");
+                    b.Property<string>("PaymentType");
 
                     b.Property<string>("ReceivedByPerson");
 
@@ -316,19 +301,6 @@ namespace StoreFertilizers.Migrations
                     b.Property<decimal>("Qty");
 
                     b.HasKey("InvoiceDetailsID");
-                });
-
-            modelBuilder.Entity("StoreFertilizers.Models.PaymentType", b =>
-                {
-                    b.Property<int>("PaymentTypeID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Descr");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("PaymentTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Product", b =>
@@ -527,21 +499,9 @@ namespace StoreFertilizers.Migrations
 
             modelBuilder.Entity("StoreFertilizers.Models.Invoice", b =>
                 {
-                    b.HasOne("StoreFertilizers.Models.Bank")
-                        .WithMany()
-                        .HasForeignKey("BankID");
-
                     b.HasOne("StoreFertilizers.Models.Customer")
                         .WithMany()
                         .HasForeignKey("CustomerID");
-
-                    b.HasOne("StoreFertilizers.Models.Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeID");
-
-                    b.HasOne("StoreFertilizers.Models.PaymentType")
-                        .WithMany()
-                        .HasForeignKey("PaymentTypeID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.InvoiceDetails", b =>
