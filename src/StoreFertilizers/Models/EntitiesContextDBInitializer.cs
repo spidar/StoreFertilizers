@@ -18,6 +18,10 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region let's add some dummy customer data:
+            context.Customers.Add(new Customer()
+            {
+                Name = "อื่นๆ"
+            });
             List<Customer> customers = new List<Customer>
             {
                 new Customer {Name="เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", Address2 = "", ZipCode="10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},

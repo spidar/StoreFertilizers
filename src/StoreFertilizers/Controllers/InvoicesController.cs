@@ -48,8 +48,8 @@ namespace StoreFertilizers.Controllers
                 ViewData["isTax"] = isTax.Value;
             }
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name");
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name");
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name");
+            //ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name");
+            //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name");
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name");
             return View();
         }

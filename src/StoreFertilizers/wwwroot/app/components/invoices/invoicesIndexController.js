@@ -77,7 +77,25 @@
                 });
             }
             //
-
+            $scope.removeInvoice = function (item) {
+                if (confirm("โปรดยืนยันการลบ !") == true) {
+                    $scope.showLoading = true;
+                    servicesFactory.deleteInvoiceByID(item.invoiceID)
+                    .then(function (response) {
+                        $scope.status = 'ลบเรียบร้อย';
+                        $scope.invoices.splice($scope.invoices.indexOf(item), 1);
+                        $timeout(function () {
+                            $scope.showLoading = false;
+                            $scope.status = '';
+                        }, 1000);
+                    }, function (error) {
+                        $scope.status = 'ไม่สามารถลบข้อมูลได้ : ' + error.statusText;
+                        $timeout(function () {
+                            $scope.showLoading = false;
+                        }, 1000);
+                    });
+                }
+            };
             //Init all data
             $scope.getInvoicesByFilters();
             //End init

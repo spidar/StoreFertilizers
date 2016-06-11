@@ -14,10 +14,11 @@
 
             $scope.title = '';
             $scope.status = '';
+            $scope.showLoading = false;
             $scope.isEditMode = false;
             $scope.expandme = true;
             $scope.data = {
-                printMode: true,
+                printMode: false,
                 printValueOnly: true,
                 customerList: null,
                 employeeList: null,
@@ -111,16 +112,35 @@
             }
 
             $scope.saveInvoice = function () {
+                if (!$scope.newInvoice.customer) {
+                    $scope.status = 'กรุณาระบุลูกค้า';
+                    return false;
+                }
+                if ($scope.newInvoice.invoiceDetails.length == 0) {
+                    $scope.status = 'กรุณากรอกสินค้าอย่างน้อย 1 ชิ้น';
+                    return false;
+                }
+                for (var i = 0; i < $scope.newInvoice.invoiceDetails.length; i++)
+                {
+                    if($scope.newInvoice.invoiceDetails[i].product == null)
+                    {
+                        $scope.status = 'กรุณากรอกสินค้าตามเครื่องหมาย ! ให้ถูกต้องและครบถ้วน';
+                        return false;
+                    }
+                }
                 var absUrl = $location.absUrl();
+                $scope.showLoading = true;
                 if (absUrl.indexOf('/Create') >= 0)
                 {
                     servicesFactory.insertInvoice($scope.newInvoice)
                     .then(function (response) {
                         $scope.status = '...บันทีกเรียบร้อย !';
+                        $scope.showLoading = false;
                         $timeout(function () {
                             $scope.status = '';
                         }, 5000);
                     }, function (error) {
+                        $scope.showLoading = false;
                         $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
                     });
                 } else if (absUrl.indexOf('/Edit/') >= 0)
@@ -128,10 +148,12 @@
                     servicesFactory.updateInvoice($scope.newInvoice)
                     .then(function (response) {
                         $scope.status = '...บันทีกเรียบร้อย !';
+                        $scope.showLoading = false;
                         $timeout(function() {
                             $scope.status = '';
                         }, 5000); 
                     }, function (error) {
+                        $scope.showLoading = false;
                         $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
                     });
                 }
@@ -375,19 +397,27 @@
                 //$scope.getAllUnitTypes();
                 //$scope.getAllBanks();
                 //$scope.getAllPaymentTypes();
-                $scope.getAllPurchases();
+                
 
                 var absUrl = $location.absUrl();
                 var id = absUrl.substr(absUrl.lastIndexOf('/') + 1);
                 if (absUrl.indexOf('/Create') >= 0)
                 {
+                    var params = {
+                        isTax: false
+                    };
                     if (absUrl.indexOf('isTax=true') >= 0)
                     {
-                        //$scope.newInvoice.isTax = true;
-                    } else
-                    {
-                        $scope.addItem();
-                    }
+                        params.isTax = true;
+                        $scope.getAllPurchases();
+                    } 
+                    servicesFactory.createNewInvoice(params)
+                    .then(function (response) {
+                        $scope.newInvoice = response.data;
+                        $scope.reindexItem();
+                    }, function (error) {
+                        $scope.status = 'ไม่สามารถตั้งค่าเริ่มต้นได้ ' + error.statusText;
+                    });
                     $scope.isEditMode = false;
                 } else if (absUrl.indexOf('/Edit/') >= 0)
                 {

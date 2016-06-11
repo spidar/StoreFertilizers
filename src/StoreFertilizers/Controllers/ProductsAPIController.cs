@@ -30,6 +30,7 @@ namespace StoreFertilizers.Controllers
                 ProductNumber = product.ProductNumber,
                 ProductTypeName = product.ProductType.Name,
                 ProductUnitTypeName = product.UnitType.Name,
+                UnitType = product.UnitType,
                 Name = product.Name,
                 Price = product.Price,
                 UnitsPerPackageText = product.UnitsPerPackageText

@@ -1,5 +1,5 @@
-<form class="form-horizontal" role="form" ng-controller="invoicesController">
-    <div ng-show="!data.printMode">
+<form name="myForm" class="form-horizontal" role="form" ng-controller="invoicesController">
+    <div ng-show="!data.printMode" id="invoiceNormalMode">
         <div class="form-group remove-bottom-margin">
             <div class="col-xs-6" style="padding:2px;">
                 <div class="rounded-div" style="min-height:115px;">
@@ -41,6 +41,8 @@
                                     <span md-highlight-text="customerSearchText">{{item.name}}</span>
                                 </md-autocomplete>
                                 <span ng-show="!newInvoice.customer" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+                                <input ng-show="!!newInvoice.customer && newInvoice.customer.name == 'อื่นๆ'" type="text" class="form-control input-sm" ng-model="newInvoice.customerName" placeholder="ชื่อลูกค้า" />
+
                             </div>
                         </div>
                     </div>
@@ -65,6 +67,7 @@
                     <div class="form-group">
                         <label class="col-xs-1 control-label" style="min-width:80px">เลขที่:</label>
                         <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                        <span ng-show="!newInvoice.invoiceNumber || newInvoice.invoiceNumber == ''" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-xs-1" style="min-width:80px;">วันที่:</label>
@@ -155,7 +158,7 @@
                         </tr>
                         <tr style="background-color:#f9f9f9;">
                             <td colspan="4">
-                                <textarea ng-model="newInvoice.notes" class="form-control col-xs-12" rows="5" style="min-width:100%" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
+                                <textarea ng-model="newInvoice.notes" class="form-control col-xs-12" rows="5" style="min-width:100%;resize:none;" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
                             </td>
                             <td colspan="3" style="text-align:right;vertical-align:middle;">
                                 <div>รวมเป็นเงิน</div>
@@ -663,7 +666,6 @@
                                 <div>&nbsp;<small>&nbsp;</small></div>
                             </td>
                             <td style="padding:0px;text-align:center;">
-                                
                             </td>
                         </tr>
                     </tbody>
@@ -674,10 +676,15 @@
 
 
     <hr />
+    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        {{status}}
+    </div>
+    <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
     <div class="form-group remove-bottom-margin noPrint">
         <div>
             <button type="submit" ng-show="!data.printMode" ng-click="saveInvoice()" class="btn btn-primary">
-                <span class="glyphicon glyphicon-floppy-save"></span> บันทึก {{status}}
+                <span class="glyphicon glyphicon-floppy-save"></span> บันทึก
             </button>
             <a href="#" class="btn btn-primary" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์</a>
             <a href="#" class="btn btn-warning" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์มีเส้น</a>

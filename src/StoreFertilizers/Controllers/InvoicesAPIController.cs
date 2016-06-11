@@ -29,6 +29,29 @@ namespace StoreFertilizers.Controllers
             return _context.Invoices;
         }
 
+        [HttpGet("CreateNewInvoice")]
+        public Invoice CreateNewInvoice(bool isTax)
+        {
+            Invoice invoice = new Invoice();
+            var lastInvoice = _context.Invoices.Where(i => i.IsTax == isTax).OrderByDescending(x => x.InvoiceID).FirstOrDefault();
+            if (lastInvoice != null)
+            {
+                if (lastInvoice.InvoiceNumber.Contains("-"))
+                {
+                    int lastInvoiceNumber;
+                    if (int.TryParse(lastInvoice.InvoiceNumber.Split('-')[1], out lastInvoiceNumber))
+                    {
+                        invoice.InvoiceNumber = "CT" + (DateTime.Now.Year % 100) + DateTime.Now.Month.ToString("00") + "-" + (lastInvoiceNumber + 1).ToString("D5");
+                    }
+                }
+            }
+            if(!isTax)
+            {
+                invoice.InvoiceDetails.Add(new InvoiceDetails());
+            }
+            return invoice;
+        }
+
         [HttpGet]
         public PagedList GetInvoicesPaging(string searchtext = "", string isTax = "", string fromCreatedDate = "", string toCreatedDate = "", string dueIn = "", int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
         {
@@ -54,7 +77,7 @@ namespace StoreFertilizers.Controllers
                     InvoiceNumber = invoice.InvoiceNumber,
                     CreatedDate = invoice.CreatedDate,
                     DueDate = invoice.DueDate,
-                    CustomerName = (invoice.Customer != null) ? invoice.Customer.Name : invoice.CustomerName,
+                    CustomerName = (invoice.Customer != null && invoice.Customer.Name != "อื่นๆ") ? invoice.Customer.Name : invoice.CustomerName,
                     Paid = invoice.Paid,
                     NetTotal = invoice.NetTotal,
                     IsTax = invoice.IsTax,
@@ -70,7 +93,7 @@ namespace StoreFertilizers.Controllers
                     InvoiceNumber = invoice.InvoiceNumber,
                     CreatedDate = invoice.CreatedDate,
                     DueDate = invoice.DueDate,
-                    CustomerName = (invoice.Customer != null) ? invoice.Customer.Name : invoice.CustomerName,
+                    CustomerName = (invoice.Customer != null && invoice.Customer.Name != "อื่นๆ") ? invoice.Customer.Name : invoice.CustomerName,
                     Paid = invoice.Paid,
                     NetTotal = invoice.NetTotal,
                     IsTax = invoice.IsTax,
@@ -163,6 +186,9 @@ namespace StoreFertilizers.Controllers
                 //var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
                 var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID).ToList();
                 var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
+
+                item.OrgProductID = item.ProductID;
+                item.OrgQty = item.Qty;
             }
 
             //if (invoice.EmployeeID != null)
@@ -207,34 +233,72 @@ namespace StoreFertilizers.Controllers
             //var deletedEntries = _context.ChangeTracker.Entries().Where(x => x.State == EntityState.Deleted).Select(x => x.Entity).ToList();
             if (invoice.Customer != null)
             {
-                invoice.CustomerName = invoice.Customer.Name;
+                //invoice.CustomerName = invoice.Customer.Name;
             }
             _context.Entry(invoice).State = EntityState.Modified;
 
             #region "Handle Add detailInvoices"
             var addNews = invoice.InvoiceDetails.Where(i => i.InvoiceDetailsID == 0).ToList();
+            Stock productInStock = null;
             foreach(var item in addNews)
             {
                 #region "Handle Stock"
-                
+                productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                if (productInStock == null)
+                {
+                    return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                }
+                //Create case should be strang forward.
+                productInStock.Balance -= item.Qty;
+                _context.Entry(productInStock).State = EntityState.Modified;
                 #endregion
                 invoice.InvoiceDetails.Remove(item);
+                item.CreatedDate = invoice.CreatedDate;
                 _context.InvoiceDetails.Add(item);
             }
             #endregion
+
             #region "Handle Edit and Delete"
+            Stock orgProductInStock = null;
             foreach (var item in invoice.InvoiceDetails)
             {
                 item.CreatedDate = invoice.CreatedDate;
                 if (item.InvoiceDetailsID > 0)
                 {
                     bool isDeleted = (item.IsDeleted != null && item.IsDeleted.Value);
+                    orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.OrgProductID);
+                    if (item.Product.ProductID != item.OrgProductID)
+                    {
+                        productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                    }
                     if (isDeleted)
                     {
                         _context.InvoiceDetails.Remove(item);
+                        #region "Handle Stock"
+                        orgProductInStock.Balance += item.OrgQty;
+                        _context.Entry(orgProductInStock).State = EntityState.Modified;
+                        #endregion
                     }
                     else
                     {
+                        #region "Handle Stock"
+                        if (item.Product.ProductID == item.OrgProductID)
+                        {
+                            if (item.Qty != item.OrgQty)
+                            {
+                                orgProductInStock.Balance += item.OrgQty;
+                                orgProductInStock.Balance -= item.Qty;
+                                _context.Entry(orgProductInStock).State = EntityState.Modified;
+                            }
+                        }
+                        else
+                        {
+                            orgProductInStock.Balance += item.OrgQty;
+                            productInStock.Balance -= item.Qty;
+                            _context.Entry(productInStock).State = EntityState.Modified;
+                            _context.Entry(orgProductInStock).State = EntityState.Modified;
+                        }
+                        #endregion
                         _context.Entry(item).State = EntityState.Modified;
                     }
                 }
@@ -272,9 +336,21 @@ namespace StoreFertilizers.Controllers
             {
                 invoice.CustomerName = invoice.Customer.Name;
             }
-            foreach(var item in invoice.InvoiceDetails)
+            Stock productInStock = null;
+            foreach (var item in invoice.InvoiceDetails)
             {
                 item.CreatedDate = invoice.CreatedDate;
+
+                #region "Handle Stock"
+                productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                if(productInStock == null)
+                {
+                    return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                }
+                //Create case should be strang forward.
+                productInStock.Balance -= item.Qty;
+                _context.Entry(productInStock).State = EntityState.Modified;
+                #endregion
             }
             _context.Invoices.Add(invoice);
             try

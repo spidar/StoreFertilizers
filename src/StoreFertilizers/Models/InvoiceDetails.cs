@@ -44,6 +44,11 @@ namespace StoreFertilizers.Models
         public decimal Amount { get; set; }
 
         public bool? IsDeleted { get; set; }
+
+        [NotMapped]
+        public int OrgProductID { get; set; }
+        [NotMapped]
+        public decimal OrgQty { get; set; }
         /*
         #region Calculated fields
         [NotMapped]
