@@ -297,6 +297,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<int>("ProductID");
 
+                    b.Property<int?>("PurchaseID");
+
                     b.Property<decimal>("Qty");
 
                     b.HasKey("InvoiceDetailsID");
@@ -512,6 +514,10 @@ namespace StoreFertilizers.Migrations
                     b.HasOne("StoreFertilizers.Models.Product")
                         .WithMany()
                         .HasForeignKey("ProductID");
+
+                    b.HasOne("StoreFertilizers.Models.Purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Product", b =>

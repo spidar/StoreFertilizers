@@ -73,8 +73,13 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: Invoices/Edit/5
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id, bool? isTax)
         {
+            if (isTax != null)
+            {
+                ViewData["isTax"] = isTax.Value;
+            }
+            /*
             if (id == null)
             {
                 return HttpNotFound();
@@ -85,11 +90,12 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpNotFound();
             }
+            */
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Name", invoice.BankID);
-            ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
+            //ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Name", invoice.CustomerID);
             //ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Name", invoice.EmployeeID);
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "Name", invoice.PaymentTypeID);
-            return View(invoice);
+            return View(null);
         }
 
         // POST: Invoices/Edit/5

@@ -42,7 +42,6 @@
                                 </md-autocomplete>
                                 <span ng-show="!newInvoice.customer" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
                                 <input ng-show="!!newInvoice.customer && newInvoice.customer.name == 'อื่นๆ'" type="text" class="form-control input-sm" ng-model="newInvoice.customerName" placeholder="ชื่อลูกค้า" />
-
                             </div>
                         </div>
                     </div>
@@ -136,16 +135,16 @@
                                 <span ng-show="!item.product" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
                             </td>
                             <td style="text-align:right;">
-                                <input type="number" ng-model="item.qty" min="0" style="text-align:right;max-width:none;" ng-required ng-validate="integer" class="form-control input-sm" placeholder="0" />
+                                <input type="number" ng-model="item.qty" min="0" style="text-align:right;max-width:none;" ng-validate="integer" class="form-control input-sm" placeholder="0" />
                             </td>
                             <td style="text-align:center;">
                                 {{item.product.unitType.name}}(<small>{{item.product.unitsPerPackageText}}</small>)
                             </td>
                             <td style="text-align:right;">
-                                <input type="number" ng-model="item.pricePerUnit" min="0" style="text-align:right;max-width:none;" ng-required ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
+                                <input type="number" ng-model="item.pricePerUnit" min="0" style="text-align:right;max-width:none;" ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
                             </td>
                             <td style="text-align:center;">
-                                <input type="number" min="0" max="100" ng-model="item.discount" style="text-align:right;max-width:none;" required class="form-control input-sm" placeholder="0" />
+                                <input type="number" min="0" max="100" ng-model="item.discount" style="text-align:right;max-width:none;" class="form-control input-sm" placeholder="0" />
                             </td>
                             <td style="text-align:right;vertical-align:middle;">
                                 {{calculateAmount(item) | currency: ''}}
@@ -683,7 +682,7 @@
     <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
     <div class="form-group remove-bottom-margin noPrint">
         <div>
-            <button type="submit" ng-show="!data.printMode" ng-click="saveInvoice()" class="btn btn-primary">
+            <button ng-show="!data.printMode" type="submit" ng-click="saveInvoice()" class="btn btn-primary">
                 <span class="glyphicon glyphicon-floppy-save"></span> บันทึก
             </button>
             <a href="#" class="btn btn-primary" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์</a>

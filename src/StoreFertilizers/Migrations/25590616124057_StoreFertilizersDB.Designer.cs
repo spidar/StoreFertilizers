@@ -8,7 +8,7 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25590609151127_StoreFertilizersDB")]
+    [Migration("25590616124057_StoreFertilizersDB")]
     partial class StoreFertilizersDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -298,6 +298,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<int>("ProductID");
 
+                    b.Property<int?>("PurchaseID");
+
                     b.Property<decimal>("Qty");
 
                     b.HasKey("InvoiceDetailsID");
@@ -513,6 +515,10 @@ namespace StoreFertilizers.Migrations
                     b.HasOne("StoreFertilizers.Models.Product")
                         .WithMany()
                         .HasForeignKey("ProductID");
+
+                    b.HasOne("StoreFertilizers.Models.Purchase")
+                        .WithMany()
+                        .HasForeignKey("PurchaseID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Product", b =>

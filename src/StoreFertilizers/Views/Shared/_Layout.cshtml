@@ -15,15 +15,13 @@
             <script src="~/lib/angular/angular.min.js"></script>
         </environment>
         <environment names="Staging,Production">
-            <link rel="stylesheet" media="all" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css"
-                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-            <link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" media="all" />
             <link rel="stylesheet" href="~/lib/angular-chart.js/dist/angular-chart.min.css" />
+            <link rel="stylesheet" href="~/lib/angular-material/angular-material.min.css" />
             <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/angular/angular.js"></script>
+            <link rel="stylesheet" href="~/css/site.min.css" />
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/angular/angular.min.js"></script>
         </environment>
     </head>
     <body ng-cloak>
@@ -185,7 +183,19 @@
             <script src="~/lib/moment/locale/th.js"></script>
             <script src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
+            <script src="~/app/app.js" asp-append-version="true"></script>
+            <script src="~/app/services/servicesFactory.js"></script>
+            <script src="~/app/shared/customdatepicker.js"></script>
+            <script src="~/app/components/invoices/invoicesController.js"></script>
+            <script src="~/app/components/invoices/invoicesIndexController.js"></script>
+            <script src="~/app/components/dashboard/dashboardController.js"></script>
+            <script src="~/app/components/purchases/purchasesController.js"></script>
+            <script src="~/app/components/stocks/stocksController.js"></script>
+            <script src="~/app/components/salesSummary/salesSummaryController.js"></script>
+            <script src="~/app/components/products/productsController.js"></script>
+            <script src="~/app/components/customers/customersController.js"></script>
+            <script src="~/app/components/providers/providersController.js"></script>
+            @*<script src="~/js/site.min.js" asp-append-version="true"></script>*@
         </environment>
 
         @RenderSection("scripts", required: false)

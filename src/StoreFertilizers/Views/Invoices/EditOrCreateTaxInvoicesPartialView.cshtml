@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="panel-body" style="padding:0px;">
-                        <ul class="list-group" style="margin-bottom:0px;max-height:1800px;overflow-y:scroll;">
+                        <ul class="list-group" style="margin-bottom:0px;max-height:1000px;overflow-y:scroll;">
                             <li class="list-group-item" ng-repeat="item in data.purchaseList">
                                 <div class="checkbox" style="display:inline-block;margin:0px;padding:0px;">
                                     <input type="checkbox" ng-model="item.checked" ng-click="purchaseItemChanged($event, item)" style="width:15px;height:15px;margin-left:-10px;" />
@@ -28,15 +28,28 @@
                                         {{item.product.name}}
                                     </label>
                                 </div>
-                                <span class="badge">{{item.qtyRemain}}</span>
-                                <!--
-                                <div class="pull-right action-buttons">
+                                <span class="badge">{{item.qtyRemain}}/{{item.qty}}</span>
+                                
+                                @*<div class="pull-right action-buttons">
                                     <a href=""><span class="glyphicon glyphicon-pencil"></span></a>
                                     <a href="" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                     <a href="" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+                                </div>*@
+                                
+                                <div>
+                                    <small>
+                                        <em>
+                                            บิล#{{item.billNumber}}
+                                        </em>
+                                    </small>
                                 </div>
-                                -->
-                                <p class="list-group-item-text"><small><em>{{item.purchaseDate| date:"dd/MM/yyyy"}} - ({{item.billNumber}}) | {{item.purchasePricePerUnit | number:2}}(บาท/ชิ้น)</em></small></p>
+                                <p class="list-group-item-text">
+                                    <small>
+                                        <em>                                        
+                                            {{item.purchaseDate| date:"dd/MM/yyyy"}} | {{item.purchasePricePerUnit | number:2}}(บาท/ชิ้น)
+                                        </em>
+                                    </small>
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -73,16 +86,19 @@
                 <div class="col-xs-4" style="padding:2px;">
                     <div style="min-height:145px;">
                         <div class="form-group remove-bottom-margin">
-                            <label class="col-xs-3 control-label" style="min-width:80px"><small>ลูกค้า:<br />CUST.</small></label>
-                            <select id="invoice-customer" class="form-control col-xs-9 input-sm display-inline" style="width:150px;margin-top:12px;" ng-model='newInvoice.customer' ng-options='option.name for option in data.customerList track by option.customerID'>
-                                <option value="" disabled>--- กรุณาเลือก ---</option>
-                            </select>
+                            <label class="col-xs-2 control-label" style="max-width:50px;"><small>ลูกค้า:<br />CUST.</small></label>
+                            <div class='col-xs-10'>
+                                <div style="max-width:200px;margin-top:10px;">
+                                    <md-autocomplete md-min-length="0" md-selected-item="newInvoice.customer" md-search-text="customerSearchText" md-items="item in getCustomerMatches(customerSearchText)" md-item-text="item.name" class="form-control input-sm">
+                                        <span md-highlight-text="customerSearchText">{{item.name}}</span>
+                                    </md-autocomplete>
+                                    <span ng-show="!newInvoice.customer" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
+                                    <input ng-show="!!newInvoice.customer && newInvoice.customer.name == 'อื่นๆ'" type="text" class="form-control input-sm" ng-model="newInvoice.customerName" placeholder="ชื่อลูกค้า" />
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group remove-bottom-margin">
                             <div class="text-overflow col-xs-10 pull-right"><small>{{newInvoice.customer.address}}&nbsp;</small></div>
-                        </div>
-                        <div class="form-group remove-bottom-margin">
-                            <div class="text-overflow col-xs-10 pull-right"><small>{{newInvoice.customer.address2}}&nbsp;</small></div>
                         </div>
                         <div class="form-group remove-bottom-margin">
                             <div class="col-xs-10 pull-right" ng-show="newInvoice.customer == null">&nbsp;</div>
@@ -101,12 +117,22 @@
                             <input type="text" id="invoice-InvoiceNumber" class="col-xs-8 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
                         </div>
                         <div class="form-group remove-bottom-margin">
-                            <label class="col-xs-4 control-label" style="min-width:100px;"><small>วันที่:<br />DATE</small></label>
-                            <md-datepicker datelocaleprovider class="col-xs-8 hide-calendar-icon small-calendar-input" style="margin-top:12px;" ng-model="newInvoice.createdDate" md-placeholder="วันที่ออกใบกำกับสินค้า"></md-datepicker>
+                            <label class="control-label col-xs-4" style="min-width:80px;"><small>วันที่:<br />DATE</small></label>
+                            <div class='datepicker input-group date col-xs-8' style="max-width:139px;margin-top:10px;">
+                                <input type='text' customdatepicker ng-model="newInvoice.createdDate" class="form-control input-sm" style="max-width:100px;" placeholder="วันที่ออกใบกำกับสินค้า" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                         <div class="form-group remove-bottom-margin">
-                            <label class="col-xs-4 control-label" style="min-width:100px;"><small>วันครบกำหนดชำระ:<br />DUE DATE</small></label>
-                            <md-datepicker datelocaleprovider class="col-xs-8 hide-calendar-icon small-calendar-input" style="margin-top:12px;" ng-model="newInvoice.dueDate" md-placeholder="วันที่ครบกำหนดชำระเงิน"></md-datepicker>
+                            <label class="col-xs-4 control-label" style="min-width:100px;"><small>กำหนดชำระ:<br />DUE DATE</small></label>
+                            <div class='datepicker input-group date col-xs-8' style="max-width:139px;margin-top:10px;">
+                                <input type='text' customdatepicker ng-model="newInvoice.dueDate" class="form-control input-sm" style="max-width:100px;" placeholder="วันครบกำหนดชำระเงิน" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,15 +140,20 @@
                     <div style="min-height:145px;">
                         <div class="form-group remove-bottom-margin">
                             <label class="col-xs-5 control-label" style="min-width:100px;"><small>เลขใบสั่งซื้อ:<br />P/O NO.</small></label>
-                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.referencePONumber" placeholder="หมายเลข PO อ้างอิง" />
                         </div>
                         <div class="form-group remove-bottom-margin">
                             <label class="col-xs-5 control-label" style="min-width:100px;"><small>เงื่อนไขการชำระ:<br />TERM</small></label>
-                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
+                            <input type="text" id="invoice-InvoiceNumber" class="col-xs-7 form-control input-sm" style="width:150px;margin-top:12px;" ng-model="newInvoice.termOfPayment" placeholder="เงื่อนไขชำระเงิน" />
                         </div>
                         <div class="form-group remove-bottom-margin">
                             <label class="col-xs-5 control-label" style="min-width:100px;"><small>วันที่ส่ง:<br />DELV. DATE</small></label>
-                            <md-datepicker datelocaleprovider class="col-xs-7 hide-calendar-icon small-calendar-input" style="margin-top:12px;" ng-model="newInvoice.dueDate" md-placeholder="วันที่ครบกำหนดชำระเงิน"></md-datepicker>
+                            <div class='datepicker input-group date col-xs-7' style="max-width:139px;margin-top:10px;">
+                                <input type='text' customdatepicker ng-model="newInvoice.deliveryDate" class="form-control input-sm" style="max-width:100px;" placeholder="วันครบกำหนดชำระเงิน" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,12 +192,10 @@
                                 <div><small>จำนวน</small></div>
                                 <div><small>Qty</small></div>
                             </th>
-                            <!--
                             <th width="100px" style="text-align:center;">
                                 <div><small>หน่วย</small></div>
                                 <div><small>Unit</small></div>
                             </th>
-                            -->
                             <th width="120px" style="text-align:center;">
                                 <div><small>หน่วยละ/บาท</small></div>
                                 <div><small>Qty. Price</small></div>
@@ -188,47 +217,44 @@
                             </td>
                             <td style="text-align:center;vertical-align:middle;">{{item.no}}</td>
                             <td>
-                                <select class="form-control input-sm" style="max-width:none;" ng-model='item.product' ng-options='option.name for option in data.productList track by option.productID'>
-                                    <option value="">- เลือก -</option>
-                                </select>
+                                @*<md-autocomplete md-min-length="0" md-selected-item="item.product" md-search-text="productSearchText" md-items="item in getProductMatches(productSearchText)" md-item-text="item.name" class="form-control input-sm">
+                                    <span md-highlight-text="productSearchText">{{item.name}}</span>
+                                </md-autocomplete>
+                                <span ng-show="!item.product" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>*@
+                                {{item.product.name}}
                             </td>
-                            <td style="text-align:center;">
+                            <td style="text-align:center;vertical-align:middle;">
                                 {{item.product.unitsPerPackageText}}
                             </td>
                             <td style="text-align:right;">
-                                <input type="number" ng-model="item.qty" style="text-align:right;max-width:none;" ng-required ng-validate="integer" class="form-control input-sm" placeholder="0" />
+                                {{item.qtyRemain}}
+                                <input type="number" min="0" max="item.qtyRemain" ng-model="item.qty" ng-change="modifyQtyRemain(item)" style="text-align:right;max-width:none;" class="form-control input-sm" placeholder="0" />
                             </td>
-                            <!--
-                            <td style="text-align:center;">
-                                <select class="form-control input-sm" style="max-width:none;" ng-model='item.unitType' ng-options='option.name for option in data.unitTypeList track by option.unitTypeID'>
-                                    <option value="">- เลือก -</option>
-                                </select>
-                            </td>
-                            -->
+                            <td style="text-align:center;vertical-align:middle;">{{item.product.unitType.name}}</td>
                             <td style="text-align:right;">
-                                <input type="number" ng-model="item.pricePerUnit" style="text-align:right;max-width:none;" ng-required ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
+                                <input type="number" min="0" ng-model="item.pricePerUnit" style="text-align:right;max-width:none;" class="form-control input-sm" placeholder="0.00" />
                             </td>
                             <td style="text-align:center;">
-                                <input type="number" min="0" max="100" ng-model="item.discount" style="text-align:right;max-width:none;" required class="form-control input-sm" placeholder="0" />
+                                <input type="number" min="0" max="100" ng-model="item.discount" style="text-align:right;max-width:none;" class="form-control input-sm" placeholder="0" />
                             </td>
                             <td style="text-align:right;vertical-align:middle;">
                                 {{calculateAmount(item) | currency: ''}}
                             </td>
                         </tr>
-                        <tr class="noPrint">
-                            <td colspan="8">
+                        @*<tr class="noPrint">
+                            <td colspan="9">
                                 <a class="btn btn-primary btn-xs" href="" ng-click="addItem()"><i class="glyphicon glyphicon-plus"></i></a>
                             </td>
-                        </tr>
+                        </tr>*@
                         <tr style="background-color:#f9f9f9;">
-                            <td colspan="5">
+                            <td colspan="6" style="text-align:right;">
                                 <textarea ng-model="newInvoice.notes" class="form-control col-xs-12" rows="3" style="min-width:100%" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
-                                <div>(.........................................................................บาทถ้วน)</div>
+                                <div>({{calculateNetTotalText()}})</div>
                             </td>
                             <td colspan="2" style="text-align:right;">
                                 <div>รวมเงิน/SUB TOTAL</div>
                                 <div>ส่วนลด/DISCOUNT</div>
-                                <div>ภาษีมูลค่าเพิ่ม/VAT</div>
+                                <div><input type="checkbox" ng-model="data.calTax"/> ภาษีมูลค่าเพิ่ม/VAT</div>
                                 <div>จำนวนเงินสุทธิ/NET TOTAL</div>
                             </td>
                             <td style="text-align:right;">
@@ -239,9 +265,9 @@
                             </td>
                         </tr>
                         <tr style="background-color:white;">
-                            <td colspan="5" style="padding:0px;text-align:center;vertical-align:middle;">
+                            <td colspan="6" style="padding:0px;text-align:center;vertical-align:middle;">
                                 <p>การชำระเงินโปรดจ่ายเช็คขีดคร่อมในนาม</p>
-                                <p>"ห้างหุ่นส่วน เจริญถาวร"</p>
+                                <p>"ห้างหุ้นส่วนจำกัด เจริญถาวร"</p>
                             </td>
                             <td colspan="3" style="padding:0px;text-align:center;">
                                 <div><strong>หจก.เจริญถาวร</strong></div>

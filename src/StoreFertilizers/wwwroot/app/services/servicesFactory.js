@@ -12,6 +12,7 @@
             var invoiceAPI_CreateNewInvoice = '/CreateNewInvoice';
             var invoiceDetailsAPI = '/InvoiceDetailsAPI';
             var purchasesAPI = '/PurchasesAPI';
+            var purchasesAPI_GetPurchasesTax = '/GetPurchasesTax';
             var stocksAPI = '/StocksAPI';
             var providersAPI = '/ProvidersAPI'
             var getProvidersList = '/GetProvidersList';
@@ -83,7 +84,7 @@
                 });
             };
             servicesFactory.getPurchaseTax = function () {
-                return $http.get(urlBase + purchasesAPI + '/' + 'GetPurchaseTax');
+                return $http.get(urlBase + purchasesAPI + purchasesAPI_GetPurchasesTax);
             };
             servicesFactory.getPurchaseByID = function (id) {
                 return $http.get(urlBase + purchasesAPI + '/' + id);

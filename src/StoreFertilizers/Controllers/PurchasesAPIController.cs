@@ -102,10 +102,10 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: api/PurchasesAPI/5
-        [HttpGet("GetPurchaseTax")]
-        public IActionResult GetPurchaseTax([FromRoute] int id)
+        [HttpGet("GetPurchasesTax")]
+        public IActionResult GetPurchasesTax()
         {
-            var purchases = _context.Purchases.Where(m => m.QtyRemain > 0).Where(n => n.IsTax == true).Include(i => i.Product);
+            var purchases = _context.Purchases.Where(m => m.IsTax && m.QtyRemain > 0).Include(i => i.Product).ThenInclude(p => p.UnitType);
 
             return Ok(purchases);
         }

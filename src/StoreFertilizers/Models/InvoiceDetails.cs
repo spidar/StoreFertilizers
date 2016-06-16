@@ -9,6 +9,9 @@ namespace StoreFertilizers.Models
     {
         public int InvoiceDetailsID { get; set; }
 
+        public int? PurchaseID { get; set; }
+        public virtual Purchase Purchase { get; set; }
+
         [Display(Name = "ใบส่งสินค้าเลขที่")]
         public int InvoiceID { get; set; }
         //public virtual Invoice Invoice { get; set; }
@@ -49,6 +52,8 @@ namespace StoreFertilizers.Models
         public int OrgProductID { get; set; }
         [NotMapped]
         public decimal OrgQty { get; set; }
+        [NotMapped]
+        public decimal QtyRemain { get; set; }
         /*
         #region Calculated fields
         [NotMapped]

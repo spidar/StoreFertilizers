@@ -18,6 +18,7 @@
             $scope.isEditMode = false;
             $scope.expandme = true;
             $scope.data = {
+                saved: false,
                 printMode: false,
                 printValueOnly: true,
                 customerList: null,
@@ -26,7 +27,8 @@
                 unitTypeList: null,
                 //bankList: null,
                 //paymentTypeList: null,
-                purchaseList: null
+                purchaseList: [],
+                calTax: false
             };
 
             $scope.invoices = {};
@@ -105,10 +107,48 @@
             $scope.getAllPurchases = function () {
                 servicesFactory.getPurchaseTax()
                 .then(function (response) {
-                    $scope.data.purchaseList = response.data;
+                    for (var i = 0; i < response.data.length; i++) {
+                        var foundPurchase = $scope.newInvoice.invoiceDetails.map(function (x) { return x.purchase.purchaseID; }).indexOf(response.data[i].purchaseID);
+                        if (foundPurchase !== -1) {
+                            response.data[i].checked = true;
+                        }
+                        $scope.data.purchaseList.push(response.data[i]);
+                    }
                 }, function (error) {
                     $scope.status = 'ไม่สามารถโหลดข้อมูลการซื้อสินค้าได้: ' + error.statusText;
                 });
+            }
+
+            $scope.insertInvoice = function () {
+                servicesFactory.insertInvoice($scope.newInvoice)
+                    .then(function (response) {
+                        $scope.newInvoice = response.data;
+                        $scope.reindexItem();
+                        $scope.data.saved = true;
+                        $scope.status = '...บันทีกเรียบร้อย !';
+                        $scope.showLoading = false;
+                        $timeout(function () {
+                            $scope.status = '';
+                        }, 5000);
+                    }, function (error) {
+                        $scope.showLoading = false;
+                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
+                    });
+            }
+            $scope.updateInvoice = function () {
+                servicesFactory.updateInvoice($scope.newInvoice)
+                    .then(function (response) {
+                        $scope.newInvoice = response.data;
+                        $scope.reindexItem();
+                        $scope.status = '...บันทีกเรียบร้อย !';
+                        $scope.showLoading = false;
+                        $timeout(function () {
+                            $scope.status = '';
+                        }, 5000);
+                    }, function (error) {
+                        $scope.showLoading = false;
+                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
+                    });
             }
 
             $scope.saveInvoice = function () {
@@ -132,30 +172,16 @@
                 $scope.showLoading = true;
                 if (absUrl.indexOf('/Create') >= 0)
                 {
-                    servicesFactory.insertInvoice($scope.newInvoice)
-                    .then(function (response) {
-                        $scope.status = '...บันทีกเรียบร้อย !';
-                        $scope.showLoading = false;
-                        $timeout(function () {
-                            $scope.status = '';
-                        }, 5000);
-                    }, function (error) {
-                        $scope.showLoading = false;
-                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
-                    });
+                    if (!$scope.data.saved)
+                    {
+                        $scope.insertInvoice();
+                    } else {
+                        $scope.updateInvoice();
+                    }
+                    
                 } else if (absUrl.indexOf('/Edit/') >= 0)
                 {
-                    servicesFactory.updateInvoice($scope.newInvoice)
-                    .then(function (response) {
-                        $scope.status = '...บันทีกเรียบร้อย !';
-                        $scope.showLoading = false;
-                        $timeout(function() {
-                            $scope.status = '';
-                        }, 5000); 
-                    }, function (error) {
-                        $scope.showLoading = false;
-                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
-                    });
+                    $scope.updateInvoice();
                 }
             }
             
@@ -185,6 +211,7 @@
                         if (elementPos !== -1)
                         {
                             var objectFound = $scope.data.purchaseList[elementPos];
+                            objectFound.qtyRemain = objectFound.qtyRemain + item.qty;
                             objectFound.checked = false;
                         }
                     }
@@ -303,7 +330,6 @@
                 item.amount = (item.pricePerUnit * item.qty) * (1 - item.discount / 100);
                 return item.amount;
             };
-
             // Calculates the sub total of the invoice
             $scope.invoiceSubTotal = function () {
                 var total = 0.00;
@@ -312,7 +338,6 @@
                 });
                 return total;
             };
-
             // Calculates the sub total of the invoice
             $scope.invoiceTotalDiscount = function () {
                 var total = 0.00;
@@ -321,12 +346,15 @@
                 });
                 return total;
             };
-
             // Calculates the tax of the invoice
             $scope.calculateTax = function () {
-                return ((7 * $scope.invoiceSubTotal()) / 100);
+                if ($scope.data.calTax) {
+                    return ((7 * $scope.invoiceSubTotal()) / 100);
+                }else
+                {
+                    return 0;
+                }
             };
-
             // Calculates the net total of the invoice
             $scope.calculateNetTotal = function () {
                 //saveInvoice();
@@ -337,7 +365,6 @@
                 $scope.newInvoice.netTotalText = $scope.moneyToWord($scope.newInvoice.netTotal);
                 return $scope.newInvoice.netTotalText;
             };
-
             $scope.purchaseItemChanged = function ($event, item) {
                 var checkbox = $event.target;
                 var action = (checkbox.checked ? 'add' : 'remove');
@@ -349,44 +376,118 @@
                     var newInvoiceDetail = {
                         invoiceDetailsID: 0,
                         purchaseID: item.purchaseID,
+                        purchase: item,
                         no: 0,
                         productID: item.productID,
                         product: angular.copy(item.product),
                         unitTypeID: item.unitTypeID,
                         unitType: angular.copy(item.unitType),
                         invoiceID: $scope.newInvoice.invoiceID,
-                        qty: item.qtyRemain,
+                        //qty: item.qtyRemain,
+                        qtyRemain: item.qtyRemain,
                         pricePerUnit: 0,
                         discount: 0,
                         amount: 0
                     };
                     $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
                     $scope.reindexItem();
+                } else if (action === 'add' && elementPos !== -1) {
+                    var invoiceDetailItem = $scope.newInvoice.invoiceDetails[elementPos];
+                    invoiceDetailItem.isDeleted = false;
+                    invoiceDetailItem.qtyRemain = item.qtyRemain;
+                    invoiceDetailItem.qty = 0;
                 }
                 if (action === 'remove' && elementPos !== -1) {
-                    $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf($scope.newInvoice.invoiceDetails[elementPos]), 1);
+                    var invoiceDetailItem = $scope.newInvoice.invoiceDetails[elementPos];
+                    item.qtyRemain = invoiceDetailItem.qtyRemain;//item.qtyRemain + invoiceDetailItem.qty;
+                    if (invoiceDetailItem.invoiceDetailsID !== 0) {
+                        invoiceDetailItem.isDeleted = true;
+                    } else {
+                        $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf($scope.newInvoice.invoiceDetails[elementPos]), 1);
+                    }
                     $scope.reindexItem();
                 }
             };
 
+            $scope.modifyQtyRemain = function (item) {
+                if ($scope.newInvoice.isTax) {
+                    var elementPos = $scope.data.purchaseList.map(function (x) { return x.purchaseID; }).indexOf(item.purchaseID);
+                    if (elementPos !== -1) {
+                        var purchase = $scope.data.purchaseList[elementPos];
+                        if (item.qty <= item.qtyRemain) {
+                            purchase.qtyRemain = item.qtyRemain - item.qty;
+                            //item.purchase = objectFound;
+                        }else
+                        {
+                            item.qty = item.qtyRemain;
+                            //item.purchase.qtyRemain = 0;
+                        }
+                    }
+                }
+            };
             /**
             * Create filter function for a query string
             */
-            function createFilterFor(query) {
+            $scope.createFilterFor = function(query) {
                 var lowercaseQuery = angular.lowercase(query);
                 return function filterFn(item) {
                     return (angular.lowercase(item.name).indexOf(lowercaseQuery) >= 0);
                 };
-            }
+            };
 
             $scope.getProductMatches = function (productSearchText) {
-                var results = productSearchText ? $scope.data.productList.filter(createFilterFor(productSearchText)) : $scope.data.productList;
+                var results = productSearchText ? $scope.data.productList.filter($scope.createFilterFor(productSearchText)) : $scope.data.productList;
                 return results;
             };
 
             $scope.getCustomerMatches = function (customerSearchText) {
-                var results = customerSearchText ? $scope.data.customerList.filter(createFilterFor(customerSearchText)) : $scope.data.customerList;
+                var results = customerSearchText ? $scope.data.customerList.filter($scope.createFilterFor(customerSearchText)) : $scope.data.customerList;
                 return results;
+            };
+
+            $scope.reloadPageData = function () {
+                var absUrl = $location.absUrl();
+                var id = absUrl.substr(absUrl.lastIndexOf('/') + 1);
+                if (absUrl.indexOf('/Create') >= 0) {
+                    var params = {
+                        isTax: false
+                    };
+                    if (absUrl.indexOf('isTax=true') >= 0) {
+                        params.isTax = true;
+                        $scope.getAllPurchases();
+                    }
+                    servicesFactory.createNewInvoice(params)
+                    .then(function (response) {
+                        $scope.newInvoice = response.data;
+                        $scope.reindexItem();
+                    }, function (error) {
+                        $scope.status = 'ไม่สามารถตั้งค่าเริ่มต้นได้ ' + error.statusText;
+                    });
+                    $scope.isEditMode = false;
+                } else if (absUrl.indexOf('/Edit/') >= 0) {
+                    
+                    servicesFactory.getInvoiceByID(id)
+                    .then(function (response) {
+                        $scope.newInvoice = response.data;
+                        for (var i = $scope.newInvoice.invoiceDetails.length - 1; i >= 0 ; i--)
+                        {
+                            var purchase = $scope.newInvoice.invoiceDetails[i].purchase;
+                            $scope.newInvoice.invoiceDetails[i].qtyRemain = purchase.qtyRemain;
+                            purchase.checked = true;
+                            if (purchase.qtyRemain == 0) {
+                                $scope.data.purchaseList.unshift(purchase);
+                            }
+                        }
+                        if (absUrl.indexOf('isTax=true') >= 0) {
+                            $scope.getAllPurchases();
+                        }
+
+                        $scope.isEditMode = true;
+                        $scope.reindexItem();
+                    }, function (error) {
+                        $scope.status = 'ไม่สามารถโหลดข้อมูลใบส่งสินค้าได้ ' + error.statusText;
+                    });
+                }
             };
 
             //Init all data
@@ -397,39 +498,7 @@
                 //$scope.getAllUnitTypes();
                 //$scope.getAllBanks();
                 //$scope.getAllPaymentTypes();
-                
-
-                var absUrl = $location.absUrl();
-                var id = absUrl.substr(absUrl.lastIndexOf('/') + 1);
-                if (absUrl.indexOf('/Create') >= 0)
-                {
-                    var params = {
-                        isTax: false
-                    };
-                    if (absUrl.indexOf('isTax=true') >= 0)
-                    {
-                        params.isTax = true;
-                        $scope.getAllPurchases();
-                    } 
-                    servicesFactory.createNewInvoice(params)
-                    .then(function (response) {
-                        $scope.newInvoice = response.data;
-                        $scope.reindexItem();
-                    }, function (error) {
-                        $scope.status = 'ไม่สามารถตั้งค่าเริ่มต้นได้ ' + error.statusText;
-                    });
-                    $scope.isEditMode = false;
-                } else if (absUrl.indexOf('/Edit/') >= 0)
-                {
-                    servicesFactory.getInvoiceByID(id)
-                    .then(function (response) {
-                        $scope.newInvoice = response.data;
-                        $scope.isEditMode = true;
-                        $scope.reindexItem();
-                    }, function (error) {
-                        $scope.status = 'ไม่สามารถโหลดข้อมูลใบส่งสินค้าได้ ' + error.statusText;
-                    });
-                }
+                $scope.reloadPageData();               
                 
             })()
             //End init

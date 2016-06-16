@@ -161,7 +161,7 @@ namespace StoreFertilizers.Models {
                 for (int i = 0; i < 5; i++) {
                     Invoice invoice = new Invoice();
                     invoice.IsTax = new Random().Next(0, 10) >= 5;
-                    invoice.InvoiceNumber = "SH0000" + i.ToString();
+                    invoice.InvoiceNumber = "CT" + (DateTime.Now.Year % 100).ToString("00") + m.ToString("00") + "-" + i.ToString("D5");
                     invoice.Customer = customers[new Random(m).Next(0, customers.Count - 1)]; //random customer
                     //invoice.CustomerID = invoice.Customer.CustomerID;
                     invoice.CustomerName = invoice.Customer.Name;
@@ -283,7 +283,7 @@ namespace StoreFertilizers.Models {
             }
             #endregion
 
-            #region randon Expenses
+            #region randon purchase
             //var articles_dummy = new string[] { "Food expense", "Car expense", "Computer item", "Train ticket", "Plain ticket" };
             //for (int a = 1; a <= 100; a++)
             for (int m = 1; m < DateTime.Now.Month; m++)
@@ -307,6 +307,23 @@ namespace StoreFertilizers.Models {
                         //UnitType = unitTypes[new Random(i).Next(0, unitTypes.Count - 1)],
                         Amount = qty * purchasePrice,
                         IsTax = new Random().Next(0, 10) >= 5,
+                        //VAT = 7,
+                        //PurchaseType = expenseCats[new Random(i).Next(0, expenseCats.Count - 1)],
+                    });
+                    context.Purchases.Add(new Purchase()
+                    {
+                        PurchaseNumber = "PO100" + i,
+                        PurchaseDate = new DateTime(DateTime.Now.Year, m, new Random(i).Next(1, 28)),
+                        BillNumber = "1000" + i,
+                        Provider = providers[new Random(i).Next(0, providers.Count - 1)],
+                        Qty = qty,
+                        QtyRemain = qty,
+                        Product = products[new Random(i).Next(0, products.Count - 1)],
+                        SalePrice = new Random(i).Next(10, 100),
+                        PurchasePricePerUnit = purchasePrice,
+                        //UnitType = unitTypes[new Random(i).Next(0, unitTypes.Count - 1)],
+                        Amount = qty * purchasePrice,
+                        IsTax = true,
                         //VAT = 7,
                         //PurchaseType = expenseCats[new Random(i).Next(0, expenseCats.Count - 1)],
                     });

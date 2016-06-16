@@ -34,21 +34,46 @@ namespace StoreFertilizers.Controllers
         {
             Invoice invoice = new Invoice();
             var lastInvoice = _context.Invoices.Where(i => i.IsTax == isTax).OrderByDescending(x => x.InvoiceID).FirstOrDefault();
+            string yearString = (DateTime.Now.Year % 100).ToString("00");
+            string monthString = DateTime.Now.Month.ToString("00");
+            string prefixInvoice = "CT" + (DateTime.Now.Year % 100).ToString("00") + DateTime.Now.Month.ToString("00");
             if (lastInvoice != null)
             {
                 if (lastInvoice.InvoiceNumber.Contains("-"))
                 {
-                    int lastInvoiceNumber;
-                    if (int.TryParse(lastInvoice.InvoiceNumber.Split('-')[1], out lastInvoiceNumber))
+                    int lastInvoiceNumber;                    
+                    string[] invNumberSplit = lastInvoice.InvoiceNumber.Split('-');
+                    if(invNumberSplit.Length >= 2)
                     {
-                        invoice.InvoiceNumber = "CT" + (DateTime.Now.Year % 100) + DateTime.Now.Month.ToString("00") + "-" + (lastInvoiceNumber + 1).ToString("D5");
-                    }
+                        if (invNumberSplit[0].Equals(prefixInvoice))
+                        {
+                            //Same month
+                            if (int.TryParse(invNumberSplit[1], out lastInvoiceNumber))
+                            {
+                                invoice.InvoiceNumber = prefixInvoice + "-" + (lastInvoiceNumber + 1).ToString("D5");
+                            }
+                            else
+                            {
+                                //Something wrong
+                            }
+                        }
+                        else
+                        {
+                            //Diff month
+                            invoice.InvoiceNumber = prefixInvoice + "-00001";
+                        }
+                    }                   
                 }
+            }else
+            {
+                //First Invoice
+                invoice.InvoiceNumber = prefixInvoice + "-00001";
             }
-            if(!isTax)
+            if (!isTax)
             {
                 invoice.InvoiceDetails.Add(new InvoiceDetails());
             }
+            invoice.CreatedDate = DateTime.Now;
             return invoice;
         }
 
@@ -186,7 +211,10 @@ namespace StoreFertilizers.Controllers
                 //var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
                 var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID).ToList();
                 var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
-
+                if (invoice.IsTax)
+                {
+                    var purchase = _context.Purchases.Where(i => i.PurchaseID == item.PurchaseID).ToList();
+                }
                 item.OrgProductID = item.ProductID;
                 item.OrgQty = item.Qty;
             }
@@ -240,18 +268,30 @@ namespace StoreFertilizers.Controllers
             #region "Handle Add detailInvoices"
             var addNews = invoice.InvoiceDetails.Where(i => i.InvoiceDetailsID == 0).ToList();
             Stock productInStock = null;
-            foreach(var item in addNews)
+            Purchase purcahseItem = null;
+
+            foreach (var item in addNews)
             {
-                #region "Handle Stock"
-                productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
-                if (productInStock == null)
+                if (invoice.IsTax == false)
                 {
-                    return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                    #region "Handle Stock"
+                    productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                    if (productInStock == null)
+                    {
+                        return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                    }
+                    //Create case should be strang forward.
+                    productInStock.Balance -= item.Qty;
+                    _context.Entry(productInStock).State = EntityState.Modified;
+                    #endregion
                 }
-                //Create case should be strang forward.
-                productInStock.Balance -= item.Qty;
-                _context.Entry(productInStock).State = EntityState.Modified;
-                #endregion
+                else
+                {
+                    //Handle QtyRemain
+                    purcahseItem = _context.Purchases.SingleOrDefault(i => i.PurchaseID == item.PurchaseID);
+                    purcahseItem.QtyRemain = item.Purchase.QtyRemain;// - item.Qty;
+                    _context.Entry(purcahseItem).State = EntityState.Modified;
+                }
                 invoice.InvoiceDetails.Remove(item);
                 item.CreatedDate = invoice.CreatedDate;
                 _context.InvoiceDetails.Add(item);
@@ -262,43 +302,68 @@ namespace StoreFertilizers.Controllers
             Stock orgProductInStock = null;
             foreach (var item in invoice.InvoiceDetails)
             {
-                item.CreatedDate = invoice.CreatedDate;
+                //item.CreatedDate = invoice.CreatedDate;
                 if (item.InvoiceDetailsID > 0)
                 {
                     bool isDeleted = (item.IsDeleted != null && item.IsDeleted.Value);
-                    orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.OrgProductID);
-                    if (item.Product.ProductID != item.OrgProductID)
+                    if (invoice.IsTax == false)
                     {
-                        productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                        orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.OrgProductID);
+                        if (item.Product.ProductID != item.OrgProductID)
+                        {
+                            productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                        }
+                    }
+                    else
+                    {
+                        purcahseItem = _context.Purchases.SingleOrDefault(i => i.PurchaseID == item.PurchaseID);
                     }
                     if (isDeleted)
                     {
                         _context.InvoiceDetails.Remove(item);
-                        #region "Handle Stock"
-                        orgProductInStock.Balance += item.OrgQty;
-                        _context.Entry(orgProductInStock).State = EntityState.Modified;
-                        #endregion
-                    }
-                    else
-                    {
-                        #region "Handle Stock"
-                        if (item.Product.ProductID == item.OrgProductID)
+                        if (invoice.IsTax == false)
                         {
-                            if (item.Qty != item.OrgQty)
-                            {
-                                orgProductInStock.Balance += item.OrgQty;
-                                orgProductInStock.Balance -= item.Qty;
-                                _context.Entry(orgProductInStock).State = EntityState.Modified;
-                            }
+                            #region "Handle Stock"
+                            orgProductInStock.Balance += item.OrgQty;
+                            _context.Entry(orgProductInStock).State = EntityState.Modified;
+                            #endregion
                         }
                         else
                         {
-                            orgProductInStock.Balance += item.OrgQty;
-                            productInStock.Balance -= item.Qty;
-                            _context.Entry(productInStock).State = EntityState.Modified;
-                            _context.Entry(orgProductInStock).State = EntityState.Modified;
+                            //Handle QtyRemain
+                            purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
+                            _context.Entry(purcahseItem).State = EntityState.Modified;
                         }
-                        #endregion
+                    }
+                    else
+                    {
+                        if (invoice.IsTax == false)
+                        {
+                            #region "Handle Stock"
+                            if (item.Product.ProductID == item.OrgProductID)
+                            {
+                                if (item.Qty != item.OrgQty)
+                                {
+                                    orgProductInStock.Balance += item.OrgQty;
+                                    orgProductInStock.Balance -= item.Qty;
+                                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                                }
+                            }
+                            else
+                            {
+                                orgProductInStock.Balance += item.OrgQty;
+                                productInStock.Balance -= item.Qty;
+                                _context.Entry(productInStock).State = EntityState.Modified;
+                                _context.Entry(orgProductInStock).State = EntityState.Modified;
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            //Handle QtyRemain
+                            purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
+                            _context.Entry(purcahseItem).State = EntityState.Modified;
+                        }
                         _context.Entry(item).State = EntityState.Modified;
                     }
                 }
@@ -320,8 +385,13 @@ namespace StoreFertilizers.Controllers
                     throw;
                 }
             }
-
-            return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
+            foreach(var item in invoice.InvoiceDetails)
+            {
+                item.OrgProductID = item.Product.ProductID;
+                item.OrgQty = item.Qty;
+            }
+            //return new HttpStatusCodeResult(StatusCodes.Status204NoContent);
+            return CreatedAtRoute("GetInvoice", new { id = invoice.InvoiceID }, invoice);
         }
 
         // POST: api/InvoicesAPI
@@ -340,17 +410,29 @@ namespace StoreFertilizers.Controllers
             foreach (var item in invoice.InvoiceDetails)
             {
                 item.CreatedDate = invoice.CreatedDate;
-
-                #region "Handle Stock"
-                productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
-                if(productInStock == null)
+                if (invoice.IsTax == false)
                 {
-                    return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                    #region "Handle Stock"
+                    productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == item.Product.ProductID);
+                    if (productInStock == null)
+                    {
+                        return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                    }
+                    //Create case should be strang forward.
+                    productInStock.Balance -= item.Qty;
+                    _context.Entry(productInStock).State = EntityState.Modified;
+                    #endregion
                 }
-                //Create case should be strang forward.
-                productInStock.Balance -= item.Qty;
-                _context.Entry(productInStock).State = EntityState.Modified;
-                #endregion
+                else
+                {
+                    //Handle QtyRemain
+                    Purchase purcahseItem = _context.Purchases.SingleOrDefault(i => i.PurchaseID == item.PurchaseID);
+                    purcahseItem.QtyRemain = item.Purchase.QtyRemain;// - item.Qty;
+                    _context.Entry(purcahseItem).State = EntityState.Modified;
+                }
+
+                item.OrgProductID = item.Product.ProductID;
+                item.OrgQty = item.Qty;
             }
             _context.Invoices.Add(invoice);
             try

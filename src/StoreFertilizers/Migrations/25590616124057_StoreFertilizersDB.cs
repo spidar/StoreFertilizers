@@ -316,38 +316,6 @@ namespace StoreFertilizers.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
             migrationBuilder.CreateTable(
-                name: "InvoiceDetails",
-                columns: table => new
-                {
-                    InvoiceDetailsID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<decimal>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: true),
-                    Discount = table.Column<decimal>(nullable: true),
-                    ExpectedProfit = table.Column<decimal>(nullable: true),
-                    InvoiceID = table.Column<int>(nullable: false),
-                    IsDeleted = table.Column<bool>(nullable: true),
-                    PricePerUnit = table.Column<decimal>(nullable: true),
-                    ProductID = table.Column<int>(nullable: false),
-                    Qty = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InvoiceDetails", x => x.InvoiceDetailsID);
-                    table.ForeignKey(
-                        name: "FK_InvoiceDetails_Invoice_InvoiceID",
-                        column: x => x.InvoiceID,
-                        principalTable: "Invoice",
-                        principalColumn: "InvoiceID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InvoiceDetails_Product_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "Product",
-                        principalColumn: "ProductID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-            migrationBuilder.CreateTable(
                 name: "Purchase",
                 columns: table => new
                 {
@@ -408,6 +376,45 @@ namespace StoreFertilizers.Migrations
                         principalColumn: "ProductID",
                         onDelete: ReferentialAction.Cascade);
                 });
+            migrationBuilder.CreateTable(
+                name: "InvoiceDetails",
+                columns: table => new
+                {
+                    InvoiceDetailsID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount = table.Column<decimal>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    Discount = table.Column<decimal>(nullable: true),
+                    ExpectedProfit = table.Column<decimal>(nullable: true),
+                    InvoiceID = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: true),
+                    PricePerUnit = table.Column<decimal>(nullable: true),
+                    ProductID = table.Column<int>(nullable: false),
+                    PurchaseID = table.Column<int>(nullable: true),
+                    Qty = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceDetails", x => x.InvoiceDetailsID);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDetails_Invoice_InvoiceID",
+                        column: x => x.InvoiceID,
+                        principalTable: "Invoice",
+                        principalColumn: "InvoiceID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDetails_Product_ProductID",
+                        column: x => x.ProductID,
+                        principalTable: "Product",
+                        principalColumn: "ProductID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDetails_Purchase_PurchaseID",
+                        column: x => x.PurchaseID,
+                        principalTable: "Purchase",
+                        principalColumn: "PurchaseID",
+                        onDelete: ReferentialAction.Restrict);
+                });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -430,15 +437,15 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("Employee");
             migrationBuilder.DropTable("InvoiceDetails");
-            migrationBuilder.DropTable("Purchase");
             migrationBuilder.DropTable("Stock");
             migrationBuilder.DropTable("User");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
             migrationBuilder.DropTable("Invoice");
-            migrationBuilder.DropTable("Provider");
-            migrationBuilder.DropTable("Product");
+            migrationBuilder.DropTable("Purchase");
             migrationBuilder.DropTable("Customer");
+            migrationBuilder.DropTable("Product");
+            migrationBuilder.DropTable("Provider");
             migrationBuilder.DropTable("ProductType");
             migrationBuilder.DropTable("UnitType");
         }
