@@ -63,7 +63,7 @@ namespace StoreFertilizers.Models
         public string DeliveryByCarNumber { get; set; }
 
         [Display(Name = "ชำระเงินแล้ว")]
-        public bool? Paid { get; set; }
+        public bool Paid { get; set; }
 
         [Display(Name = "ชำระโดย")]
         //public int? PaymentTypeID { get; set; }
@@ -120,7 +120,7 @@ namespace StoreFertilizers.Models
         public decimal? Discount { get; set; }
 
         [Display(Name = "ภาษีมูลค่าเพิ่ม")]
-        [Range(0.00, 100.0, ErrorMessage = "ค่าจะต้องเป็น % และอยู่ระหว่าง 0 ถึง 100")]
+        //[Range(0.00, 100.0, ErrorMessage = "ค่าจะต้องเป็น % และอยู่ระหว่าง 0 ถึง 100")]
         public decimal VAT { get; set; }
 
         [Display(Name = "จำนวนเงินสุทธิ")]

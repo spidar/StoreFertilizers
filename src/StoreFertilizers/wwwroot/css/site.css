@@ -34,7 +34,7 @@ textarea {
 }
 
 .table-bordernocolor tbody tr td, .table-borderless tbody tr th, .table-borderless thead tr th {
-    border-color:transparent;
+    border-color:#FFF !important;
 }
 
 .green_grad {

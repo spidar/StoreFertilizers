@@ -32,6 +32,7 @@
             };
 
             $scope.invoices = {};
+            $scope.blankInvoiceDetails = {};
 
             $scope.companyInfo = {
                 name : 'หจก. เจริญถาวร',
@@ -194,6 +195,8 @@
                         counter = counter + 1;
                     }
                 }
+                //for print
+                $scope.fillBlankRows();
             }
             // Adds an item to the invoice's items
             $scope.addItem = function () {                
@@ -336,6 +339,7 @@
                 angular.forEach($scope.newInvoice.invoiceDetails, function (item, key) {
                     total += (item.amount);
                 });
+                $scope.newInvoice.subTotal = total;
                 return total;
             };
             // Calculates the sub total of the invoice
@@ -344,14 +348,17 @@
                 angular.forEach($scope.newInvoice.invoiceDetails, function (item, key) {
                     total += (item.pricePerUnit * item.qty) * (item.discount / 100);
                 });
+                $scope.newInvoice.discount = total;
                 return total;
             };
             // Calculates the tax of the invoice
             $scope.calculateTax = function () {
                 if ($scope.data.calTax) {
-                    return ((7 * $scope.invoiceSubTotal()) / 100);
+                    $scope.newInvoice.vat = ((7 * $scope.invoiceSubTotal()) / 100);
+                    return $scope.newInvoice.vat;
                 }else
                 {
+                    $scope.newInvoice.vat = 0;
                     return 0;
                 }
             };
@@ -359,6 +366,12 @@
             $scope.calculateNetTotal = function () {
                 //saveInvoice();
                 $scope.newInvoice.netTotal = $scope.invoiceSubTotal();
+                if (!!$scope.newInvoice.discount && $scope.newInvoice.discount <= $scope.newInvoice.netTotal) {
+                    $scope.newInvoice.netTotal = $scope.newInvoice.netTotal - $scope.newInvoice.discount;
+                }
+                if ($scope.data.calTax) {
+                    $scope.newInvoice.netTotal = $scope.newInvoice.netTotal + $scope.newInvoice.vat;
+                }
                 return $scope.newInvoice.netTotal;
             };
             $scope.calculateNetTotalText = function () {                
@@ -384,6 +397,7 @@
                         unitType: angular.copy(item.unitType),
                         invoiceID: $scope.newInvoice.invoiceID,
                         //qty: item.qtyRemain,
+                        qty: 0,
                         qtyRemain: item.qtyRemain,
                         pricePerUnit: 0,
                         discount: 0,
@@ -393,13 +407,16 @@
                     $scope.reindexItem();
                 } else if (action === 'add' && elementPos !== -1) {
                     var invoiceDetailItem = $scope.newInvoice.invoiceDetails[elementPos];
+                    invoiceDetailItem.purchase = item;
                     invoiceDetailItem.isDeleted = false;
                     invoiceDetailItem.qtyRemain = item.qtyRemain;
                     invoiceDetailItem.qty = 0;
                 }
                 if (action === 'remove' && elementPos !== -1) {
                     var invoiceDetailItem = $scope.newInvoice.invoiceDetails[elementPos];
-                    item.qtyRemain = invoiceDetailItem.qtyRemain;//item.qtyRemain + invoiceDetailItem.qty;
+                    if (invoiceDetailItem.qtyRemain <= item.qty) {
+                        item.qtyRemain = invoiceDetailItem.qtyRemain;
+                    }
                     if (invoiceDetailItem.invoiceDetailsID !== 0) {
                         invoiceDetailItem.isDeleted = true;
                     } else {
@@ -420,7 +437,7 @@
                         }else
                         {
                             item.qty = item.qtyRemain;
-                            //item.purchase.qtyRemain = 0;
+                            purchase.qtyRemain = 0;
                         }
                     }
                 }
@@ -469,19 +486,19 @@
                     servicesFactory.getInvoiceByID(id)
                     .then(function (response) {
                         $scope.newInvoice = response.data;
-                        for (var i = $scope.newInvoice.invoiceDetails.length - 1; i >= 0 ; i--)
-                        {
-                            var purchase = $scope.newInvoice.invoiceDetails[i].purchase;
-                            $scope.newInvoice.invoiceDetails[i].qtyRemain = purchase.qtyRemain;
-                            purchase.checked = true;
-                            if (purchase.qtyRemain == 0) {
-                                $scope.data.purchaseList.unshift(purchase);
-                            }
-                        }
+                        
                         if (absUrl.indexOf('isTax=true') >= 0) {
                             $scope.getAllPurchases();
+                            for (var i = $scope.newInvoice.invoiceDetails.length - 1; i >= 0 ; i--) {
+                                var purchase = $scope.newInvoice.invoiceDetails[i].purchase;
+                                $scope.newInvoice.invoiceDetails[i].qtyRemain = purchase.qtyRemain + $scope.newInvoice.invoiceDetails[i].qty;
+                                purchase.checked = true;
+                                if (purchase.qtyRemain == 0) {
+                                    $scope.data.purchaseList.unshift(purchase);
+                                }
+                            }
                         }
-
+                        $scope.data.calTax = ($scope.newInvoice.vat > 0);
                         $scope.isEditMode = true;
                         $scope.reindexItem();
                     }, function (error) {
@@ -489,7 +506,15 @@
                     });
                 }
             };
-
+            $scope.fillBlankRows = function () {
+                var blankRows = 11 - $scope.newInvoice.invoiceDetails.length;
+                if (blankRows > 0) {
+                    $scope.blankInvoiceDetails = new Array(blankRows);
+                }else
+                {
+                    $scope.blankInvoiceDetails = 0;
+                }
+            };
             //Init all data
             (function init() {
                 $scope.getAllCustomer();

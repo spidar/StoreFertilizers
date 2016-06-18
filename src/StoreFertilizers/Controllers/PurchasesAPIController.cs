@@ -295,6 +295,16 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
+            #region Handle stock            
+            Stock orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
+            if (orgProductInStock != null)
+            {
+                orgProductInStock.Balance -= purchase.Qty;
+                orgProductInStock.LastUpdated = DateTime.Now;
+                _context.Entry(orgProductInStock).State = EntityState.Modified;
+            }
+            #endregion
+
             _context.Purchases.Remove(purchase);
             _context.SaveChanges();
 

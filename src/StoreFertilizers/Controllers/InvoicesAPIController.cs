@@ -74,6 +74,10 @@ namespace StoreFertilizers.Controllers
                 invoice.InvoiceDetails.Add(new InvoiceDetails());
             }
             invoice.CreatedDate = DateTime.Now;
+            invoice.DueDate = DateTime.Now;
+            invoice.DeliveryDate = DateTime.Now;
+            invoice.ShipTo = "ที่อยู่ลูกค้า";
+            invoice.Paid = false;
             return invoice;
         }
 
@@ -129,26 +133,26 @@ namespace StoreFertilizers.Controllers
             #region "Handle DueDate"
             if (!string.IsNullOrEmpty(dueIn))
             {
-                invoices_result = invoices_result.Where(x => x.Paid != null && x.Paid.Value == false && x.DueDate != null);
+                invoices_result = invoices_result.Where(x => x.Paid == false);
                 switch (dueIn)
                 {
                     case "over":
-                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date < DateTime.Now.Date);
+                        invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date < DateTime.Now.Date);
                         break;
                     case "today":
-                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date == DateTime.Now.Date);
+                        invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date == DateTime.Now.Date);
                         break;
                     case "tomorrow":
                         DateTime tomorrow = DateTime.Now.AddDays(1);
-                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date == tomorrow.Date);
+                        invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date == tomorrow.Date);
                         break;
                     case "next3":
                         DateTime next3 = DateTime.Now.AddDays(3);
-                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next3.Date);
+                        invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next3.Date);
                         break;
                     case "next7":
                         DateTime next7 = DateTime.Now.AddDays(7);
-                        invoices_result = invoices_result.Where(x => x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next7.Date);
+                        invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= next7.Date);
                         break;
                 }
 
