@@ -33,7 +33,7 @@
                         if (!val) {
                             return '';
                         }
-                        return moment(val).format('DD/MM/YYYY');
+                        return moment(val, 'YYYY-MM-DD').format('DD/MM/YYYY');
                     };
                     ngModelCtrl.$formatters.push(toView);
                     scope.$watch(attrs.ngModel, function (val) {

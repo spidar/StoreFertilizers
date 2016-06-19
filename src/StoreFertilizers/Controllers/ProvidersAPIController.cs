@@ -7,9 +7,11 @@ using StoreFertilizers.Models;
 using System.Collections;
 using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
+using Microsoft.AspNet.Cors;
 
 namespace StoreFertilizers.Controllers
 {
+    [EnableCors("mypolicy")]
     [Produces("application/json")]
     [Route("api/ProvidersAPI")]
     public class ProvidersAPIController : Controller

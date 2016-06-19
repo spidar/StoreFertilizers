@@ -155,6 +155,20 @@ namespace StoreFertilizers.Models {
 
             #region Add some dummy random invoices
             string invoice_number = string.Empty;
+            var taxPurchaseFor = new Purchase()
+            {
+                PurchaseNumber = "PO1001",
+                PurchaseDate = new DateTime(DateTime.Now.Year, 1, new Random(5).Next(1, 28)),
+                BillNumber = "10001",
+                Qty = 1000,
+                QtyRemain = 1000,
+                Product = products[new Random(2).Next(0, products.Count - 1)],
+                SalePrice = 100,
+                PurchasePricePerUnit = 100,
+                //UnitType = unitTypes[new Random(i).Next(0, unitTypes.Count - 1)],
+                Amount = 1000,
+                IsTax = true,
+            };
             //for(int a = 1; a <= 100; a++)
             for (int m = 1; m <= DateTime.Now.Month; m++)
             {
@@ -184,7 +198,10 @@ namespace StoreFertilizers.Models {
                         var invoiceDetails = new InvoiceDetails();
                         var fiftyDiscount = new Random().Next(0, 1);
                         var fiftyProfit = new Random().Next(0, 1);
-
+                        if (invoice.IsTax)
+                        {
+                            invoiceDetails.Purchase = taxPurchaseFor;
+                        }
                         invoiceDetails.CreatedDate = invoice.CreatedDate;
                         //invoiceDetails.ProductID = products[new Random(id).Next(0, products.Count - 1)].ProductID;
                         invoiceDetails.Product = products[new Random(id).Next(0, products.Count - 1)];

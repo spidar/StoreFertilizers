@@ -6,6 +6,34 @@
         .controller('dashboardController', ['$scope', '$location', '$timeout', '$filter', 'servicesFactory',
         function ($scope, $location, $timeout, $filter, servicesFactory) {
 
+            var today = new Date();
+            var val = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
+            var offset = moment(val, 'DD/MM/YYYY').utcOffset();
+            var dateOffset = new Date(moment(val, 'DD/MM/YYYY').add(offset, 'm'));
+            var totalDays = moment(val, 'DD/MM/YYYY').add(offset, 'm');
+            $scope.data = {
+                totalNetAmount: 0,
+                totalPages: 0,
+                totalItems: 0,
+                filterOptions: {
+                    filterText: '',
+                    isTax: false,
+                    fromCreatedDate: new Date(totalDays.subtract(3, 'day')),
+                    toCreatedDate: dateOffset,
+                    dueIn: 'next3'
+                },
+                sortOptions: {
+                    field: 'dueDate',
+                    directions: ['desc', 'asc'],
+                    sortReverse: true
+                },
+                pagingOptions: {
+                    pageSizes: [20, 50, 100],
+                    pageSize: 50,
+                    currentPage: 1
+                }
+            };
+
             $scope.isShowSalesChart = true;
             $scope.isShowProductStockChart = true;
 

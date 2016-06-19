@@ -7,9 +7,11 @@ using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
 using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
+using Microsoft.AspNet.Cors;
 
 namespace StoreFertilizers.Controllers
 {
+    [EnableCors("mypolicy")]
     [Produces("application/json")]
     [Route("api/PurchasesAPI")]
     public class PurchasesAPIController : Controller
@@ -295,7 +297,7 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
-            #region Handle stock            
+            #region Handle stock           
             Stock orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
             if (orgProductInStock != null)
             {
@@ -306,7 +308,29 @@ namespace StoreFertilizers.Controllers
             #endregion
 
             _context.Purchases.Remove(purchase);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                var invoices = _context.Invoices.Where(x => x.InvoiceDetails.Where(inv => inv.PurchaseID == purchase.PurchaseID).Any());
+                if (invoices.Any())
+                {
+                    string message = "รายการซื้อนี้ได้ถูกใช้แล้วโดย Invoice : ";
+                    foreach(var item in invoices)
+                    {                        
+                        message += item.InvoiceNumber + ", ";
+                    }
+                    message = message.Substring(0, message.Length - 2);
+                    message += " ถ้าต้องการจะลบกรุณากลับไปถอดรายการซื้อนี้จาก Invoice ดังกล่าว";
+                    return HttpBadRequest(message);
+                }
+                else
+                {
+                    return HttpBadRequest(StatusCodes.Status400BadRequest);
+                }
+            }
 
             return Ok(purchase);
         }

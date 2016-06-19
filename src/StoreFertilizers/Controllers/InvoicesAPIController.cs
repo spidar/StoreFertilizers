@@ -8,9 +8,11 @@ using StoreFertilizers.Models;
 using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
 using StoreFertilizers.Models.ModelView;
+using Microsoft.AspNet.Cors;
 
 namespace StoreFertilizers.Controllers
 {
+    [EnableCors("mypolicy")]
     [Produces("application/json")]
     [Route("api/InvoicesAPI")]
     public class InvoicesAPIController : Controller
@@ -23,7 +25,7 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: api/InvoicesAPI
-        [HttpGet("AllInvoices")]
+        [HttpGet("GetOverDueInvoices")]
         public IEnumerable<Invoice> GetInvoices()
         {
             return _context.Invoices;

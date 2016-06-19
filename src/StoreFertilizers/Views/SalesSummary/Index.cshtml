@@ -121,7 +121,7 @@
                                             <span ng-show="data.sortOptions.field == 'isTax' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                                         </a>
                                     </th>
-                                    <th width="100px" style="text-align:center;">
+                                    <th width="120px" style="text-align:center;">
                                         <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'invoiceNumber'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
                                             เลขที่
                                             <span ng-show="data.sortOptions.field == 'invoiceNumber' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -149,18 +149,11 @@
                                             <span ng-show="data.sortOptions.field == 'paid' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                                         </a>
                                     </th>
-                                    <th style="text-align:center;min-width:90px;">
+                                    <th width="100px" style="text-align:center;">
                                         <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'dueDate'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
                                             ครบกำหนด
                                             <span ng-show="data.sortOptions.field == 'dueDate' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                             <span ng-show="data.sortOptions.field == 'dueDate' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
-                                        </a>
-                                    </th>
-                                    <th style="min-width:150px;text-align:center;">
-                                        <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'notes'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
-                                            หมายเหตุ
-                                            <span ng-show="data.sortOptions.field == 'notes' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                                            <span ng-show="data.sortOptions.field == 'notes' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                                         </a>
                                     </th>
                                 </tr>
@@ -168,20 +161,19 @@
                             <tbody>
                                 <tr ng-repeat="item in invoices">
                                     <td class="noPrint" style="text-align:center;vertical-align:middle;">
-                                        <a href="Invoices/Edit/{{item.invoiceID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                                        <a href="Invoices/Edit/{{item.invoiceID}}?isTax={{item.isTax}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
                                     </td>
                                     <td style="text-align:center;">{{item.createdDate | date: 'dd/MM/yyyy'}}</td>
                                     <td style="text-align:center;">
                                         <input type="checkbox" ng-disabled="true" ng-model="item.isTax">
                                     </td>
-                                    <td>{{item.invoiceNumber}}</td>
+                                    <td style="text-align:center;">{{item.invoiceNumber}}</td>
                                     <td>{{item.customerName}}</td>
                                     <td style="text-align:right;">{{item.netTotal | number:2}}</td>
                                     <td style="text-align:center;">
                                         <input type="checkbox" ng-disabled="true" ng-model="item.paid">
                                     </td>
                                     <td style="text-align:center;">{{item.dueDate | date: 'dd/MM/yyyy'}}</td>
-                                    <td class="text-overflow">{{item.notes}}</td>
                                 </tr>
                             </tbody>
                         </table>

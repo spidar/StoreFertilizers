@@ -4,9 +4,11 @@ using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Data.Entity;
 using StoreFertilizers.Models;
+using Microsoft.AspNet.Cors;
 
 namespace StoreFertilizers.Controllers
 {
+    [EnableCors("mypolicy")]
     [Produces("application/json")]
     [Route("api/EmployeesAPI")]
     public class EmployeesAPIController : Controller

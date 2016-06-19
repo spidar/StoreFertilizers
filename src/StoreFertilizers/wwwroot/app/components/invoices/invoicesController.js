@@ -491,10 +491,13 @@
                             $scope.getAllPurchases();
                             for (var i = $scope.newInvoice.invoiceDetails.length - 1; i >= 0 ; i--) {
                                 var purchase = $scope.newInvoice.invoiceDetails[i].purchase;
-                                $scope.newInvoice.invoiceDetails[i].qtyRemain = purchase.qtyRemain + $scope.newInvoice.invoiceDetails[i].qty;
-                                purchase.checked = true;
-                                if (purchase.qtyRemain == 0) {
-                                    $scope.data.purchaseList.unshift(purchase);
+                                if(!!purchase)
+                                {
+                                    $scope.newInvoice.invoiceDetails[i].qtyRemain = purchase.qtyRemain + $scope.newInvoice.invoiceDetails[i].qty;
+                                    purchase.checked = true;
+                                    if (purchase.qtyRemain == 0) {
+                                        $scope.data.purchaseList.unshift(purchase);
+                                    }
                                 }
                             }
                         }

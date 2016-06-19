@@ -254,7 +254,7 @@
                             $scope.status = '';
                         }, 1000);
                     }, function (error) {
-                        $scope.status = 'ไม่สามารถลบข้อมูลได้ : ' + error.statusText;
+                        $scope.status = 'ไม่สามารถลบข้อมูลได้ : ' + error.data;
                         $timeout(function () {
                             $scope.showLoading = false;
                         }, 1000);
