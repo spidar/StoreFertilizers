@@ -20,7 +20,7 @@
                 totalItems: 0,
                 filterOptions: {
                     filterText: '',
-                    isTax: 'notax',                    
+                    isTax: 'notax',
                     fromCreatedDate: new Date(totalDays.subtract(3, 'day')),
                     toCreatedDate: dateOffset,
                     dueIn: '',

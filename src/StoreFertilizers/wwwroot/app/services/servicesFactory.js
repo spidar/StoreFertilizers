@@ -10,6 +10,7 @@
             var urlBase = '/api';
             var invoiceAPI = '/InvoicesAPI';
             var invoiceAPI_CreateNewInvoice = '/CreateNewInvoice';
+            var invoiceAPI_GetDashboardData = '/GetDashboardData';
             var invoiceDetailsAPI = '/InvoiceDetailsAPI';
             var purchasesAPI = '/PurchasesAPI';
             var purchasesAPI_GetPurchasesTax = '/GetPurchasesTax';
@@ -29,6 +30,9 @@
             /* Invoices */
             servicesFactory.getInvoices = function () {
                 return $http.get(urlBase + invoiceAPI);
+            };
+            servicesFactory.getDashboardData = function () {
+                return $http.get(urlBase + invoiceAPI + invoiceAPI_GetDashboardData);
             };
             servicesFactory.createNewInvoice = function (parameters) {
                 return $http.get(urlBase + invoiceAPI + invoiceAPI_CreateNewInvoice, {

@@ -25,10 +25,26 @@ namespace StoreFertilizers.Controllers
         }
 
         // GET: api/InvoicesAPI
-        [HttpGet("GetOverDueInvoices")]
-        public IEnumerable<Invoice> GetInvoices()
+        [HttpGet("GetDashboardData")]
+        public DashboardView GetDashboardData()
         {
-            return _context.Invoices;
+            DashboardView dashboardData = new DashboardView();
+
+            dashboardData.Notifications = _context.Invoices.Where(x => x.Paid == false && x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= DateTime.Now.AddDays(1).Date)
+                .OrderBy(due => due.DueDate)
+                .Select(invoice => new InvoiceView()
+                {
+                    InvoiceID = invoice.InvoiceID,
+                    InvoiceNumber = invoice.InvoiceNumber,
+                    DueDate = invoice.DueDate,
+                    CustomerName = (invoice.Customer != null && invoice.Customer.Name != "อื่นๆ") ? invoice.Customer.Name : invoice.CustomerName,
+                });
+            dashboardData.TotalNetAmount = _context.Invoices.Where(x => x.IsTax == false && x.CreatedDate.Value.Date == DateTime.Now.Date).Sum(i => i.NetTotal);
+            dashboardData.TotalNetPaidAmount = _context.Invoices.Where(x => x.IsTax == false && x.CreatedDate.Value.Date == DateTime.Now.Date && x.Paid).Sum(i => i.NetTotal);
+            dashboardData.TotalNetUnPaidAmount = _context.Invoices.Where(x => x.IsTax == false && x.CreatedDate.Value.Date == DateTime.Now.Date && x.Paid == false).Sum(i => i.NetTotal);
+            dashboardData.TotalNetUnPaidAmountInSystem = _context.Invoices.Where(x => x.IsTax == false && x.Paid == false).Sum(i => i.NetTotal);
+
+            return dashboardData;
         }
 
         [HttpGet("CreateNewInvoice")]
@@ -38,7 +54,7 @@ namespace StoreFertilizers.Controllers
             var lastInvoice = _context.Invoices.Where(i => i.IsTax == isTax).OrderByDescending(x => x.InvoiceID).FirstOrDefault();
             string yearString = (DateTime.Now.Year % 100).ToString("00");
             string monthString = DateTime.Now.Month.ToString("00");
-            string prefixInvoice = "CT" + (DateTime.Now.Year % 100).ToString("00") + DateTime.Now.Month.ToString("00");
+            string prefixInvoice = "JT" + (DateTime.Now.Year % 100).ToString("00") + DateTime.Now.Month.ToString("00");
             if (lastInvoice != null)
             {
                 if (lastInvoice.InvoiceNumber.Contains("-"))
@@ -79,7 +95,14 @@ namespace StoreFertilizers.Controllers
             invoice.DueDate = DateTime.Now;
             invoice.DeliveryDate = DateTime.Now;
             invoice.ShipTo = "ที่อยู่ลูกค้า";
-            invoice.Paid = false;
+            if(isTax)
+            {
+                invoice.Paid = true;
+            }
+            else
+            {
+                invoice.Paid = false;
+            }
             return invoice;
         }
 
@@ -136,6 +159,7 @@ namespace StoreFertilizers.Controllers
             if (!string.IsNullOrEmpty(dueIn))
             {
                 invoices_result = invoices_result.Where(x => x.Paid == false);
+                DateTime tomorrow = DateTime.Now.AddDays(1);
                 switch (dueIn)
                 {
                     case "over":
@@ -145,8 +169,10 @@ namespace StoreFertilizers.Controllers
                         invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date == DateTime.Now.Date);
                         break;
                     case "tomorrow":
-                        DateTime tomorrow = DateTime.Now.AddDays(1);
                         invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date == tomorrow.Date);
+                        break;
+                    case "todaytomorrow":
+                        invoices_result = invoices_result.Where(x => x.DueDate == null || x.DueDate.Value.Date >= DateTime.Now.Date && x.DueDate.Value.Date <= tomorrow.Date);
                         break;
                     case "next3":
                         DateTime next3 = DateTime.Now.AddDays(3);

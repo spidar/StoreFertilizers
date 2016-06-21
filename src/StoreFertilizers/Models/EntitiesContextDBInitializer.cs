@@ -175,7 +175,7 @@ namespace StoreFertilizers.Models {
                 for (int i = 0; i < 5; i++) {
                     Invoice invoice = new Invoice();
                     invoice.IsTax = new Random().Next(0, 10) >= 5;
-                    invoice.InvoiceNumber = "CT" + (DateTime.Now.Year % 100).ToString("00") + m.ToString("00") + "-" + i.ToString("D5");
+                    invoice.InvoiceNumber = "JT" + (DateTime.Now.Year % 100).ToString("00") + m.ToString("00") + "-" + i.ToString("D5");
                     invoice.Customer = customers[new Random(m).Next(0, customers.Count - 1)]; //random customer
                     //invoice.CustomerID = invoice.Customer.CustomerID;
                     invoice.CustomerName = invoice.Customer.Name;

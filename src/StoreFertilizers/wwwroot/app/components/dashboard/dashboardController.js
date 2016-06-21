@@ -13,19 +13,22 @@
             var totalDays = moment(val, 'DD/MM/YYYY').add(offset, 'm');
             $scope.data = {
                 totalNetAmount: 0,
+                totalNetPaidAmount: 0,
+                totalNetUnPaidAmount: 0,
+                totalNetUnPaidAmountInSystem: 0,
                 totalPages: 0,
                 totalItems: 0,
                 filterOptions: {
                     filterText: '',
-                    isTax: false,
-                    fromCreatedDate: new Date(totalDays.subtract(3, 'day')),
-                    toCreatedDate: dateOffset,
-                    dueIn: 'next3'
+                    isTax: 'notax',
+                    fromCreatedDate: null,
+                    toCreatedDate: null,
+                    dueIn: 'todaytomorrow'
                 },
                 sortOptions: {
                     field: 'dueDate',
                     directions: ['desc', 'asc'],
-                    sortReverse: true
+                    sortReverse: false
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
@@ -33,6 +36,9 @@
                     currentPage: 1
                 }
             };
+
+            $scope.invoices = {};
+            $scope.notifications = {};
 
             $scope.isShowSalesChart = true;
             $scope.isShowProductStockChart = true;
@@ -59,6 +65,33 @@
               [28, 48, 40, 19, 26, 27, 40]
             ];
             //End Bar Chart
+
+            $scope.getDashboardData = function () {
+                servicesFactory.getDashboardData()
+                .then(function (response) {
+                    $scope.notifications = response.data.notifications;
+                    $scope.data.totalNetAmount = response.data.totalNetAmount;
+                    $scope.data.totalNetPaidAmount = response.data.totalNetPaidAmount;
+                    $scope.data.totalNetUnPaidAmount = response.data.totalNetUnPaidAmount;
+                    $scope.data.totalNetUnPaidAmountInSystem = response.data.totalNetUnPaidAmountInSystem;
+                    $timeout(function () {
+                        $scope.showLoading = false;
+                        $scope.status = '';
+                    }, 1000);
+                }, function (error) {
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลได้ : ' + error.statusText;
+                    $timeout(function () {
+                        $scope.showLoading = false;
+                    }, 1000);
+                });
+            };
+
+            //Init all data
+            (function init() {
+                $scope.getDashboardData();
+            })()
+            //End init
+
 
         }
         ]);

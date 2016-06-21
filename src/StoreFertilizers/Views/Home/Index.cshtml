@@ -7,90 +7,62 @@
             <div class="row">
                 <div class="col-xs-3">
                     <div class="panel panel-primary">
-                        <div class="panel-heading" style="min-height:120px;">
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="glyphicon glyphicon-list" style="font-size: 70px;"></i>
+                                <div class="col-xs-2">
+                                    <i class="glyphicon glyphicon-bitcoin" style="font-size: 24px;"></i>
                                 </div>
-                                <div class="col-xs-9 text-right">
-                                    <div style="font-size: 40px;">26</div>
-                                    <div>ใบกำกับสินค้าทั้งหมด</div>
+                                <div class="col-xs-10 text-right">
+                                    <div style="font-size:24px;">{{data.totalNetAmount | number:0}}</div>
+                                    <div>ยอดขายวันนี้(ถึงตอนนี้)</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">เพิ่มเติม</span>
-                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
                 <div class="col-xs-3">
                     <div class="panel panel-success">
-                        <div class="panel-heading" style="min-height:120px;">
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="glyphicon glyphicon-thumbs-up" style="font-size: 70px;"></i>
+                                <div class="col-xs-2">
+                                    <i class="glyphicon glyphicon-bitcoin" style="font-size: 24px;"></i>
                                 </div>
-                                <div class="col-xs-9 text-right">
-                                    <div style="font-size: 40px;">15</div>
-                                    <div>ใบกำกับสินค้าที่จ่ายแล้ว</div>
+                                <div class="col-xs-10 text-right">
+                                    <div style="font-size:24px;">{{data.totalNetPaidAmount | number:0}}</div>
+                                    <div>ยอดวันนี้ที่ชำระเงินแล้ว</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">เพิ่มเติม</span>
-                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
                 <div class="col-xs-3">
                     <div class="panel panel-warning">
-                        <div class="panel-heading" style="min-height:120px;">
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="glyphicon glyphicon-exclamation-sign" style="font-size: 70px;"></i>
+                                <div class="col-xs-2">
+                                    <i class="glyphicon glyphicon-bitcoin" style="font-size: 24px;"></i>
                                 </div>
-                                <div class="col-xs-9 text-right">
-                                    <div style="font-size: 40px;">7</div>
-                                    <div>เกินกำหนดชำระ</div>
+                                <div class="col-xs-10 text-right">
+                                    <div style="font-size:24px;">{{data.totalNetUnPaidAmount | number:2}}</div>
+                                    <div>ยอดวันนี้ที่ยังไม่ได้ชำระเงิน</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">เพิ่มเติม</span>
-                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
                 <div class="col-xs-3">
                     <div class="panel panel-danger">
-                        <div class="panel-heading" style="min-height:120px;">
+                        <div class="panel-heading">
                             <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="glyphicon glyphicon-ban-circle" style="font-size: 70px;"></i>
+                                <div class="col-xs-2">
+                                    <i class="glyphicon glyphicon-bitcoin" style="font-size: 24px;"></i>
                                 </div>
-                                <div class="col-xs-9 text-right">
-                                    <div style="font-size: 40px;">4</div>
-                                    <div>ถูกยกเลิก</div>
+                                <div class="col-xs-10 text-right">
+                                    <div style="font-size:24px;">{{data.totalNetUnPaidAmountInSystem | number:2}}</div>
+                                    <div>ยอดทั้งระบบที่ยังไม่ได้ชำระเงิน</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">เพิ่มเติม</span>
-                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -100,9 +72,9 @@
                         <div class="panel-heading widget-header" style="line-height:normal;">
                             <i class="glyphicon glyphicon-inbox text-success"></i> การขาย
                             &nbsp;&nbsp;&nbsp;&nbsp;
-                            <a asp-controller="Invoices" asp-action="Create" class="btn btn-primary btn-xs" role="button">
+                            @*<a asp-controller="Invoices" asp-action="Create" class="btn btn-primary btn-xs" role="button">
                                 <i class="glyphicon glyphicon-plus"></i> สร้างใบกำกับสินค้า
-                            </a>
+                            </a>*@
                             <div class="pull-right">
                                 <div class="btn-group" role="group" aria-label="แผนภูมิ">
                                     <button type="button" class="btn btn-success btn-xs" ng-click="isShowSalesChart = true;">กราฟ</button>
@@ -261,38 +233,13 @@
                         </div>
                         <div class="panel-body">
                             <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="glyphicon glyphicon-ok text-success"></i> SH023-02014 ชำระเงินแล้ว
+                                <a href="Invoices/Edit/{{item.invoiceID}}?isTax={{item.isTax}}" ng-repeat="item in notifications" class="list-group-item">
+                                    <i class="glyphicon glyphicon-warning-sign text-warning"></i> {{item.invoiceNumber}} {{item.customerName}}
                                     <span class="pull-right text-muted small">
-                                        <em>07/05 9:49</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="glyphicon glyphicon-info-sign text-info"></i> คุณณรงค์ สั่งซื้อสินค้าใหม่
-                                    <span class="pull-right text-muted small">
-                                        <em>07/05 8:12</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="glyphicon glyphicon-warning-sign text-warning"></i> SH010-00028 เกินกำหนดชำระ
-                                    <span class="pull-right text-muted small">
-                                        <em>06/05 13:49</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="glyphicon glyphicon-warning-sign text-warning"></i> SH011-01832 รอรับสินค้า
-                                    <span class="pull-right text-muted small">
-                                        <em>06/05 11:17</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="glyphicon glyphicon-ok text-success"></i> ปุ๋ยยาร่า 20-11-11 เข้าสต๊อค
-                                    <span class="pull-right text-muted small">
-                                        <em>05/05 16:30</em>
+                                        <em>กำหนดชำระ {{item.dueDate | date: 'dd/MM/yyyy'}}</em>
                                     </span>
                                 </a>
                             </div>
-                            <a href="#" class="btn btn-default btn-block">ดูทั้งหมด</a>
                         </div>
                     </div>
                     <div class="panel panel-default widget-content">
