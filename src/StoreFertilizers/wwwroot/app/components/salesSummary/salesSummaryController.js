@@ -21,6 +21,7 @@
                 totalPagesDetails: 0,
                 totalItemsDetails: 0,
                 totalProductDetails: 0,
+                totalUnPaidAmount: 0,
                 toggleOptions:{
                     itemID: '',
                     itemCollape: false,
@@ -107,6 +108,7 @@
                     $scope.data.totalItems = response.data.totalRecords;
                     $scope.data.totalPages = response.data.totalPages;
                     $scope.data.pagingOptions.currentPage = response.data.currentPage;
+                    $scope.data.totalUnPaidAmount = response.data.totalUnPaidAmount;
                     // Fill Chart
                     $scope.lineChartLabels = [];//["ม.ค.", "ก.พ.", "ม.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค."];
                     $scope.lineChartData = [[]];

@@ -208,7 +208,7 @@ namespace StoreFertilizers.Controllers
                     NetTotal = invoice.NetTotal,
                     IsTax = invoice.IsTax,
                     Notes = invoice.Notes
-                });
+                }).ToList();
             }
             else
             {
@@ -224,7 +224,7 @@ namespace StoreFertilizers.Controllers
                     NetTotal = invoice.NetTotal,
                     IsTax = invoice.IsTax,
                     Notes = invoice.Notes
-                });
+                }).ToList();
             }
             #endregion
             #region "Handle DueDate"
@@ -276,6 +276,7 @@ namespace StoreFertilizers.Controllers
             {
                 invoices_result = invoices_result.OrderBy(sortBy + " " + sortDirection);
             }
+            pagedRecord.TotalUnPaidAmount = invoices_result.Sum(i => i.NetTotal);
             pagedRecord.SumNetTotalEachDay = invoices_result.GroupBy(g => g.CreatedDate).Select(row => new
             {
                 CreatedDate = row.First().CreatedDate,
@@ -394,8 +395,11 @@ namespace StoreFertilizers.Controllers
                 {
                     //Handle QtyRemain
                     purcahseItem = _context.Purchases.SingleOrDefault(i => i.PurchaseID == item.PurchaseID);
-                    purcahseItem.QtyRemain = item.Purchase.QtyRemain;// - item.Qty;
-                    _context.Entry(purcahseItem).State = EntityState.Modified;
+                    if (purcahseItem != null)
+                    {
+                        purcahseItem.QtyRemain = item.Purchase.QtyRemain;// - item.Qty;
+                        _context.Entry(purcahseItem).State = EntityState.Modified;
+                    }
                 }
                 invoice.InvoiceDetails.Remove(item);
                 item.CreatedDate = invoice.CreatedDate;
@@ -429,15 +433,21 @@ namespace StoreFertilizers.Controllers
                         if (invoice.IsTax == false)
                         {
                             #region "Handle Stock"
-                            orgProductInStock.Balance += item.OrgQty;
-                            _context.Entry(orgProductInStock).State = EntityState.Modified;
+                            if (orgProductInStock != null)
+                            {
+                                orgProductInStock.Balance += item.OrgQty;
+                                _context.Entry(orgProductInStock).State = EntityState.Modified;
+                            }
                             #endregion
                         }
                         else
                         {
                             //Handle QtyRemain
-                            purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
-                            _context.Entry(purcahseItem).State = EntityState.Modified;
+                            if (purcahseItem != null)
+                            {
+                                purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
+                                _context.Entry(purcahseItem).State = EntityState.Modified;
+                            }
                         }
                     }
                     else
@@ -447,7 +457,7 @@ namespace StoreFertilizers.Controllers
                             #region "Handle Stock"
                             if (item.Product.ProductID == item.OrgProductID)
                             {
-                                if (item.Qty != item.OrgQty)
+                                if (item.Qty != item.OrgQty && orgProductInStock != null)
                                 {
                                     orgProductInStock.Balance += item.OrgQty;
                                     orgProductInStock.Balance -= item.Qty;
@@ -456,18 +466,27 @@ namespace StoreFertilizers.Controllers
                             }
                             else
                             {
-                                orgProductInStock.Balance += item.OrgQty;
-                                productInStock.Balance -= item.Qty;
-                                _context.Entry(productInStock).State = EntityState.Modified;
-                                _context.Entry(orgProductInStock).State = EntityState.Modified;
+                                if (orgProductInStock != null)
+                                {
+                                    orgProductInStock.Balance += item.OrgQty;
+                                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                                }
+                                if (productInStock != null)
+                                {
+                                    productInStock.Balance -= item.Qty;
+                                    _context.Entry(productInStock).State = EntityState.Modified;
+                                }
                             }
                             #endregion
                         }
                         else
                         {
                             //Handle QtyRemain
-                            purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
-                            _context.Entry(purcahseItem).State = EntityState.Modified;
+                            if (purcahseItem != null)
+                            {
+                                purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
+                                _context.Entry(purcahseItem).State = EntityState.Modified;
+                            }
                         }
                         _context.Entry(item).State = EntityState.Modified;
                     }

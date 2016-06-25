@@ -9,9 +9,9 @@
                 <table class="table borderless" style="margin:0px;">
                     <tr>
                         <td width="200px" style="border:none;">
-                            <input type="text" class="col-xs-3 form-control input-sm" style="max-width:none;" ng-model="data.filterOptions.filterText" placeholder="ค้นหาจาก เลขที่,ผู้ซื้อ,หมายเหตุ" />
+                            <input type="text" class="col-xs-3 form-control input-sm" style="max-width:none;" ng-model="data.filterOptions.filterText" placeholder="ค้นหาจาก เลขที่,ผู้ซื้อ" />
                         </td>
-                        <td width="90px" style="border:none;vertical-align:middle;padding-left:0px;padding-right:0px;">
+                        <td width="50px" style="border:none;vertical-align:middle;padding-left:0px;padding-right:0px;">
                             <span for="isTax">ชนิดบิล:</span>
                         </td>
                         <td width="100px" style="border:none;vertical-align:middle;padding-left:0px;padding-right:0px;">
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="col-xs-3" style="padding-left:5px;padding-right:5px;">
-            <div class="panel panel-warning" style="margin:0px;">
+            <div class="panel panel-success" style="margin:0px;">
                 <div class="panel-heading" style="min-height:100px;">
                     <div class="row">
                         <div class="col-xs-12 text-center">
@@ -86,12 +86,12 @@
             </div>
         </div>
         <div class="col-xs-3" style="padding-left:5px;padding-right:5px;">
-            <div class="panel panel-success" style="margin:0px;">
+            <div class="panel panel-warning" style="margin:0px;">
                 <div class="panel-heading" style="min-height:100px;">
                     <div class="row">
                         <div class="col-xs-12 text-center">
-                            <div style="font-size: 40px;">{{data.totalProductDetails}}</div>
-                            <div>สินค้าทั้งหมด</div>
+                            <div style="font-size: 40px;">{{data.totalUnPaidAmount}}</div>
+                            <div>ค้างชำระ</div>
                         </div>
                     </div>
                 </div>

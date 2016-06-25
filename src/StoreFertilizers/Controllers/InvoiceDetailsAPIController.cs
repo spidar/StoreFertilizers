@@ -77,7 +77,7 @@ namespace StoreFertilizers.Controllers
                         PricePerUnit = details.PricePerUnit,
                         Discount = details.Discount,
                         Amount = details.Amount
-                    });
+                    }).ToList();
             }
             if (!string.IsNullOrEmpty(searchtext))
             {
@@ -92,7 +92,7 @@ namespace StoreFertilizers.Controllers
             }
 
             pagedRecord.TotalNetAmount = invoices_details_result.Sum(x => x.Amount);
-            pagedRecord.TotalProducts = invoices_details_result.GroupBy(x => x.ProductID).Count();
+            //pagedRecord.TotalProducts = invoices_details_result.GroupBy(x => x.ProductID).Count();
             pagedRecord.TotalRecords = invoices_details_result.Count();
             invoices_details_result = invoices_details_result.Skip((page - 1) * pageSize).Take(pageSize);
             if (groupping)

@@ -1,6 +1,6 @@
 <form name="myForm" class="form-horizontal" role="form" ng-controller="invoicesController">
     <div ng-show="!data.printMode" id="invoiceNormalMode">
-        <div class="form-group remove-bottom-margin">
+        <div class="remove-bottom-margin">
             <div class="col-xs-6" style="padding:2px;">
                 <div class="rounded-div" style="min-height:115px;">
                     <div style="font-size:x-large;"><strong>{{companyInfo.name}}</strong></div>
@@ -30,12 +30,12 @@
                 </div>
             </div>
         </div>
-        <div class="form-group remove-bottom-margin">
+        <div class="remove-bottom-margin">
             <div class="col-xs-6" style="padding:2px;">
                 <div class="rounded-div" style="min-height:155px;">
-                    <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-3" style="min-width:80px;">ลูกค้า</label>
-                        <div class='col-xs-9'>
+                    <div class="row remove-bottom-margin">
+                        <label class="control-label col-xs-2" style="min-width:80px;">ลูกค้า</label>
+                        <div class='col-xs-10'>
                             <div style="max-width:350px">
                                 <md-autocomplete md-min-length="0" md-selected-item="newInvoice.customer" md-search-text="customerSearchText" md-items="item in getCustomerMatches(customerSearchText)" md-item-text="item.name" class="form-control input-sm">
                                     <span md-highlight-text="customerSearchText">{{item.name}}</span>
@@ -54,8 +54,8 @@
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-3" style="min-width:80px;">ส่งที่</label>
-                        <div class='col-xs-9'>
+                        <label class="control-label col-xs-2" style="min-width:80px;">ส่งที่</label>
+                        <div class='col-xs-10'>
                             <input type="text" id="invoice-shipto" class="form-control input-sm" ng-model="newInvoice.shipTo" placeholder="สถานที่จัดส่งสินค้า" />
                         </div>
                     </div>
