@@ -9,6 +9,8 @@ namespace StoreFertilizers.Models
     {
         public int InvoiceDetailsID { get; set; }
 
+        public bool IsTax { get; set; }
+
         public int? PurchaseID { get; set; }
         public virtual Purchase Purchase { get; set; }
 

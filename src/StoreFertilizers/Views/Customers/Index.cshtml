@@ -80,7 +80,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="item in customers">
+                    <tr ng-repeat="item in customers" ng-show="item.name != 'อื่นๆ'" >
                         <td class="noPrint" style="text-align:center;vertical-align:middle;">
                             <a href="Customers/Edit/{{item.customerID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="Customers/Delete/{{item.customerID}}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>

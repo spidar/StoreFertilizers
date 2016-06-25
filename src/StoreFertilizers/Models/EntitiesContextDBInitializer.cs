@@ -6,51 +6,6 @@ namespace StoreFertilizers.Models {
     {
         public static void Seed(ApplicationDbContext context)
         {
-            #region Add Users
-            var users = new List<User>
-            {
-                new User { Name="Default user", Login="user", Password="pass", Email="hello2@user.com", Enabled=true}
-            };
-            foreach (User u in users)
-            {
-                context.CustomUsers.Add(u);
-            }
-            #endregion
-
-            #region let's add some dummy customer data:
-            context.Customers.Add(new Customer()
-            {
-                Name = "อื่นๆ"
-            });
-            List<Customer> customers = new List<Customer>
-            {
-                new Customer {Name="เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", Address2 = "", ZipCode="10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
-                new Customer {Name="พิทักษ์พืชผลเคมีเกษตร จำกัด", ContactPerson="นาย พิทักษ์", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", Address2 = "", ZipCode="73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
-                new Customer {Name="ยาร่า จำกัด", ContactPerson="นาย ยาร่า", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27", Address2 = "เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", ZipCode="10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
-                new Customer {Name="สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", Address2 = "", ZipCode="10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
-                new Customer {Name="ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ", Address2 = "เขตสาทร กรุงเทพ 10120", ZipCode="10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
-            };
-            for (int i = 0; i < 500; i++)
-            {
-                customers.Add(new Customer()
-                {
-                    ContactPerson = "ชื่อผู้ติดต่อสำหรับ " + i,
-                    Name = "ลูกค้า " + i,
-                    Address = "ที่อยู่สำหรับลูกค้า " + i,
-                    Address2 = "" + i,
-                    City = "กรุงเทพ",
-                    CompanyNumber = "212121212" + i,
-                    ZipCode = "50800",
-                    Phone1 = "2323-2222" + i,
-                    Email = "email@customer" + i + ".com"
-                });
-            }
-            foreach (Customer c in customers)
-            {
-                context.Customers.Add(c);
-            }
-            #endregion            
-            
             #region let's add some dummy ProductType data:
             List<ProductType> productTypes = new List<ProductType>
             {
@@ -81,6 +36,72 @@ namespace StoreFertilizers.Models {
             {
                 context.UnitTypes.Add(item);
             }
+            #endregion
+
+            #region let's add a few providers
+            List<Provider> providers = new List<Provider>
+            {
+                new Provider {Name="เจียไต๋ จำกัด", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
+                new Provider {Name="พิทักษ์พืชผลเคมีเกษตร จำกัด", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
+                new Provider {Name="ยาร่า จำกัด", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27 เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
+                new Provider {Name="สหายเกษตรเคมีภัณฑ์", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
+                new Provider {Name="ไทยเซ็นทรัลเคมี จำกัด", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ เขตสาทร กรุงเทพ 10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
+            };
+
+            foreach (Provider p in providers)
+            {
+                context.Providers.Add(p);
+            }
+            #endregion
+
+            #region Add Users
+            /*
+            var users = new List<User>
+            {
+                new User { Name="Default user", Login="user", Password="pass", Email="hello2@user.com", Enabled=true}
+            };
+            foreach (User u in users)
+            {
+                context.CustomUsers.Add(u);
+            }
+            */
+            #endregion
+
+            #region let's add some dummy customer data:
+            
+            context.Customers.Add(new Customer()
+            {
+                Name = "อื่นๆ"
+            });
+            /*
+            List<Customer> customers = new List<Customer>
+            {
+                new Customer {Name="เจียไต๋ จำกัด", ContactPerson="นาย เจียไต๋", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", Address2 = "", ZipCode="10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
+                new Customer {Name="พิทักษ์พืชผลเคมีเกษตร จำกัด", ContactPerson="นาย พิทักษ์", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", Address2 = "", ZipCode="73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
+                new Customer {Name="ยาร่า จำกัด", ContactPerson="นาย ยาร่า", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27", Address2 = "เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", ZipCode="10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
+                new Customer {Name="สหายเกษตรเคมีภัณฑ์", ContactPerson="นาย สหายเกษตร", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", Address2 = "", ZipCode="10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
+                new Customer {Name="ไทยเซ็นทรัลเคมี จำกัด", ContactPerson="นาย ไทย", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ", Address2 = "เขตสาทร กรุงเทพ 10120", ZipCode="10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
+            };
+            for (int i = 0; i < 500; i++)
+            {
+                customers.Add(new Customer()
+                {
+                    ContactPerson = "ชื่อผู้ติดต่อสำหรับ " + i,
+                    Name = "ลูกค้า " + i,
+                    Address = "ที่อยู่สำหรับลูกค้า " + i,
+                    Address2 = "" + i,
+                    City = "กรุงเทพ",
+                    CompanyNumber = "212121212" + i,
+                    ZipCode = "50800",
+                    Phone1 = "2323-2222" + i,
+                    Email = "email@customer" + i + ".com"
+                });
+            }
+            foreach (Customer c in customers)
+            {
+                context.Customers.Add(c);
+            }
+            */
             #endregion
 
             #region let's add some dummy Bank data:
@@ -119,6 +140,7 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region let's add some dummy employee data:
+            /*
             List<Employee> employees = new List<Employee>
             {
                 new Employee {EmployeeNumber = "8001", Name="นาย กิจ อยู่เย็น", ContactPerson="นาง มี อยู่เย็น", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", CP="232323", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
@@ -131,6 +153,7 @@ namespace StoreFertilizers.Models {
             {
                 context.Employees.Add(c);
             }
+            */
             #endregion
 
             #region let's add some dummy Product data:
@@ -154,6 +177,7 @@ namespace StoreFertilizers.Models {
             #endregion
 
             #region Add some dummy random invoices
+            /*
             string invoice_number = string.Empty;
             var taxPurchaseFor = new Purchase()
             {
@@ -180,7 +204,7 @@ namespace StoreFertilizers.Models {
                     //invoice.CustomerID = invoice.Customer.CustomerID;
                     invoice.CustomerName = invoice.Customer.Name;
                     invoice.CreatedDate = new DateTime(DateTime.Now.Year, m, new Random().Next(1, 28)); //random date (this month)
-                    invoice.DueDate = invoice.CreatedDate.Value.AddDays(90);
+                    invoice.DueDate = invoice.CreatedDate.Value.AddDays(30 - m * 2);
                     invoice.TermOfPayment = "เครดิต 90 วัน";
                     invoice.DeliveryDate = invoice.CreatedDate.Value.AddDays(3);
                     invoice.ReferencePONumber = "PO-0000" + i;
@@ -243,27 +267,6 @@ namespace StoreFertilizers.Models {
                     }
 
                     invoice.Paid = new Random().Next(0, 10) >= 1; //low probability of unpaid
-                    /*
-                    if (invoice.Paid.Value)
-                    {
-                        invoice.PaymentType = paymentTypes[new Random(m).Next(0, paymentTypes.Count - 1)]; //random payment type
-                        //invoice.PaymentTypeID = invoice.PaymentType.PaymentTypeID;
-                        if (!invoice.PaymentType.Name.Equals("เงินสด"))
-                        {
-                            invoice.Bank = banks[new Random(m).Next(0, banks.Count - 1)]; //random bank
-                            //invoice.BankID = invoice.Bank.BankID;
-                            invoice.BankBranch = "สาขา " + i;
-                            if (invoice.PaymentType.Name.Equals("เช็ค"))
-                            {
-                                invoice.ChequeNumber = "CHEQUE-0000" + i;
-                            }
-                        }
-                        invoice.PaidDate = invoice.CreatedDate.Value.AddDays(new Random().Next(1, 30));
-                        invoice.PaidAmount = subTotal;
-                        invoice.PaidCollector = "ผู้รับเงินหมายเลข " + i;
-                        invoice.PaidCollectedDate = invoice.PaidDate;
-                    }
-                    */
                     invoice.DeliveryByPerson = "ผู้ส่งของหมายเลข " + i;
                     invoice.ReceivedByPerson = "ผู้รับสินค้าหมายเลข " + i;
                     invoice.ReceivedProductDate = invoice.DeliveryDate;
@@ -282,25 +285,11 @@ namespace StoreFertilizers.Models {
                     context.Invoices.Add(invoice);
                 }
             }
-            #endregion
-
-            #region let's add a few providers
-            List<Provider> providers = new List<Provider>
-            {
-                new Provider {Name="เจียไต๋ จำกัด", Address="299-301 ถนนทรงสวัสดิ์ แขวงสัมพันธวงศ์ เขตสัมพันธวงศ์ กรุงเทพ 10100", CompanyNumber="3424324342", City="กรุงเทพ", Phone1="223-23232323", Fax="233-333333", Email="hello@hello.com"},
-                new Provider {Name="พิทักษ์พืชผลเคมีเกษตร จำกัด", Address="37 หมู่ 8 ต.บางช้าง อ.สามพราน จ.นครปฐม 73110", CompanyNumber="23232323", City="นครปฐม", Phone1="343-23232323", Fax="233-333333", Email="apple@hello.com"},
-                new Provider {Name="ยาร่า จำกัด", Address="อาคารภิรัชทาวเวอร์แอ๊ดเอ็มควอเทียร์ ห้องที่ 2709-2713 ชั้นที่ 27 เลขที่ 689 ถนนสุขุมวิท แขวงคลองตันเหนือ เขตวัฒนา กรุงเทพ 10110", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="zaragozaactiva@hello.com"},
-                new Provider {Name="สหายเกษตรเคมีภัณฑ์", Address="106 ถนนฉิมพลี แขวงฉิมพลี เขตตลิ่งชัน กรุงเทพ 10170", CompanyNumber="BBBBBB", City="กรุงเทพ", Phone1="343-23232323", Fax="233-333333", Email="contacta@hello.com"},
-                new Provider {Name="ไทยเซ็นทรัลเคมี จำกัด", Address=@"21/35-46 อาคารไทยวา 1 ชั้น 14-16 ถนนสาทรใต้ แขวงทุ่งมหาเมฆ เขตสาทร กรุงเทพ 10120", CompanyNumber="29124609", City="กรุงเทพ", Phone1="654 249068", Fax="", Email="hola@vitaminasdev.com"}
-            };
-            
-            foreach (Provider p in providers)
-            {
-                context.Providers.Add(p);
-            }
+            */
             #endregion
 
             #region randon purchase
+            /*
             //var articles_dummy = new string[] { "Food expense", "Car expense", "Computer item", "Train ticket", "Plain ticket" };
             //for (int a = 1; a <= 100; a++)
             for (int m = 1; m < DateTime.Now.Month; m++)
@@ -346,9 +335,11 @@ namespace StoreFertilizers.Models {
                     });
                 }
             }
+            */
             #endregion
 
             #region let's add some dummy Stock data:
+            /*
             List<Stock> stocks = new List<Stock>
             {
                 new Stock { Product = products[0], Location = "คลังสินค้า 1", Balance = 1000, FullCapStock = 1000, LowCapStock = 100, AlertLowStock = false, LastUpdated = DateTime.Now.AddMonths(-1), Notes = "หมายเหตุ 1" },
@@ -366,6 +357,7 @@ namespace StoreFertilizers.Models {
             {
                 context.Stocks.Add(p);
             }
+            */
             #endregion
 
             // add data into context and save to db

@@ -5,6 +5,7 @@ namespace StoreFertilizers.Models.ModelView
     public class InvoiceDetailsView
     {
         public int InvoiceID { get; set; }
+        public bool IsTax { get; set; }
         public DateTime? CreatedDate { get; set; }
         public int ProductID { get; set; }
         public string ProductName { get; set; }

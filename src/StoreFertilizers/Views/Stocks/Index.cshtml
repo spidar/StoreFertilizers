@@ -75,6 +75,13 @@
                                 <span ng-show="data.sortOptions.field == 'alertLowStock' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
+                        <th width="120px" style="text-align:center;">
+                            <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'lowCapStock'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getStocksByFilters()">
+                                เตือนเมื่อต่ำกว่า
+                                <span ng-show="data.sortOptions.field == 'lowCapStock' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="data.sortOptions.field == 'lowCapStock' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
+                            </a>
+                        </th>
                         <th style="min-width:150px;text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'notes'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getStocksByFilters()">
                                 สถานที่จัดเก็บ
@@ -113,6 +120,7 @@
         <td style="text-align:center;">
             <input type="checkbox" ng-disabled="true" ng-model="item.alertLowStock">
         </td>
+        <td style="text-align:center;">{{item.lowCapStock | number}}</td>
         <td class="text-overflow">{{item.location}}</td>
         <td class="text-overflow">{{item.notes}}</td>
     </script>
@@ -137,6 +145,9 @@
         <td width="100px" style="text-align:center;">{{selected.product.productUnitTypeName}}</td>
         <td style="text-align:center;">
             <input type="checkbox" ng-model="selected.alertLowStock">
+        </td>
+        <td style="text-align:center;">
+            <input type="number" min="0" ng-model="selected.lowCapStock" class="form-control input-sm" style="text-align:right;">
         </td>
         <td class="text-overflow">
             <input type="text" ng-model="selected.location" class="form-control input-sm" style="max-width:none;">

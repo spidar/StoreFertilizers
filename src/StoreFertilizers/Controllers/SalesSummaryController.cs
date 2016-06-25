@@ -45,7 +45,6 @@ namespace StoreFertilizers.Controllers
         {
             //ViewData["BankID"] = new SelectList(_context.Banks, "BankID", "Bank");
             ViewData["CustomerID"] = new SelectList(_context.Customers, "CustomerID", "Customer");
-            ViewData["EmployeeID"] = new SelectList(_context.Employees, "EmployeeID", "Employee");
             //ViewData["PaymentTypeID"] = new SelectList(_context.PaymentTypes, "PaymentTypeID", "PaymentType");
             return View();
         }

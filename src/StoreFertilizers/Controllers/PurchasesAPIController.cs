@@ -188,6 +188,8 @@ namespace StoreFertilizers.Controllers
                         ProductID = purchase.ProductID,
                         Product = purchase.Product,
                         Balance = purchase.Qty,
+                        AlertLowStock = true,
+                        LowCapStock = 1,
                         LastUpdated = DateTime.Now
                     };
                     _context.Stocks.Add(pInStock);
@@ -244,8 +246,8 @@ namespace StoreFertilizers.Controllers
 
             _context.Purchases.Add(purchase);
 
-            var productInStock = _context.Stocks.Single(i => i.ProductID == purchase.ProductID);
-            if(productInStock != null)
+            var productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
+            if (productInStock != null)
             {
                 productInStock.Balance += purchase.Qty;
                 productInStock.LastUpdated = DateTime.Now;
@@ -258,6 +260,8 @@ namespace StoreFertilizers.Controllers
                     ProductID = purchase.ProductID,
                     Product = purchase.Product,
                     Balance = purchase.Qty,
+                    AlertLowStock = true,
+                    LowCapStock = 1,
                     LastUpdated = DateTime.Now
                 };
                 _context.Stocks.Add(newProductInStock);

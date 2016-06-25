@@ -9,6 +9,7 @@ using StoreFertilizers.Models.Paging;
 using System.Linq.Dynamic;
 using StoreFertilizers.Models.ModelView;
 using Microsoft.AspNet.Cors;
+using System.Collections;
 
 namespace StoreFertilizers.Controllers
 {
@@ -43,6 +44,63 @@ namespace StoreFertilizers.Controllers
             dashboardData.TotalNetPaidAmount = _context.Invoices.Where(x => x.IsTax == false && x.CreatedDate.Value.Date == DateTime.Now.Date && x.Paid).Sum(i => i.NetTotal);
             dashboardData.TotalNetUnPaidAmount = _context.Invoices.Where(x => x.IsTax == false && x.CreatedDate.Value.Date == DateTime.Now.Date && x.Paid == false).Sum(i => i.NetTotal);
             dashboardData.TotalNetUnPaidAmountInSystem = _context.Invoices.Where(x => x.IsTax == false && x.Paid == false).Sum(i => i.NetTotal);
+            dashboardData.StockNotifications = _context.Stocks.Where(s => s.Balance <= s.LowCapStock).OrderBy("Balance desc").Select(row => new
+            {
+                ProductName = row.Product.Name,
+                Balance = row.Balance
+            }).ToList();
+
+            #region "Purchase vs Sale Chart"
+            string[] dateLables = new string[30];
+            DateTime back30days = DateTime.Now.AddDays(-29);
+
+            var inv_result = _context.Invoices.Where(d => d.CreatedDate.Value.Date >= back30days.Date && d.CreatedDate.Value.Date <= DateTime.Now.Date && d.IsTax == false)
+                            .GroupBy(cd => cd.CreatedDate).Select(invoice => new InvoiceView()
+                            {
+                                CreatedDate = invoice.Key,
+                                NetTotal = invoice.Sum(inv => inv.NetTotal)
+                            });
+
+            var pur_result = _context.Purchases.Where(d => d.PurchaseDate.Value.Date >= back30days.Date && d.PurchaseDate.Value.Date <= DateTime.Now.Date)
+                            .GroupBy(cd => cd.PurchaseDate).Select(invoice => new PurchaseView()
+                            {
+                                PurchaseDate = invoice.Key,
+                                Amount = invoice.Sum(inv => inv.Amount)
+                            });
+            decimal[] InvSeries = new decimal[30];
+            decimal[] PurSeries = new decimal[30];
+            for (int i = 0; i < dateLables.Length; i++)
+            {
+                dateLables[i] = back30days.AddDays(i).ToShortDateString();
+                var net = inv_result.SingleOrDefault(created => created.CreatedDate.Value.Date.Equals(back30days.AddDays(i).Date));
+                if(net != null)
+                {
+                    InvSeries[i] = net.NetTotal;
+                }
+                var amo = pur_result.SingleOrDefault(pur => pur.PurchaseDate.Value.Date.Equals(back30days.AddDays(i).Date));
+                if (amo != null)
+                {
+                    PurSeries[i] = amo.Amount;
+                }
+            }
+            dashboardData.PurchaseVsSaleChartLabels = dateLables;
+            dashboardData.PurchaseVsSaleChartSeries = new string[] { "ซื้อ", "ขาย" };            
+            List<decimal[]> c = new List<decimal[]>();
+            c.Add(PurSeries);
+            c.Add(InvSeries);
+            dashboardData.PurchaseVsSaleChartData = c;
+            #endregion
+
+            #region "Stock"
+            List<Stock> stocks = _context.Stocks.Include(p => p.Product).ToList();
+            dashboardData.StockPieChartLabels = new List<string>();
+            dashboardData.StockPieChartData = new List<decimal>();
+            foreach (var item in stocks)
+            {
+                dashboardData.StockPieChartLabels.Add(item.Product.Name);
+                dashboardData.StockPieChartData.Add(item.Balance);
+            }
+            #endregion
 
             return dashboardData;
         }
@@ -78,14 +136,28 @@ namespace StoreFertilizers.Controllers
                         else
                         {
                             //Diff month
-                            invoice.InvoiceNumber = prefixInvoice + "-00001";
+                            if (isTax)
+                            {
+                                invoice.InvoiceNumber = prefixInvoice + "-10001";
+                            }
+                            else
+                            {
+                                invoice.InvoiceNumber = prefixInvoice + "-00001";
+                            }
                         }
                     }                   
                 }
             }else
             {
                 //First Invoice
-                invoice.InvoiceNumber = prefixInvoice + "-00001";
+                if (isTax)
+                {
+                    invoice.InvoiceNumber = prefixInvoice + "-10001";
+                }
+                else
+                {
+                    invoice.InvoiceNumber = prefixInvoice + "-00001";
+                }
             }
             if (!isTax)
             {
@@ -304,6 +376,7 @@ namespace StoreFertilizers.Controllers
 
             foreach (var item in addNews)
             {
+                item.IsTax = invoice.IsTax;
                 if (invoice.IsTax == false)
                 {
                     #region "Handle Stock"
@@ -434,7 +507,7 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpBadRequest(ModelState);
             }
-            if(invoice.Customer != null)
+            if(invoice.Customer != null && invoice.Customer.Name != "อื่นๆ")
             {
                 invoice.CustomerName = invoice.Customer.Name;
             }
@@ -442,6 +515,7 @@ namespace StoreFertilizers.Controllers
             foreach (var item in invoice.InvoiceDetails)
             {
                 item.CreatedDate = invoice.CreatedDate;
+                item.IsTax = invoice.IsTax;
                 if (invoice.IsTax == false)
                 {
                     #region "Handle Stock"

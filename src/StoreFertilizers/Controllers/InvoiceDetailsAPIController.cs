@@ -26,13 +26,13 @@ namespace StoreFertilizers.Controllers
 
         // GET: api/InvoiceDetailsAPI
         [HttpGet]
-        public PagedList GetInvoiceDetails(string searchtext = "", string fromCreatedDate = "", string toCreatedDate = "", bool groupping = false, int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
+        public PagedList GetInvoiceDetails(string searchtext = "", string isTax = "notax", string fromCreatedDate = "", string toCreatedDate = "", bool groupping = false, int page = 1, int pageSize = 50, string sortBy = "", string sortDirection = "asc")
         {
             //sortDirection "asc", "desc"
             var pagedRecord = new PagedList();
 
             IEnumerable<InvoiceDetailsView> invoices_details_result = null;
-
+            bool tax = isTax.Equals("tax") ? true : false;
             #region Handle from and to created date
             DateTime from, to;
             if (!string.IsNullOrEmpty(fromCreatedDate) && string.IsNullOrEmpty(toCreatedDate))
@@ -45,7 +45,7 @@ namespace StoreFertilizers.Controllers
             }
             if (DateTime.TryParse(fromCreatedDate, out from) && DateTime.TryParse(toCreatedDate, out to))
             {
-                invoices_details_result = _context.InvoiceDetails.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date).Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).
+                invoices_details_result = _context.InvoiceDetails.Where(x => x.IsTax == tax && x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date).Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).
                     Select(details => new InvoiceDetailsView()
                     {
                         InvoiceID = details.InvoiceID,
@@ -63,10 +63,11 @@ namespace StoreFertilizers.Controllers
             #endregion
             if (invoices_details_result == null)
             {
-                invoices_details_result = _context.InvoiceDetails.Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).
+                invoices_details_result = _context.InvoiceDetails.Where(x=>x.IsTax == tax).Include(p => p.Product.ProductType).Include(p => p.Product.UnitType).
                     Select(details => new InvoiceDetailsView()
                     {
                         InvoiceID = details.InvoiceID,
+                        IsTax = details.IsTax,
                         CreatedDate = details.CreatedDate,
                         ProductID = details.ProductID,
                         ProductName = details.Product.Name,

@@ -135,6 +135,7 @@
                     searchtext: $scope.data.filterOptions.filterText,
                     fromCreatedDate: $scope.data.filterOptions.fromCreatedDate,
                     toCreatedDate: $scope.data.filterOptions.toCreatedDate,
+                    isTax: $scope.data.filterOptions.isTax,
                     groupping: $scope.data.toggleOptions.itemGroupping,
                     page: $scope.data.pagingOptions.currentPageDetails,
                     pageSize: $scope.data.pagingOptions.pageSize,
