@@ -55,14 +55,14 @@ namespace StoreFertilizers.Controllers
             DateTime back30days = DateTime.Now.AddDays(-29);
 
             var inv_result = _context.Invoices.Where(d => d.CreatedDate.Value.Date >= back30days.Date && d.CreatedDate.Value.Date <= DateTime.Now.Date && d.IsTax == false)
-                            .GroupBy(cd => cd.CreatedDate).Select(invoice => new InvoiceView()
+                            .GroupBy(cd => cd.CreatedDate.Value.Date).Select(invoice => new InvoiceView()
                             {
                                 CreatedDate = invoice.Key,
                                 NetTotal = invoice.Sum(inv => inv.NetTotal)
                             });
 
             var pur_result = _context.Purchases.Where(d => d.PurchaseDate.Value.Date >= back30days.Date && d.PurchaseDate.Value.Date <= DateTime.Now.Date)
-                            .GroupBy(cd => cd.PurchaseDate).Select(invoice => new PurchaseView()
+                            .GroupBy(cd => cd.PurchaseDate.Value.Date).Select(invoice => new PurchaseView()
                             {
                                 PurchaseDate = invoice.Key,
                                 Amount = invoice.Sum(inv => inv.Amount)
