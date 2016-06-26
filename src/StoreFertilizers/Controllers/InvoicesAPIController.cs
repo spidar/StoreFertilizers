@@ -429,7 +429,6 @@ namespace StoreFertilizers.Controllers
                     }
                     if (isDeleted)
                     {
-                        _context.InvoiceDetails.Remove(item);
                         if (invoice.IsTax == false)
                         {
                             #region "Handle Stock"
@@ -449,6 +448,7 @@ namespace StoreFertilizers.Controllers
                                 _context.Entry(purcahseItem).State = EntityState.Modified;
                             }
                         }
+                        _context.InvoiceDetails.Remove(item);
                     }
                     else
                     {

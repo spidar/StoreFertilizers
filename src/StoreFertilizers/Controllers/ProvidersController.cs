@@ -114,7 +114,21 @@ namespace StoreFertilizers.Controllers
         {
             Provider provider = _context.Providers.Single(m => m.ProviderID == id);
             _context.Providers.Remove(provider);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("conflicted with the REFERENCE"))
+                {
+                    return HttpBadRequest("ข้อมูลถูกใช้งานโดยรายการซื้อบางตัวไม่สามารถลบได้");
+                }
+                else
+                {
+                    return HttpBadRequest(ex.Message);
+                }
+            }
             return RedirectToAction("Index");
         }
     }

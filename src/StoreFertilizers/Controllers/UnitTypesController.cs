@@ -113,7 +113,21 @@ namespace StoreFertilizers.Controllers
         {
             UnitType unitType = _context.UnitTypes.Single(m => m.UnitTypeID == id);
             _context.UnitTypes.Remove(unitType);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("conflicted with the REFERENCE"))
+                {
+                    return HttpBadRequest("ข้อมูลถูกใช้งานโดยสินค้าบางตัวไม่สามารถลบได้");
+                }
+                else
+                {
+                    return HttpBadRequest(ex.Message);
+                }
+            }
             return RedirectToAction("Index");
         }
     }

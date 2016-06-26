@@ -113,7 +113,21 @@ namespace StoreFertilizers.Controllers
         {
             ProductType productType = _context.ProductTypes.Single(m => m.ProductTypeID == id);
             _context.ProductTypes.Remove(productType);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("conflicted with the REFERENCE"))
+                {
+                    return HttpBadRequest("ข้อมูลถูกใช้งานโดยสินค้าบางตัวไม่สามารถลบได้");
+                }
+                else
+                {
+                    return HttpBadRequest(ex.Message);
+                }
+            }
             return RedirectToAction("Index");
         }
     }

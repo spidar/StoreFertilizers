@@ -216,6 +216,7 @@
                             var objectFound = $scope.data.purchaseList[elementPos];
                             objectFound.qtyRemain = objectFound.qtyRemain + item.qty;
                             objectFound.checked = false;
+                            item.purchase = objectFound;
                         }
                     }
                     ////////////
@@ -422,6 +423,8 @@
                     } else {
                         $scope.newInvoice.invoiceDetails.splice($scope.newInvoice.invoiceDetails.indexOf($scope.newInvoice.invoiceDetails[elementPos]), 1);
                     }
+                    invoiceDetailItem.purchase = item;
+
                     $scope.reindexItem();
                 }
             };
@@ -439,6 +442,7 @@
                             item.qty = item.qtyRemain;
                             purchase.qtyRemain = 0;
                         }
+                        item.purchase = purchase;
                     }
                 }
             };

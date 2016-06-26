@@ -160,7 +160,21 @@ namespace StoreFertilizers.Controllers
         {
             Product product = _context.Products.Single(m => m.ProductID == id);
             _context.Products.Remove(product);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("conflicted with the REFERENCE"))
+                {
+                    return HttpBadRequest("ข้อมูลถูกใช้งานอยู่ไม่สามารถลบได้");
+                }
+                else
+                {
+                    return HttpBadRequest(ex.Message);
+                }
+            }
             return RedirectToAction("Index");
         }
     }
