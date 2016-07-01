@@ -133,7 +133,7 @@
                         }, 5000);
                     }, function (error) {
                         $scope.showLoading = false;
-                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
+                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.data;
                     });
             }
             $scope.updateInvoice = function () {
@@ -148,7 +148,7 @@
                         }, 5000);
                     }, function (error) {
                         $scope.showLoading = false;
-                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.statusText;
+                        $scope.status = 'ไม่สามารถบันทึกข้อมูลได้ : ' + error.data;
                     });
             }
 
@@ -215,6 +215,10 @@
                         {
                             var objectFound = $scope.data.purchaseList[elementPos];
                             objectFound.qtyRemain = objectFound.qtyRemain + item.qty;
+                            if(objectFound.qtyRemain > objectFound.qty)
+                            {
+                                objectFound.qtyRemain = objectFound.qty;
+                            }
                             objectFound.checked = false;
                             item.purchase = objectFound;
                         }

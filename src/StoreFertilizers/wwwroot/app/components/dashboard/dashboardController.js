@@ -11,6 +11,8 @@
             var offset = moment(val, 'DD/MM/YYYY').utcOffset();
             var dateOffset = new Date(moment(val, 'DD/MM/YYYY').add(offset, 'm'));
             var totalDays = moment(val, 'DD/MM/YYYY').add(offset, 'm');
+            $scope.showLoading = false;
+            $scope.status = '';
             $scope.data = {
                 totalNetAmount: 0,
                 totalNetPaidAmount: 0,
@@ -51,9 +53,9 @@
 
             //Line Chart
             /*
-            $scope.lineChartLabels = ["ม.ค.", "ก.พ.", "ม.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค."];
-            $scope.lineChartSeries = ['ปุ๋ย', 'ยา'];
-            $scope.lineChartData = [
+            $scope.data.purchaseVsSaleChartLabels = ["ม.ค.", "ก.พ.", "ม.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค."];
+            $scope.data.purchaseVsSaleChartSeries = ['ปุ๋ย', 'ยา'];
+            $scope.data.purchaseVsSaleChartData = [
               [65, 59, 80, 81, 56, 55, 40],
               [28, 48, 40, 19, 86, 27, 90]
             ];
@@ -77,6 +79,7 @@
             //End Bar Chart
 
             $scope.getDashboardData = function () {
+                $scope.showLoading = true;
                 servicesFactory.getDashboardData()
                 .then(function (response) {
                     $scope.notifications = response.data.notifications;
@@ -92,6 +95,7 @@
 
                     $scope.data.stockPieChartLabels = response.data.stockPieChartLabels;
                     $scope.data.stockPieChartData = response.data.stockPieChartData;
+
                     $timeout(function () {
                         $scope.showLoading = false;
                         $scope.status = '';

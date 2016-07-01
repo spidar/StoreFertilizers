@@ -196,7 +196,7 @@ namespace StoreFertilizers.Controllers
             }
             if (DateTime.TryParse(fromCreatedDate, out from) && DateTime.TryParse(toCreatedDate, out to))
             {
-                invoices_result = _context.Invoices.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date).Include(cus => cus.Customer).ToList()
+                invoices_result = _context.Invoices.Where(x => x.CreatedDate.Value.Date >= from.Date && x.CreatedDate.Value.Date <= to.Date).Include(cus => cus.Customer)
                 .Select(invoice => new InvoiceView()
                 {
                     InvoiceID = invoice.InvoiceID,
@@ -212,7 +212,7 @@ namespace StoreFertilizers.Controllers
             }
             else
             {
-                invoices_result = _context.Invoices.Include(cus => cus.Customer).ToList()
+                invoices_result = _context.Invoices.Include(cus => cus.Customer)
                 .Select(invoice => new InvoiceView()
                 {
                     InvoiceID = invoice.InvoiceID,
@@ -276,7 +276,7 @@ namespace StoreFertilizers.Controllers
             {
                 invoices_result = invoices_result.OrderBy(sortBy + " " + sortDirection);
             }
-            pagedRecord.TotalUnPaidAmount = invoices_result.Sum(i => i.NetTotal);
+            pagedRecord.TotalUnPaidAmount = invoices_result.Where(x => !x.Paid).Sum(i => i.NetTotal);
             pagedRecord.SumNetTotalEachDay = invoices_result.GroupBy(g => g.CreatedDate).Select(row => new
             {
                 CreatedDate = row.First().CreatedDate,
@@ -308,17 +308,17 @@ namespace StoreFertilizers.Controllers
             }
 
             #region "Try to load all child property
-            var invoiceDetails = _context.InvoiceDetails.Where(i => i.InvoiceID == invoice.InvoiceID).ToList();
+            var invoiceDetails = _context.InvoiceDetails.Where(i => i.InvoiceID == invoice.InvoiceID).Include(pu => pu.Purchase).Include(p => p.Product).ThenInclude(u => u.UnitType).Include(pt => pt.Product.ProductType);
 
             foreach (var item in invoiceDetails)
             {
-                var invoiceDetailsProduct = _context.Products.Where(i => i.ProductID == item.ProductID).ToList();
-                //var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID).ToList();
-                var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID).ToList();
-                var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID).ToList();
+                //var invoiceDetailsProduct = _context.Products.Where(i => i.ProductID == item.ProductID);
+                //var unitType = _context.UnitTypes.Where(i => i.UnitTypeID == item.UnitTypeID);
+                //var productType = _context.ProductTypes.Where(i => i.ProductTypeID == item.Product.ProductTypeID);
+                //var unitType2 = _context.UnitTypes.Where(i => i.UnitTypeID == item.Product.UnitTypeID);
                 if (invoice.IsTax)
                 {
-                    var purchase = _context.Purchases.Where(i => i.PurchaseID == item.PurchaseID).ToList();
+                    //var purchase = _context.Purchases.Where(i => i.PurchaseID == item.PurchaseID);
                 }
                 item.OrgProductID = item.ProductID;
                 item.OrgQty = item.Qty;
@@ -476,6 +476,10 @@ namespace StoreFertilizers.Controllers
                                     productInStock.Balance -= item.Qty;
                                     _context.Entry(productInStock).State = EntityState.Modified;
                                 }
+                                else
+                                {
+                                    return HttpBadRequest("ไม่พบสินค้า " + item.Product.Name + " ในคลัง");
+                                }
                             }
                             #endregion
                         }
@@ -593,7 +597,37 @@ namespace StoreFertilizers.Controllers
             {
                 return HttpNotFound();
             }
-
+            var invoiceDetails = _context.InvoiceDetails.Where(x => x.InvoiceID == invoice.InvoiceID).ToList();
+            if (invoiceDetails.Any())
+            {
+                foreach (var item in invoiceDetails)
+                {
+                    if (invoice.IsTax == false)
+                    {
+                        #region "Handle Stock"
+                        var productInStock = _context.Stocks.Single(i => i.ProductID == item.ProductID);
+                        if (productInStock == null)
+                        {
+                            continue;
+                        }
+                        //Create case should be strang forward.
+                        productInStock.Balance += item.Qty;
+                        _context.Entry(productInStock).State = EntityState.Modified;
+                        #endregion
+                    }
+                    else
+                    {
+                        //Handle QtyRemain
+                        var purcahseItem = _context.Purchases.Single(i => i.PurchaseID == item.PurchaseID);
+                        purcahseItem.QtyRemain += item.Purchase.Qty;
+                        if(purcahseItem.QtyRemain > purcahseItem.Qty)
+                        {
+                            purcahseItem.QtyRemain = purcahseItem.Qty;
+                        }
+                        _context.Entry(purcahseItem).State = EntityState.Modified;
+                    }
+                }
+            }
             _context.Invoices.Remove(invoice);
             _context.SaveChanges();
 

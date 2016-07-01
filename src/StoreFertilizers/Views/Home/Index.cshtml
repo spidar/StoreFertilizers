@@ -3,7 +3,8 @@
 }
 <div class="panel panel-default" ng-controller="dashboardController">
     <div class="panel-heading">
-        <div id="page-wrapper">
+        <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
+        <div id="page-wrapper" ng-show="!showLoading">
             <div class="row">
                 <div class="col-xs-3">
                     <div class="panel panel-primary">
@@ -69,44 +70,34 @@
             <div class="row">
                 <div class="col-xs-8 widget widget-table">
                     <div class="panel panel-default widget-content">
-                        <div class="panel-heading widget-header" style="line-height:normal;">
-                            <i class="glyphicon glyphicon-inbox text-success"></i> ยอดการซื้อขาย
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            @*<a asp-controller="Invoices" asp-action="Create" class="btn btn-primary btn-xs" role="button">
-                                <i class="glyphicon glyphicon-plus"></i> สร้างใบกำกับสินค้า
-                            </a>*@
-                            <div class="pull-right">
-                                <div class="btn-group" role="group" aria-label="แผนภูมิ">
-                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowSalesChart = true;">กราฟ</button>
-                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowSalesChart = false;">ตาราง</button>
+                        <md-tabs md-dynamic-height md-border-bottom>
+                            <md-tab label="กราฟ">
+                                <div id="morris-area-chart" style="padding-left:10px;padding-right:10px;">
+                                    <canvas id="line" class="chart chart-line" chart-data="data.purchaseVsSaleChartData"
+                                            chart-labels="data.purchaseVsSaleChartLabels" chart-legend="true" chart-series="data.purchaseVsSaleChartSeries"></canvas>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <div id="morris-area-chart" ng-show="isShowSalesChart">
-                                <canvas id="line" class="chart chart-line" chart-data="data.purchaseVsSaleChartData"
-                                        chart-labels="data.purchaseVsSaleChartLabels" chart-legend="true" chart-series="data.purchaseVsSaleChartSeries">
-                                </canvas> 
-                            </div>
-                            <div class="table-responsive" ng-show="!isShowSalesChart" style="max-height:424px;overflow-y:scroll;">
-                                <table class="table table-bordered table-hover table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align:center;">วันที่</th>
-                                            <th width="25%" style="text-align:center;">ยอดซื้อ</th>
-                                            <th width="25%"style="text-align:center;">ยอดขาย</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in data.purchaseVsSaleChartLabels track by $index">
-                                            <td style="text-align:center;">{{item}}</td>
-                                            <td style="text-align:right;">{{data.purchaseVsSaleChartData[0][$index]}}</td>
-                                            <td style="text-align:right;">{{data.purchaseVsSaleChartData[1][$index]}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                            </md-tab>
+                            <md-tab label="ตาราง">
+                                <div class="table-responsive" style="max-height:430px;overflow-y:scroll;">
+                                        <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="text-align:center;">วันที่</th>
+                                                    <th width="25%" style="text-align:center;">ยอดซื้อ</th>
+                                                    <th width="25%" style="text-align:center;">ยอดขาย</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="item in data.purchaseVsSaleChartLabels track by $index">
+                                                    <td style="text-align:center;">{{item}}</td>
+                                                    <td style="text-align:right;">{{data.purchaseVsSaleChartData[0][$index]}}</td>
+                                                    <td style="text-align:right;">{{data.purchaseVsSaleChartData[1][$index]}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </md-tab>
+                        </md-tabs>
                     </div>
                     <div class="panel panel-default widget-content">
                         <div class="panel-heading widget-header" style="line-height:normal;">
