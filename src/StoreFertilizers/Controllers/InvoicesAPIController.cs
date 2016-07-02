@@ -161,7 +161,10 @@ namespace StoreFertilizers.Controllers
             }
             if (!isTax)
             {
-                invoice.InvoiceDetails.Add(new InvoiceDetails());
+                invoice.InvoiceDetails.Add(new InvoiceDetails() {
+                    PricePerUnit = 0,
+                    Discount = 0
+                });
             }
             invoice.CreatedDate = DateTime.Now;
             invoice.DueDate = DateTime.Now;
