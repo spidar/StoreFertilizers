@@ -50,7 +50,7 @@
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
-                    pageSize: 500,
+                    pageSize: 750,
                     currentPage: 1,
                     currentPageDetails: 1
                 }
