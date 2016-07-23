@@ -126,7 +126,7 @@ namespace StoreFertilizers.Controllers
                             //Same month
                             if (int.TryParse(invNumberSplit[1], out lastInvoiceNumber))
                             {
-                                invoice.InvoiceNumber = prefixInvoice + "-" + (lastInvoiceNumber + 1).ToString("D5");
+                                invoice.InvoiceNumber = prefixInvoice + "-" + (lastInvoiceNumber + 1).ToString("D4");
                             }
                             else
                             {

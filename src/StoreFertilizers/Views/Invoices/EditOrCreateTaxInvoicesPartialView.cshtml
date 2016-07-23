@@ -258,7 +258,7 @@
             </div>
         </div>
     </div>
-    <div ng-show="data.printMode && !data.printValueOnly" id="invoiceWithLine" class="row" style="min-width:800px;max-width:800px;">
+    <div ng-show="data.printMode && !data.printValueOnly && !data.printCashMode" id="invoiceWithLine" class="row" style="min-width:800px;max-width:800px;font-size:16px;padding-left:15px;padding-right:15px;margin-top:-30px;margin-bottom:-30px;">
         <div id="headerarea">
             <div class="form-group remove-bottom-margin">
                 <div class="col-xs-12" style="padding:2px;border-bottom:1px solid gray;border-bottom-width:medium;text-align:center;">
@@ -270,17 +270,16 @@
             </div>
             <div class="form-group remove-bottom-margin">
                 <div class="col-xs-12" style="padding:2px;text-align:center;">
-                    <div style="font-size:large;"><strong>ใบแจ้งหนี้/ใบกำกับภาษี</strong></div>
-                    <div style="font-size:large;"><strong>INVOICE/TAX INVOICE</strong></div>
+                    <div style="font-size:large;"><strong>ใบแจ้งหนี้/ใบกำกับภาษี(INVOICE/TAX INVOICE)</strong></div>
                 </div>
             </div>
             <div class="form-group row remove-bottom-margin">
-                <div class="col-xs-4" style="min-height:145px;padding-left:20px;">
+                <div class="col-xs-4" style="padding-right:0px;">
                     <div class="form-group remove-bottom-margin">
                         <label class="col-xs-2 control-label"><strong>ลูกค้า:</strong><br /><small style="font-size:75%;">Cust.</small></label>
                         <div class='col-xs-10'>
                             <div style="margin-top:10px;">
-                                {{newInvoice.customerName}}
+                                {{newInvoice.customer.name}}
                             </div>
                         </div>
                     </div>
@@ -292,14 +291,14 @@
                             <small>{{newInvoice.customer.phone1}}</small>
                         </div>
                     </div>
-                    <div class="form-group row remove-bottom-margin">
-                        <label class="col-xs-3 control-label"><strong>ส่งที่:</strong><br /><small style="font-size:75%;">Ship To</small></label>
-                        <div class="col-xs-9" style="padding-top:10px;">
+                    @*<div class="form-group row remove-bottom-margin">
+                        <label class="col-xs-2 control-label" style="min-width:75px;"><strong>ส่งที่:</strong><br /><small style="font-size:75%;">Ship To</small></label>
+                        <div class="col-xs-8" style="padding-top:10px;">
                             {{newInvoice.shipTo}}
                         </div>
-                    </div>
+                    </div>*@
                 </div>
-                <div class="col-xs-4" style="min-height:145px;">
+                <div class="col-xs-4" style="padding:0px;">
                         <div class="form-group row remove-bottom-margin">
                             <label for="paymentType" class="col-xs-4 control-label"><strong>เลขที่:</strong><br /><small style="font-size:75%;">Invoice No.</small></label>
                             <div class="col-xs-8" style="padding-top:10px;">
@@ -313,13 +312,13 @@
                             </div>
                         </div>
                         <div class="form-group row remove-bottom-margin">
-                            <label class="control-label col-xs-4" style="min-width:120px;"><strong>กำหนดชำระ:</strong><br /><small style="font-size:75%;">Due Date</small></label>
-                            <div class='col-xs-8' style="padding-top:10px;max-width:100px;">
+                            <label class="control-label col-xs-4" style="padding:0px;"><strong>กำหนดชำระ:</strong><br /><small style="font-size:75%;">Due Date</small></label>
+                            <div class='col-xs-8' style="max-width:100px;">
                                 {{newInvoice.dueDate | date: 'dd/MM/yyyy'}}
                             </div>
                         </div>
                 </div>
-                <div class="col-xs-4" style="min-height:145px;">
+                <div class="col-xs-4" style="padding-left:0px;">
                         <div class="form-group remove-bottom-margin">
                             <label class="col-xs-5 control-label" style="min-width:100px;"><small>เลขใบสั่งซื้อ:<br />P/O NO.</small></label>
                             <div class="col-xs-7" style="padding-top:10px;">
@@ -327,8 +326,8 @@
                             </div>
                         </div>
                         <div class="form-group row remove-bottom-margin">
-                            <label class="col-xs-5 control-label" style="min-width:130px;"><small>เงื่อนไขการชำระ:<br />TERM</small></label>
-                            <div class="col-xs-7" style="padding-top:10px;max-width:100px;">
+                            <label class="col-xs-5 control-label" style="padding:0px;"><small>เงื่อนไขการชำระ:<br />TERM</small></label>
+                            <div class="col-xs-7" style="padding:0px;max-width:100px;">
                                 {{newInvoice.termOfPayment}}
                             </div>
                         </div>
@@ -340,8 +339,8 @@
                         </div>
                 </div>
             </div>
-            <div class="form-group" style="padding:2px;border-top:1px solid gray;border-top-width:medium;">
-                <div class="col-xs-2" style="max-width:70px;">
+            <div class="form-group row remove-bottom-margin" style="padding:2px;border-top:1px solid gray;border-top-width:medium;">
+                <div class="col-xs-2" style="min-width:70px;">
                     <label class="control-label" style="min-width:60px;padding-top:0px;"><small>ขนส่งโดย:<br />SHIP BY</small></label>
                 </div>
                 <div class="col-xs-2">
@@ -354,42 +353,42 @@
                     {{newInvoice.deliveryRefNumber}}
                 </div>
                 <div class="col-xs-2">
-                    <label class="control-label" style="min-width:91px;padding-top:0px;"><small>ทะเบียนรถขนส่ง:<br />CAR NO</small></label>
+                    <label class="control-label" style="min-width:91px;padding-top:0px;"><small>ทะเบียนรถ:<br />CAR NO</small></label>
                 </div>
                 <div class="col-xs-2">
                     {{newInvoice.deliveryByCarNumber}}
                 </div>
             </div>
         </div>
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
-                <tr style="height:57px;">
+                <tr>
                     <th width="30px" style="text-align:center;">#</th>
                     <th style="text-align:center;">
                         <div><small>รายการสินค้า</small></div>
                         <div><small>Product</small></div>
                     </th>
-                    <th width="100px" style="text-align:center;">
+                    <th width="120px" style="text-align:center;">
                         <div><small>ต่อหน่วยบรรจุ</small></div>
                         <div><small>Packing Unit</small></div>
                     </th>
-                    <th width="80px" style="text-align:center;">
+                    <th width="50px" style="text-align:center;">
                         <div><small>จำนวน</small></div>
                         <div><small>Qty</small></div>
                     </th>
-                    <th width="100px" style="text-align:center;">
+                    <th width="70px" style="text-align:center;">
                         <div><small>หน่วย</small></div>
                         <div><small>Unit</small></div>
                     </th>
-                    <th width="120px" style="text-align:center;">
+                    <th width="116px" style="text-align:center;">
                         <div><small>หน่วยละ/บาท</small></div>
                         <div><small>Qty. Price</small></div>
                     </th>
-                    <th width="75px" style="text-align:center;">
+                    <th width="70px" style="text-align:center;">
                         <div><small>ส่วนลด%</small></div>
                         <div><small>Discount</small></div>
                     </th>
-                    <th width="100px" style="min-width:100px;text-align:center;">
+                    <th width="110px" style="min-width:100px;text-align:center;">
                         <div><small>จำนวนเงิน</small></div>
                         <div><small>Amount</small></div>
                     </th>
@@ -397,36 +396,45 @@
             </thead>
             <tbody>
                 <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
-                    <td style="text-align:center;vertical-align:middle;">{{item.no}}</td>
-                    <td>
+                    <td style="text-align:center;vertical-align:middle;border-top: none !important;border-bottom: none !important;">{{item.no}}</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">
                         {{item.product.name}}
                     </td>
-                    <td style="text-align:center;vertical-align:middle;">
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">
                         {{item.product.unitsPerPackageText}}
                     </td>
-                    <td style="text-align:right;">
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
                         {{item.qty}}
                     </td>
-                    <td style="text-align:center;vertical-align:middle;">{{item.product.unitType.name}}</td>
-                    <td style="text-align:right;">
-                        {{item.pricePerUnit}}
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">{{item.product.unitType.name}}</td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.pricePerUnit | currency: ''}}
                     </td>
-                    <td style="text-align:center;">
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">
                         {{item.discount}}
                     </td>
-                    <td style="text-align:right;vertical-align:middle;">
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
                         {{calculateAmount(item) | currency: ''}}
                     </td>
                 </tr>                
-                <tr ng-repeat="i in blankInvoiceDetails track by $index"><td colspan="8">&nbsp;</td></tr>
+                <tr ng-repeat="i in blankInvoiceDetails track by $index">
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
             </tbody>
             <tbody>
                 <tr style="background-color:#f9f9f9;">
-                    <td colspan="5" style="text-align:right;">
-                        <div style="white-space:pre-wrap;min-height:60px;">{{newInvoice.notes}}</div>
+                    <td colspan="4" style="text-align:right;">
+                        <div style="white-space:pre-wrap;min-height:60px;text-align:left;">{{newInvoice.notes}}</div>
                         <div>({{calculateNetTotalText()}})</div>
                     </td>
-                    <td colspan="2" style="text-align:right;">
+                    <td colspan="3" style="text-align:right;">
                         <div>รวมเงิน/SUB TOTAL</div>
                         <div>ส่วนลด/DISCOUNT</div>
                         <div>ภาษีมูลค่าเพิ่ม/VAT 7%</div>
@@ -449,20 +457,16 @@
                     <td colspan="3" style="padding:0px;text-align:center;">
                         <div><strong>หจก.เจริญถาวร</strong></div>
                         <br />
-                        <br />
-                        <br />
                         <div>ลายเซนต์/SIGNATURE</div>
-                        <br />
                         <div>วันที่/DATE</div>
-                        <div>
-                            -----/-----/-----
-                        </div>
+                        <br />
+                        <div>-------/-------/-------</div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div ng-show="data.printMode && data.printValueOnly" id="invoicValueOnly" class="row" style="min-width:800px;max-width:800px;">
+    <div ng-show="data.printMode && data.printValueOnly && !data.printCashMode" id="invoicValueOnly" class="row" style="min-width:800px;max-width:800px;">
         <div id="headerarea">
             <div class="form-group remove-bottom-margin">
                 <div class="col-xs-12" style="padding:2px;border-bottom:1px solid #FFF;border-bottom-width:medium;text-align:center;">
@@ -484,7 +488,7 @@
                         <label class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
                         <div class='col-xs-10'>
                             <div style="margin-top:10px;">
-                                {{newInvoice.customerName}}
+                                {{newInvoice.customer.name}}
                             </div>
                         </div>
                     </div>
@@ -664,8 +668,167 @@
             </tbody>
         </table>
     </div>
+
+    <div ng-show="data.printMode && !data.printValueOnly && data.printCashMode" class="row" style="min-width:800px;max-width:800px;font-size:16px;padding-left:15px;padding-right:15px;margin-top:-30px;margin-bottom:-30px;">
+        <div id="headerarea">
+            <div class="form-group remove-bottom-margin">
+                <div class="col-xs-3" style="text-align:left;">
+                    <div style="font-size:large;">เล่มที่</div>
+                </div>
+                <div class="col-xs-6" style="text-align:center;">
+                    <div style="font-size:x-large;"><strong><u>บิลเงินสด</u></strong></div>
+                </div>
+                <div class="col-xs-3" style="text-align:left;">
+                    <div style="font-size:large;">No.{{newInvoice.invoiceNumber}}</div>
+                </div>
+            </div>
+            <div class="form-group remove-bottom-margin">
+                <div class="col-xs-12" style="text-align:center;">
+                    <div style="font-size:xx-large;"><strong>ห้างหุ้นส่วนจำกัด เจริญถาวร</strong></div>
+                    <div class="text-overflow"><small>เลขที่ 94 หมู่ที่ 4 ต.โรงเข้ อ.บ้านแพ้ว จ.สมุทรสาคร 74120</small></div>
+                    <div class="text-overflow"><small>โทร: (034) 467611-2</small></div>
+                    <div><small>เลขที่ประจำตัวผู้เสียภาษีอากร 0743528000060</small></div>
+                </div>
+            </div>
+            <div class="form-group row remove-bottom-margin">
+                <div class="col-xs-8">
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="width:65px;"><strong>นาม</strong></label>
+                        <div class='col-xs-10' style="padding-left:0px;">{{newInvoice.customer.name}}</div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <label class="control-label col-xs-3" style="padding-left:0px;padding-right:0px;"><strong>วันที่</strong></label>
+                    <div class='col-xs-9' style="padding-right:0px;">
+                        {{newInvoice.createdDate | date: 'dd/MM/yyyy'}}
+                    </div>
+                </div>                
+            </div>
+            <div class="form-group row remove-bottom-margin">
+                <div class='col-xs-12'>
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="width:65px;"><strong>ที่อยู่</strong></label>
+                        <div class='col-xs-10' style="padding-left:0px;">{{newInvoice.customer.address}}&nbsp;{{newInvoice.customer.phone1}}</div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th width="50px" style="text-align:center;">
+                        <div><small>จำนวน</small></div>
+                    </th>
+                    <th width="70px" style="text-align:center;">
+                        <div><small>หน่วย</small></div>
+                    </th>
+                    <th width="110px" style="text-align:center;">
+                        <div><small>ต่อหน่วยบรรจุ</small></div>
+                    </th>
+                    <th style="text-align:center;">
+                        <div><small>รายการสินค้า</small></div>
+                    </th>
+                    <th width="116px" style="text-align:center;">
+                        <div><small>หน่วยละ/บาท</small></div>
+                    </th>
+                    <th width="110px" style="text-align:center;">
+                        <div><small>จำนวนเงิน</small></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.qty}}
+                    </td>
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">{{item.product.unitType.name}}</td>
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">
+                        {{item.product.unitsPerPackageText}}
+                    </td>
+                    <td style="border-top: none !important;border-bottom: none !important;">
+                        {{item.product.name}}
+                    </td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.pricePerUnit | currency: ''}}
+                    </td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{calculateAmount(item) | currency: ''}}
+                    </td>
+                </tr>
+                <tr ng-repeat="i in blankInvoiceDetails track by $index">
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr style="background-color:#f9f9f9;">
+                    <td colspan="4" style="text-align:right;">
+                        <div style="white-space:pre-wrap;min-height:60px;text-align:left;">{{newInvoice.notes}}</div>
+                        <div>({{calculateNetTotalText()}})</div>
+                    </td>
+                    <td style="text-align:right;">
+                        <div>รวมเงิน</div>
+                    </td>
+                    <td style="text-align:right;">
+                        <div>{{calculateNetTotal() | currency: ''}}</div>
+                    </td>
+                </tr>
+                <tr style="background-color:white;">
+                    <td colspan="6" style="padding:0px;text-align:center;vertical-align:middle;">
+                        <br />
+                        <div>------------------------------------ผู้รับเงิน</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br class="noPrint" />
     <hr class="noPrint" />
-    <div ng-show="status!=''" class="row alert alert-danger" role="alert">
+    <div ng-show="status!=''" class="row alert alert-danger noPrint" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         {{status}}
     </div>
@@ -674,8 +837,9 @@
         <button ng-show="!data.printMode" type="submit" ng-click="saveInvoice()" class="btn btn-primary">
             <span class="glyphicon glyphicon-floppy-save"></span> บันทึก
         </button>
-        <a href="#" class="btn btn-primary" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์</a>
-        <a href="#" class="btn btn-warning" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์มีเส้น</a>
+        <a href="#" class="btn btn-success" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;data.printCashMode=true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์บิลเงินสด</a>
+        <a href="#" class="btn btn-primary" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = true;data.printCashMode=false;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์</a>
+        <a href="#" class="btn btn-warning" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;data.printCashMode=false;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์มีเส้น</a>
         <a href="#" class="btn btn-primary" ng-show="data.printMode" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> พิมพ์</a>
         <a href="#" class="btn btn-primary" ng-show="data.printMode" ng-click="data.printMode = false;"><i class="glyphicon glyphicon-edit"></i> กลับไปแก้ไข</a>
     </div>

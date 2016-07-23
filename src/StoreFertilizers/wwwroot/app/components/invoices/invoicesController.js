@@ -20,7 +20,8 @@
             $scope.data = {
                 saved: false,
                 printMode: false,
-                printValueOnly: true,
+                printValueOnly: false,
+                printCashMode: false,
                 customerList: null,
                 employeeList: null,
                 productList: null,
@@ -518,7 +519,7 @@
                 }
             };
             $scope.fillBlankRows = function () {
-                var blankRows = 11 - $scope.newInvoice.invoiceDetails.length;
+                var blankRows = 10 - $scope.newInvoice.invoiceDetails.length;
                 if (blankRows > 0) {
                     $scope.blankInvoiceDetails = new Array(blankRows);
                 }else
