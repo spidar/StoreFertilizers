@@ -1,0 +1,317 @@
+<div class="panel panel-default" ng-controller="dashboardController">
+    <div class="panel-heading">
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="min-height:120px;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-list" style="font-size: 70px;"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div style="font-size: 40px;">26</div>
+                                    <div>ใบกำกับสินค้าทั้งหมด</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">เพิ่มเติม</span>
+                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading" style="min-height:120px;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-thumbs-up" style="font-size: 70px;"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div style="font-size: 40px;">15</div>
+                                    <div>ใบกำกับสินค้าที่จ่ายแล้ว</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">เพิ่มเติม</span>
+                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading" style="min-height:120px;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-exclamation-sign" style="font-size: 70px;"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div style="font-size: 40px;">7</div>
+                                    <div>เกินกำหนดชำระ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">เพิ่มเติม</span>
+                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="panel panel-danger">
+                        <div class="panel-heading" style="min-height:120px;">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="glyphicon glyphicon-ban-circle" style="font-size: 70px;"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div style="font-size: 40px;">4</div>
+                                    <div>ถูกยกเลิก</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">เพิ่มเติม</span>
+                                <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-8 widget widget-table">
+                    <div class="panel panel-default widget-content">
+                        <div class="panel-heading widget-header" style="line-height:normal;">
+                            <i class="glyphicon glyphicon-inbox text-success"></i> การขาย
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a asp-controller="Invoices" asp-action="Create" class="btn btn-primary btn-xs" role="button">
+                                <i class="glyphicon glyphicon-plus"></i> สร้างใบกำกับสินค้า
+                            </a>
+                            <div class="pull-right">
+                                <div class="btn-group" role="group" aria-label="แผนภูมิ">
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowSalesChart = true;">กราฟ</button>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowSalesChart = false;">ตาราง</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-area-chart" ng-show="isShowSalesChart">
+                                <canvas id="line" class="chart chart-line" chart-data="lineChartData"
+                                        chart-labels="lineChartLabels" chart-legend="true" chart-series="lineChartSeries">
+                                </canvas> 
+                            </div>
+                            <div class="table-responsive" ng-show="!isShowSalesChart">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th width="20px">#</th>
+                                            <th width="25%" style="text-align:center;">เดือน/ปี</th>
+                                            <th width="25%" style="text-align:center;">ชนิด</th>
+                                            <th style="text-align:right;">มูลค่า</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td style="text-align:center;">ม.ค./2016</td>
+                                            <td style="text-align:center;">ปุ๋ย</td>
+                                            <td style="text-align:right;">321.33</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td style="text-align:center;">ม.ค./2016</td>
+                                            <td style="text-align:center;">ยา</td>
+                                            <td style="text-align:right;">234.34</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td style="text-align:center;">ก.พ./2016</td>
+                                            <td style="text-align:center;">ปุ๋ย</td>
+                                            <td style="text-align:right;">724.17</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td style="text-align:center;">ก.พ./2016</td>
+                                            <td style="text-align:center;">ยา</td>
+                                            <td style="text-align:right;">23.71</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td style="text-align:center;">มี.ค./2016</td>
+                                            <td style="text-align:center;">ปุ๋ย</td>
+                                            <td style="text-align:right;">8345.23</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td style="text-align:center;">มี.ค./2016</td>
+                                            <td style="text-align:center;">ยา</td>
+                                            <td style="text-align:right;">245.12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td style="text-align:center;">เม.ย./2016</td>
+                                            <td style="text-align:center;">ปุ๋ย</td>
+                                            <td style="text-align:right;">5663.54</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td style="text-align:center;">เม.ย./2016</td>
+                                            <td style="text-align:center;">ยา</td>
+                                            <td style="text-align:right;">943.45</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default widget-content">
+                        <div class="panel-heading widget-header" style="line-height:normal;">
+                            <i class="glyphicon glyphicon-stats text-success"></i> สินค้าคงคลัง
+                            <div class="pull-right">
+                                <div class="btn-group" role="group" aria-label="แผนภูมิ">
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowProductStockChart = true;">กราฟ</button>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowProductStockChart = false;">ตาราง</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div id="morris-area-chart" ng-show="isShowProductStockChart">
+                                <canvas id="bar" chart-legend="true" class="chart chart-bar" chart-data="barChartData" chart-labels="barChartLabels" chart-series="barChartSeries">
+                                </canvas>
+                            </div>
+                            <div class="table-responsive" ng-show="!isShowProductStockChart">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th width="20px">#</th>
+                                            <th width="25%" style="text-align:center;">ชื่อสินค้า</th>
+                                            <th width="25%" style="text-align:center;">สต๊อค</th>
+                                            <th style="text-align:right;">คงเหลือ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td style="text-align:center;">กระต่าย</td>
+                                            <td style="text-align:center;">65</td>
+                                            <td style="text-align:right;">28</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td style="text-align:center;">ยาร่า</td>
+                                            <td style="text-align:center;">59</td>
+                                            <td style="text-align:right;">48</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td style="text-align:center;">OX-PREMIUM</td>
+                                            <td style="text-align:center;">80</td>
+                                            <td style="text-align:right;">40</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td style="text-align:center;">ออติวา</td>
+                                            <td style="text-align:center;">81</td>
+                                            <td style="text-align:right;">19</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td style="text-align:center;">ไธอะโนซาน</td>
+                                            <td style="text-align:center;">56</td>
+                                            <td style="text-align:right;">26</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td style="text-align:center;">พรีมาตรอน</td>
+                                            <td style="text-align:center;">55</td>
+                                            <td style="text-align:right;">27</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td style="text-align:center;">ไดเทสเอ็ม</td>
+                                            <td style="text-align:center;">90</td>
+                                            <td style="text-align:right;">40</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-4 widget widget-table">
+                    <div class="panel panel-default widget-content">
+                        <div class="panel-heading widget-header" style="line-height:normal;">
+                            <i class="glyphicon glyphicon-flag text-warning"></i> การแจ้งเตือน
+                        </div>
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <i class="glyphicon glyphicon-ok text-success"></i> SH023-02014 ชำระเงินแล้ว
+                                    <span class="pull-right text-muted small">
+                                        <em>07/05 9:49</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="glyphicon glyphicon-info-sign text-info"></i> คุณณรงค์ สั่งซื้อสินค้าใหม่
+                                    <span class="pull-right text-muted small">
+                                        <em>07/05 8:12</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="glyphicon glyphicon-warning-sign text-warning"></i> SH010-00028 เกินกำหนดชำระ
+                                    <span class="pull-right text-muted small">
+                                        <em>06/05 13:49</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="glyphicon glyphicon-warning-sign text-warning"></i> SH011-01832 รอรับสินค้า
+                                    <span class="pull-right text-muted small">
+                                        <em>06/05 11:17</em>
+                                    </span>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <i class="glyphicon glyphicon-ok text-success"></i> ปุ๋ยยาร่า 20-11-11 เข้าสต๊อค
+                                    <span class="pull-right text-muted small">
+                                        <em>05/05 16:30</em>
+                                    </span>
+                                </a>
+                            </div>
+                            <a href="#" class="btn btn-default btn-block">ดูทั้งหมด</a>
+                        </div>
+                    </div>
+                    <div class="panel panel-default widget-content">
+                        <div class="panel-heading widget-header" style="line-height:normal;">
+                            <i class="glyphicon glyphicon-info-sign text-info"></i> คลังสินค้า
+                            <!--
+                            <div class="pull-right">
+                                <div class="btn-group" role="group" aria-label="แผนภูมิ">
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowProductStockChart = true;">กราฟ</button>
+                                    <button type="button" class="btn btn-success btn-xs" ng-click="isShowProductStockChart = false;">ตาราง</button>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="pie" class="chart chart-pie" chart-legend="true"
+                                    chart-data="pieChartData" chart-labels="pieChartLabels"></canvas>
+                            <a href="#" class="btn btn-default btn-block">รายละเอียด</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

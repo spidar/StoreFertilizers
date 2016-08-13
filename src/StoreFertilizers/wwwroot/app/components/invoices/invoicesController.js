@@ -519,7 +519,7 @@
                 }
             };
             $scope.fillBlankRows = function () {
-                var blankRows = 10 - $scope.newInvoice.invoiceDetails.length;
+                var blankRows = 12 - $scope.newInvoice.invoiceDetails.length;
                 if (blankRows > 0) {
                     $scope.blankInvoiceDetails = new Array(blankRows);
                 }else
