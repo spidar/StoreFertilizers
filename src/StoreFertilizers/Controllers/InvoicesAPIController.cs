@@ -92,14 +92,14 @@ namespace StoreFertilizers.Controllers
             #endregion
 
             #region "Stock"
-            List<Stock> stocks = _context.Stocks.Include(p => p.Product).ToList();
-            dashboardData.StockPieChartLabels = new List<string>();
-            dashboardData.StockPieChartData = new List<decimal>();
-            foreach (var item in stocks)
-            {
-                dashboardData.StockPieChartLabels.Add(item.Product.Name);
-                dashboardData.StockPieChartData.Add(item.Balance);
-            }
+            //List<Stock> stocks = _context.Stocks.Include(p => p.Product).ToList();
+            //dashboardData.StockPieChartLabels = new List<string>();
+            //dashboardData.StockPieChartData = new List<decimal>();
+            //foreach (var item in stocks)
+            //{
+            //    dashboardData.StockPieChartLabels.Add(item.Product.Name);
+            //    dashboardData.StockPieChartData.Add(item.Balance);
+            //}
             #endregion
 
             return dashboardData;

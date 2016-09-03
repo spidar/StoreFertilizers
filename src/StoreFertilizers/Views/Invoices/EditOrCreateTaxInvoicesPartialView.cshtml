@@ -668,7 +668,7 @@
             </tbody>
         </table>
     </div>
-
+    @*<!--Cash Bill-->*@
     <div ng-show="data.printMode && !data.printValueOnly && data.printCashMode" class="row" style="min-width:800px;max-width:800px;font-size:15px;margin-left:15px;padding-right:30px;margin-top:-30px;margin-bottom:-30px;">
         <div id="headerarea">
             <div class="form-group remove-bottom-margin">
@@ -689,6 +689,7 @@
                     <div class="text-overflow"><small>โทร: (034) 467611-2</small></div>
                     <div><small>เลขที่ประจำตัวผู้เสียภาษีอากร 0743528000060</small></div>
                 </div>
+                <div>&nbsp;</div>
             </div>
             <div class="form-group row remove-bottom-margin">
                 <div class="col-xs-8">
@@ -712,6 +713,7 @@
                     </div>                    
                 </div>
             </div>
+            <div class="form-group row remove-bottom-margin">&nbsp;</div>
         </div>
         <table class="table table-bordered">
             <thead>
@@ -826,6 +828,167 @@
             </tbody>
         </table>
     </div>
+    <div ng-show="data.printMode && data.printValueOnly && data.printCashMode" class="row" style="min-width:800px;max-width:800px;font-size:15px;margin-left:15px;padding-right:30px;margin-top:-30px;margin-bottom:-30px;">
+        <div id="headerarea">
+            <div class="form-group remove-bottom-margin">
+                <div class="col-xs-3" style="text-align:left;">
+                    <div style="font-size:large;">&nbsp;</div>
+                </div>
+                <div class="col-xs-6" style="text-align:center;">
+                    <div style="font-size:x-large;"><strong><u>&nbsp;</u></strong></div>
+                </div>
+                <div class="col-xs-3" style="text-align:left;">
+                    <div style="font-size:large;">&nbsp;{{newInvoice.invoiceNumber}}</div>
+                </div>
+            </div>
+            <div class="form-group remove-bottom-margin">
+                <div class="col-xs-12" style="text-align:center;">
+                    <div style="font-size:xx-large;"><strong>&nbsp;</strong></div>
+                    <div class="text-overflow"><small>&nbsp;</small></div>
+                    <div class="text-overflow"><small>&nbsp;</small></div>
+                    <div><small>&nbsp;</small></div>
+                </div>
+                <div>&nbsp;</div>
+            </div>
+            <div class="form-group row remove-bottom-margin">
+                <div class="col-xs-8">
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="width:65px;"><strong>&nbsp;</strong></label>
+                        <div class='col-xs-10' style="padding-left:0px;">{{newInvoice.customer.name}}</div>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <label class="control-label col-xs-3" style="padding-left:0px;padding-right:0px;"><strong>&nbsp;</strong></label>
+                    <div class='col-xs-9' style="padding-right:0px;">
+                        {{newInvoice.createdDate | date: 'dd/MM/yyyy'}}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row remove-bottom-margin">
+                <div class='col-xs-12'>
+                    <div class="form-group remove-bottom-margin">
+                        <label class="col-xs-1 control-label" style="width:65px;"><strong>&nbsp;</strong></label>
+                        <div class='col-xs-10' style="padding-left:0px;">{{newInvoice.customer.address}}&nbsp;{{newInvoice.customer.phone1}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row remove-bottom-margin">&nbsp;</div>
+        </div>
+        <table class="table table-bordernocolor">
+            <thead>
+                <tr>
+                    <th width="50px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="70px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="110px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="116px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="110px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.qty}}
+                    </td>
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">{{item.product.unitType.name}}</td>
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">
+                        {{item.product.unitsPerPackageText}}
+                    </td>
+                    <td style="border-top: none !important;border-bottom: none !important;">
+                        {{item.product.name}}
+                    </td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.pricePerUnit | currency: ''}}
+                    </td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{calculateAmount(item) | currency: ''}}
+                    </td>
+                </tr>
+                <tr ng-repeat="i in blankInvoiceDetails track by $index">
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+            </tbody>
+            <tbody style="border-top:0px;">
+                <tr>
+                    <td colspan="4" style="text-align:right;">
+                        <div style="white-space:pre-wrap;min-height:60px;text-align:left;">{{newInvoice.notes}}</div>
+                        <div>({{calculateNetTotalText()}})</div>
+                    </td>
+                    <td style="text-align:right;">
+                        <div>&nbsp;</div>
+                    </td>
+                    <td style="text-align:right;">
+                        <div>{{calculateNetTotal() | currency: ''}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="padding:0px;text-align:center;vertical-align:middle;">
+                        <br />
+                        <div>&nbsp;</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    @*<!--End Cash Bill-->*@
     <br class="noPrint" />
     <hr class="noPrint" />
     <div ng-show="status!=''" class="row alert alert-danger noPrint" role="alert">
@@ -837,9 +1000,12 @@
         <button ng-show="!data.printMode" type="submit" ng-click="saveInvoice()" class="btn btn-primary">
             <span class="glyphicon glyphicon-floppy-save"></span> บันทึก
         </button>
-        <a href="#" class="btn btn-success" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;data.printCashMode=true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์บิลเงินสด</a>
+        <a href="#" class="btn btn-success" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = true;data.printCashMode=true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์</a>
+        <a href="#" class="btn btn-success" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;data.printCashMode=true;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์บิลเงินสดมีเส้น</a>
+        <!--
         <a href="#" class="btn btn-primary" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = true;data.printCashMode=false;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์</a>
         <a href="#" class="btn btn-warning" ng-show="!data.printMode" ng-click="data.printMode = true;data.printValueOnly = false;data.printCashMode=false;"><i class="glyphicon glyphicon-print"></i> ตัวอย่างก่อนพิมพ์มีเส้น</a>
+        -->
         <a href="#" class="btn btn-primary" ng-show="data.printMode" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> พิมพ์</a>
         <a href="#" class="btn btn-primary" ng-show="data.printMode" ng-click="data.printMode = false;"><i class="glyphicon glyphicon-edit"></i> กลับไปแก้ไข</a>
     </div>

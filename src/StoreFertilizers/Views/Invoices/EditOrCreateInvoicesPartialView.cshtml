@@ -383,7 +383,7 @@
                     <td style="text-align:right;vertical-align:middle;">{{calculateNetTotal() | currency: ''}}</td>
                 </tr>
                 <tr style="background-color:white;">
-                    <td colspan="4" style="padding:0px;">
+                    <td colspan="3" style="padding:0px;">
                         <div class="form-group row remove-bottom-margin">
                             <label for="paymentType" class="col-xs-2 control-label"><strong>ชำระ:</strong><br /><small style="font-size:75%;">PAID</small></label>
                             <div class="col-xs-3" style="padding-top:10px;">
@@ -425,7 +425,7 @@
                             </div>
                         </div>
                     </td>
-                    <td colspan="2" style="padding:0px;text-align:center;" align="center">
+                    <td colspan="3" style="padding:0px;text-align:center;" align="center">
                         <br />
                         <div>-----------------------</div>
                         <div>ผู้ส่งสินค้า</div>
@@ -451,70 +451,65 @@
             </tbody>
         </table>
     </div>
-    <div ng-show="data.printMode && data.printValueOnly" id="invoicValueOnly" style="min-width:800px;max-width:800px;">
+    <div ng-show="data.printMode && data.printValueOnly" id="invoicValueOnly" style="min-width:800px;max-width:800px;font-size:15px;margin-left:15px;padding-right:30px;margin-top:-30px;margin-bottom:-30px;">
         <div class="form-group remove-bottom-margin" style="margin:0px;">
-            <div class="col-xs-6" style="padding:2px;">
+            <div class="col-xs-8" style="padding:2px;">
+                <div>
+                    <div style="font-size:xx-large;"><strong>&nbsp;</strong></div>
+                    <div class="text-overflow">&nbsp;</div>
+                    <div>&nbsp;</div>
+                </div>
             </div>
-            <div class="col-xs-6" style="padding:2px;">
-                <div class="rounded-div" style="min-height:140px;border-color:white;">
+            <div class="col-xs-4" style="padding:2px;margin-top:15px;">
+                <div class="rounded-div" style="border-color:white;">
                     <div class="text-center" style="font-size:large;"><strong>&nbsp;</strong></div>
-                    <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-4" style="min-width:80px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                        <div class='col-xs-8' style="padding-top:10px;">
-                            {{newInvoice.employeeName}}
-                        </div>
-                    </div>
-                    <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-4" style="min-width:80px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                        <div class='col-xs-8' style="padding-top:10px;">
-                            {{newInvoice.deliveryDate | date: 'dd/MM/yyyy'}}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
         <div class="form-group remove-bottom-margin" style="margin:0px;">
-            <div class="col-xs-6" style="padding:2px;">
-                <div class="rounded-div" style="min-height:155px;border-color:white;">
+            <div class="col-xs-8" style="padding:2px;">
+                <div class="rounded-div" style="min-height:140px;border-color:white;">
                     <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-3" style="min-width:80px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                        <div class='col-xs-9' style="padding-top:10px;">
+                        <label class="control-label col-xs-2" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <div class='col-xs-9'>
                             {{newInvoice.customer.name}}
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
-                        <div class='col-xs-12'>
-                            <small>{{newInvoice.customer.address}}</small>
-                        </div>
-                        <div class='col-xs-12'>
-                            <small>{{newInvoice.customer.phone1}}</small>
+                        <label class="control-label col-xs-2" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <div class='col-xs-9'>
+                            {{newInvoice.customer.address}}
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-3" style="min-width:80px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                        <div class='col-xs-9' style="padding-top:10px;">
-                            {{newInvoice.shipTo}}
+                        <label class="control-label col-xs-2" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <div class='col-xs-4'>
+                            {{newInvoice.customer.phone1}}
+                        </div>
+                        <label class="control-label col-xs-2" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <div class='col-xs-4'>
+                            {{newInvoice.customer.fax}}
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6" style="padding:2px;">
-                <div class="rounded-div" style="min-height:155px;border-color:white;">
+            <div class="col-xs-4" style="padding:2px;">
+                <div class="rounded-div" style="min-height:140px;padding-left:5px;padding-right:0px;border-color:white;">
                     <div class="form-group row remove-bottom-margin">
-                        <label for="paymentType" class="col-xs-4 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <label for="paymentType" class="col-xs-3 control-label" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
                         <div class="col-xs-8" style="padding-top:10px;">
                             {{newInvoice.invoiceNumber}}
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-4" style="min-width:80px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <label class="control-label col-xs-3" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
                         <div class='col-xs-8' style="padding-top:10px;">
                             {{newInvoice.createdDate | date: 'dd/MM/yyyy'}}
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
-                        <label class="control-label col-xs-4" style="min-width:80px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                        <div class='col-xs-8' style="padding-top:10px;">
+                        <label class="control-label col-xs-5" style="min-width:126px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                        <div class='col-xs-6' style="padding-top:10px;">
                             {{newInvoice.dueDate | date: 'dd/MM/yyyy'}}
                         </div>
                     </div>
@@ -522,128 +517,146 @@
             </div>
         </div>
         <table class="table table-bordernocolor">
-                    <thead >
-                        <tr style="height:58px;">
-                            <th width="30px" style="text-align:center;border-color:#FFF;">&nbsp;</th>
-                            <th style="text-align:center;border-color:#FFF;">
-                                <div><small>&nbsp;</small></div>
-                                <div><small>&nbsp;</small></div>
-                            </th>
-                            <th width="80px" style="text-align:center;border-color:#FFF;">
-                                <div><small>&nbsp;</small></div>
-                                <div><small>&nbsp;</small></div>
-                            </th>
-                            <th width="100px" style="text-align:center;border-color:#FFF;">
-                                <div><small>&nbsp;</small></div>
-                                <div><small>&nbsp;</small></div>
-                            </th>
-                            <th style="text-align:center;min-width:120px;border-color:#FFF;">
-                                <div><small>&nbsp;</small></div>
-                                <div><small>&nbsp;</small></div>
-                            </th>
-                            <th width="75px" style="text-align:center;border-color:#FFF;">
-                                <div><small>&nbsp;</small></div>
-                                <div><small>&nbsp;</small></div>
-                            </th>
-                            <th width="165px" style="text-align:center;border-color:#FFF;">
-                                <div><small>&nbsp;</small></div>
-                                <div><small>&nbsp;</small></div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
-                            <td style="text-align:center;vertical-align:middle;">{{item.no}}</td>
-                            <td>
-                                {{item.product.name}}
-                            </td>
-                            <td style="text-align:right;">
-                                {{item.qty | number}}
-                            </td>
-                            <td style="text-align:center;">
-                                {{item.product.unitType.name}}(<small>{{item.product.unitsPerPackageText}}</small>)
-                            </td>
-                            <td style="text-align:right;">
-                                {{item.pricePerUnit | number}}
-                            </td>
-                            <td style="text-align:center;">
-                                {{item.discount}}
-                            </td>
-                            <td style="text-align:right;vertical-align:middle;">
-                                {{calculateAmount(item) | currency: ''}}
-                            </td>
-                        </tr>
-                        <tr ng-repeat="i in blankInvoiceDetails track by $index"><td colspan="7">&nbsp;</td></tr>
-                        <tr>
-                            <td colspan="3">
-                                <div style="white-space:pre-wrap">{{newInvoice.notes}}</div>
-                            </td>
-                            <td colspan="3" style="text-align:right;vertical-align:middle;">
-                                <div>&nbsp;</div>
-                                <div>&nbsp;</div>
-                                <br />
-                                ({{calculateNetTotalText()}})
-                            </td>
-                            <td style="text-align:right;vertical-align:middle;">{{calculateNetTotal() | currency: ''}}</td>
-                        </tr>
-                        <tr style="background-color:white;">
-                            <td colspan="4" style="padding:0px;">
-                                <div class="form-group row">
-                                    <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-3" style="padding-top:10px;">
-                                        <div ng-show="newInvoice.paid">จ่ายแล้ว</div>
-                                    </div>
-                                    <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-5" style="padding-top:10px;">
-                                        {{newInvoice.bank}}
-                                    </div>
-                                </div>
-                                <div class="form-group row remove-bottom-margin">
-                                    <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-3" style="padding-top:10px;">
-                                        {{newInvoice.bankBranch}}
-                                    </div>
-                                    <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-5" style="padding-top:10px;">
-                                        {{newInvoice.chequeNumber}}
-                                    </div>
-                                </div>
-                                <div class="form-group row remove-bottom-margin">
-                                    <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-3" style="padding-top:10px;">
-                                        {{newInvoice.paidDate | date: 'dd/MM/yyyy'}}
-                                    </div>
-                                    <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-5" style="padding-top:10px;">
-                                        {{newInvoice.paidAmount | number}}
-                                    </div>
-                                </div>
-                                <div class="form-group row remove-bottom-margin">
-                                    <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-3" style="padding-top:10px;">
-                                        {{newInvoice.paidCollectedDate | date: 'dd/MM/yyyy'}}
-                                    </div>
-                                    <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                                    <div class="col-xs-5" style="padding-top:10px;">
-                                        {{newInvoice.paidCollector}}
-                                    </div>
-                                </div>
-                            </td>
-                            <td colspan="2" style="padding:0px;text-align:center;" align="center">
-                                <div>{{newInvoice.deliveryByPerson}}</div>
-                                <div>&nbsp;<small>&nbsp;</small></div>
-                                <br />
-                                <div>{{newInvoice.receivedByPerson}}</div>
-                                <div>&nbsp;<small>&nbsp;</small></div>
-                                <br />
-                                <div>{{newInvoice.receivedProductDate | date:'dd/MM/yyyy'}}</div>
-                                <div>&nbsp;<small>&nbsp;</small></div>
-                            </td>
-                            <td style="padding:0px;text-align:center;">
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <thead>
+                <tr>
+                    <th width="30px" style="text-align:center;border-color:#FFF;">&nbsp;</th>
+                    <th style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="50px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="70px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="70px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="70px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                    <th width="110px" style="text-align:center;border-color:#FFF;">
+                        <div><small>&nbsp;</small></div>
+                        <div><small>&nbsp;</small></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in newInvoice.invoiceDetails | filter:{ isDeleted: '!true'}">
+                    <td style="text-align:center;vertical-align:middle;border-top: none !important;border-bottom: none !important;">{{item.no}}</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">
+                        {{item.product.name}}&nbsp;(<small>{{item.product.unitsPerPackageText}}</small>)
+                    </td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.qty | number}}
+                    </td>
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">
+                        {{item.product.unitType.name}}
+                    </td>
+                    <td style="text-align:right;border-top: none !important;border-bottom: none !important;">
+                        {{item.pricePerUnit | number}}
+                    </td>
+                    <td style="text-align:center;border-top: none !important;border-bottom: none !important;">
+                        {{item.discount}}
+                    </td>
+                    <td style="text-align:right;vertical-align:middle;border-top: none !important;border-bottom: none !important;">
+                        {{calculateAmount(item) | currency: ''}}
+                    </td>
+                </tr>
+                <tr ng-repeat="i in blankInvoiceDetails track by $index">
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                    <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <div style="white-space:pre-wrap">{{newInvoice.notes}}</div>
+                    </td>
+                    <td colspan="3" style="text-align:right;vertical-align:middle;">
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        ({{calculateNetTotalText()}})
+                    </td>
+                    <td style="text-align:right;vertical-align:middle;">{{calculateNetTotal() | currency: ''}}</td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="padding:0px;">
+                        <div class="form-group row remove-bottom-margin">
+                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-3" style="padding-top:10px;">
+                                <!--<input type="checkbox" style="width:25px;height:25px;" ng-model="newInvoice.paid" disabled />-->
+                                <span ng-show="newInvoice.paid">ชำระแล้ว</span>
+                            </div>
+                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-5" style="padding-top:10px;">
+                                {{newInvoice.bank}}
+                            </div>
+                        </div>
+                        <div class="form-group row remove-bottom-margin">
+                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-3" style="padding-top:10px;">
+                                {{newInvoice.bankBranch}}
+                            </div>
+                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-5" style="padding-top:10px;">
+                                {{newInvoice.chequeNumber}}
+                            </div>
+                        </div>
+                        <div class="form-group row remove-bottom-margin">
+                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-3" style="padding-top:10px;">
+                                {{newInvoice.paidDate | date: 'dd/MM/yyyy'}}
+                            </div>
+                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-5" style="padding-top:10px;">
+                                {{newInvoice.paidAmount | currency: ''}}
+                            </div>
+                        </div>
+                        <div class="form-group row remove-bottom-margin">
+                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
+                            <div class="col-xs-3" style="padding-top:10px;">
+                                {{newInvoice.paidCollectedDate | date: 'dd/MM/yyyy'}}
+                            </div>
+                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;"></small></label>
+                            <div class="col-xs-5" style="padding-top:10px;">
+                                {{newInvoice.paidCollector}}
+                            </div>
+                        </div>
+                    </td>
+                    <td colspan="3" style="padding:0px;text-align:center;" align="center">
+                        <br />
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <br />
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;<small>&nbsp;</small></div>
+                        <br />
+                        <div>&nbsp;</div>
+                    </td>
+                    <td style="padding:0px;text-align:center;">
+                        <div>&nbsp;</div>
+                        <br />
+                        <br />
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <div>&nbsp;</div>
+                        <br />
+                        <div>&nbsp;</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <br class="noPrint"/>
     <hr class="noPrint"/>

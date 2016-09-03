@@ -99,15 +99,15 @@
                             </md-tab>
                         </md-tabs>
                     </div>
-                    <div class="panel panel-default widget-content">
+                    @*<div class="panel panel-default widget-content">
                         <div class="panel-heading widget-header" style="line-height:normal;">
                             <i class="glyphicon glyphicon-stats text-success"></i> สินค้าคงคลัง
-                            @*<div class="pull-right">
+                            <div class="pull-right">
                                 <div class="btn-group" role="group" aria-label="แผนภูมิ">
                                     <button type="button" class="btn btn-success btn-xs" ng-click="isShowProductStockChart = true;">กราฟ</button>
                                     <button type="button" class="btn btn-success btn-xs" ng-click="isShowProductStockChart = false;">ตาราง</button>
                                 </div>
-                            </div>*@
+                            </div>
                         </div>
                         <div class="panel-body">
                             <div id="morris-area-chart" ng-show="isShowProductStockChart">
@@ -115,7 +115,7 @@
                                         chart-data="data.stockPieChartData" chart-labels="data.stockPieChartLabels"></canvas>
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="col-xs-4 widget widget-table">
                     <div class="panel panel-default widget-content">
