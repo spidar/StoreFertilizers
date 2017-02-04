@@ -4,7 +4,7 @@
 
 <form name="myForm" class="form-horizontal" role="form" ng-controller="stocksController">
     <br />
-    <div class="row">
+    <div class="row noPrint">
         <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table borderless" style="margin:0px;">
@@ -19,13 +19,14 @@
                             <button type="submit" ng-click="getStocksByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;margin:0px 5px;">
                                 <span class="glyphicon glyphicon-search"></span> ค้นหา
                             </button>&nbsp;
+                            <a href="#" class="btn btn-primary" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> พิมพ์</a>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+    <div ng-show="status!=''" class="alert alert-danger noPrint" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         {{status}}
     </div>
@@ -35,7 +36,7 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-inverse">
                     <tr class="widget-header">
-                        <th width="70px" style="text-align:center;min-width:70px">
+                        <th width="70px" class="noPrint" style="text-align:center;min-width:70px">
                             <button type="submit" ng-click="addItem()" class="btn btn-success btn-xs">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </button>
@@ -47,7 +48,7 @@
                                 <span ng-show="data.sortOptions.field == 'productNumber' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
-                        <th style="min-width:150px;text-align:center;">
+                        <th style="min-width:250px;text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'productName'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getStocksByFilters()">
                                 ชื่อสินค้า
                                 <span ng-show="data.sortOptions.field == 'productName' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -68,21 +69,21 @@
                                 <span ng-show="data.sortOptions.field == 'productUnitTypeName' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
-                        <th width="40px" style="text-align:center;">
+                        <th width="40px" class="noPrint" style="text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'alertLowStock'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getStocksByFilters()">
                                 เตือน
                                 <span ng-show="data.sortOptions.field == 'alertLowStock' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'alertLowStock' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
-                        <th width="120px" style="text-align:center;">
+                        <th width="120px" class="noPrint" style="text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'lowCapStock'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getStocksByFilters()">
                                 เตือนเมื่อต่ำกว่า
                                 <span ng-show="data.sortOptions.field == 'lowCapStock' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'lowCapStock' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
-                        <th style="min-width:150px;text-align:center;">
+                        <th style="min-width:100px;text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'notes'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getStocksByFilters()">
                                 สถานที่จัดเก็บ
                                 <span ng-show="data.sortOptions.field == 'location' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -104,7 +105,7 @@
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getStocksByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getStocksByFilters()" class="pagination-sm noPrint"></pagination>
 </form>
 
 @section Scripts {
@@ -117,10 +118,10 @@
         <td>{{item.product.name}}</td>
         <td style="text-align:right;">{{item.balance | number}}</td>
         <td style="text-align:center;">{{item.productUnitTypeName}}</td>
-        <td style="text-align:center;">
+        <td class="noPrint" style="text-align:center;">
             <input type="checkbox" ng-disabled="true" ng-model="item.alertLowStock">
         </td>
-        <td style="text-align:center;">{{item.lowCapStock | number}}</td>
+        <td class="noPrint" style="text-align:center;">{{item.lowCapStock | number}}</td>
         <td class="text-overflow">{{item.location}}</td>
         <td class="text-overflow">{{item.notes}}</td>
     </script>

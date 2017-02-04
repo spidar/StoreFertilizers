@@ -4,7 +4,7 @@
 
 <form name="myForm" class="form-horizontal" role="form" ng-controller="customersController">
     <br />
-    <div class="row">
+    <div class="row noPrint">
         <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table borderless" style="margin:0px;">
@@ -14,13 +14,14 @@
                             <button type="submit" ng-click="getCustomersByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="min-width:70px;margin:0px 5px;">
                                 <span class="glyphicon glyphicon-search"></span> ค้นหา
                             </button>&nbsp;
+                            <a href="#" class="btn btn-primary" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> พิมพ์</a>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+    <div ng-show="status!=''" class="alert alert-danger noPrint" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         {{status}}
     </div>
@@ -30,7 +31,7 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-inverse">
                     <tr class="widget-header">
-                        <th width="70px" style="text-align:center;min-width:70px">
+                        <th width="70px" class="noPrint" style="text-align:center;min-width:70px">
                             <a asp-action="Create" class="btn btn-success btn-xs" role="button">
                                 <i class="glyphicon glyphicon-plus"></i>
                             </a>
@@ -42,14 +43,14 @@
                                 <span ng-show="data.sortOptions.field == 'companyNumber' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
-                        <th width="150px" style="text-align:center;">
+                        <th width="250px" style="text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'name'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
                                 ชื่อ
                                 <span ng-show="data.sortOptions.field == 'name' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                                 <span ng-show="data.sortOptions.field == 'name' && !data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-up"></span>
                             </a>
                         </th>
-                        <th style="min-width:150px;text-align:center;">
+                        <th style="min-width:100px;text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'address'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getCustomersByFilters()">
                                 ที่อยู่
                                 <span ng-show="data.sortOptions.field == 'address' && data.sortOptions.sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -96,5 +97,5 @@
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getCustomersByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getCustomersByFilters()" class="pagination-sm noPrint"></pagination>
 </form>

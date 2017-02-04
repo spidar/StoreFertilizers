@@ -35,7 +35,7 @@
                 },
                 pagingOptions: {
                     pageSizes: [20, 50, 100],
-                    pageSize: 50,
+                    pageSize: 500,
                     currentPage: 1
                 }
             };

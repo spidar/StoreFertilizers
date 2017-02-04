@@ -6,7 +6,7 @@
 
 <form name="myForm" class="form-horizontal" role="form" ng-controller="invoicesIndexController">
     <br />
-    <div class="row">
+    <div class="row noPrint">
         <div class="panel panel-default">
             <div class="panel-body">
                 <table class="table borderless" style="margin:0px;">
@@ -61,13 +61,14 @@
                             <button type="submit" ng-click="getInvoicesByFilters()" class="col-xs-2 btn btn-primary btn-sm" style="width:120px;">
                                 <span class="glyphicon glyphicon-search"></span> ค้นหา
                             </button>&nbsp;
+                            <a href="#" class="btn btn-primary" onclick="window.print();"><i class="glyphicon glyphicon-print"></i> พิมพ์</a>
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-    <div ng-show="status!=''" class="alert alert-danger" role="alert">
+    <div ng-show="status!=''" class="alert alert-danger noPrint" role="alert">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         {{status}}
     </div>
@@ -77,7 +78,7 @@
             <table class="table table-bordered table-striped table-hover">
                 <thead class="thead-inverse">
                     <tr class="widget-header">
-                        <th width="70px" style="text-align:center;min-width:70px"></th>
+                        <th width="70px" class="noPrint" style="text-align:center;min-width:70px"></th>
                         <th width="120px" style="text-align:center;">
                             <a href="#" style="text-decoration:none;" ng-click="data.sortOptions.field = 'createdDate'; data.sortOptions.sortReverse = !data.sortOptions.sortReverse; getInvoicesByFilters()">
                                 วันที่
@@ -154,5 +155,5 @@
             </table>
         </div>
     </div>
-    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm"></pagination>
+    <pagination total-items="data.totalItems" items-per-page="data.pagingOptions.pageSize" ng-model="data.pagingOptions.currentPage" ng-change="getInvoicesByFilters()" class="pagination-sm noPrint"></pagination>
 </form>
