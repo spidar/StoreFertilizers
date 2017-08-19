@@ -211,6 +211,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<bool>("IsTax");
 
+                    b.Property<bool?>("IsTicket");
+
                     b.Property<decimal>("NetTotal");
 
                     b.Property<string>("Notes");
@@ -265,6 +267,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<bool>("IsTax");
 
+                    b.Property<bool?>("IsTicket");
+
                     b.Property<decimal?>("PricePerUnit");
 
                     b.Property<int>("ProductID");
@@ -316,6 +320,19 @@ namespace StoreFertilizers.Migrations
                         .IsRequired();
 
                     b.HasKey("ProductTypeID");
+                });
+
+            modelBuilder.Entity("StoreFertilizers.Models.Promotion", b =>
+                {
+                    b.Property<int>("PromotionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descr");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("PromotionID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Provider", b =>

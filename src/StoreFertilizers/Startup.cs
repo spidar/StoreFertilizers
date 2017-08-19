@@ -40,16 +40,22 @@ namespace StoreFertilizers
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+            try
+            {
+                // Add framework services.
+                services.AddEntityFramework()
+                    .AddSqlServer()
+                    .AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
+                services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+            }
             services.AddMvc().AddJsonOptions(options => {
                 // handle loops correctly
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -96,6 +102,7 @@ namespace StoreFertilizers
                 app.UseDatabaseErrorPage();
 
                 // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+                /*
                 try
                 {
                     using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
@@ -115,6 +122,7 @@ namespace StoreFertilizers
                 catch(Exception ex) {
                     var msg = ex.Message;
                 }
+                */
             }            
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());

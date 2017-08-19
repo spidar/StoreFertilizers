@@ -8,7 +8,7 @@ using StoreFertilizers.Models;
 namespace StoreFertilizers.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("25590625091602_StoreFertilizersDB")]
+    [Migration("25600817150609_StoreFertilizersDB")]
     partial class StoreFertilizersDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<bool>("IsTax");
 
+                    b.Property<bool?>("IsTicket");
+
                     b.Property<decimal>("NetTotal");
 
                     b.Property<string>("Notes");
@@ -266,6 +268,8 @@ namespace StoreFertilizers.Migrations
 
                     b.Property<bool>("IsTax");
 
+                    b.Property<bool?>("IsTicket");
+
                     b.Property<decimal?>("PricePerUnit");
 
                     b.Property<int>("ProductID");
@@ -317,6 +321,19 @@ namespace StoreFertilizers.Migrations
                         .IsRequired();
 
                     b.HasKey("ProductTypeID");
+                });
+
+            modelBuilder.Entity("StoreFertilizers.Models.Promotion", b =>
+                {
+                    b.Property<int>("PromotionID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Descr");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("PromotionID");
                 });
 
             modelBuilder.Entity("StoreFertilizers.Models.Provider", b =>

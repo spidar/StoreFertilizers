@@ -2,7 +2,7 @@
     <div ng-show="!data.printMode" id="invoiceNormalMode">
         <div class="remove-bottom-margin">
             <div class="col-xs-6" style="padding:2px;">
-                <div class="rounded-div" style="min-height:155px;">
+                <div class="rounded-div" style="min-height:150px;">
                     <div class="row remove-bottom-margin">
                         <label class="control-label col-xs-2" style="min-width:80px;">ลูกค้า</label>
                         <div class='col-xs-10'>
@@ -45,8 +45,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6" style="padding:2px;">
-                <div class="rounded-div" style="min-height:155px;">
+            <div class="col-xs-4" style="padding:2px;">
+                <div class="rounded-div" style="min-height:150px;">
                     <div class="form-group">
                         <label class="col-xs-3 control-label" style="min-width:80px">เลขที่:</label>
                         <input type="text" id="invoice-InvoiceNumber" class="col-xs-9 form-control input-sm" ng-model="newInvoice.invoiceNumber" placeholder="หมายเลขใบกำกับสินค้า" />
@@ -70,6 +70,17 @@
                             </span>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-xs-2" style="padding:2px;">
+                <div class="rounded-div" ng-show="!newInvoice.isTicket" style="min-height:150px;">
+                    <br />
+                    <div class="text-center" style="font-size:x-large;margin-top:15px;"><strong>{{title}}</strong></div>
+                </div>
+                <div class="rounded-div" ng-show="newInvoice.isTicket" style="min-height:150px;">
+                    <br />
+                    <br />
+                    <div class="text-center" style="font-size:x-large;margin-top:10px;"><strong>{{title}}</strong></div>
                 </div>
             </div>
         </div>
@@ -113,7 +124,7 @@
                             </td>
                             <td style="text-align:center;vertical-align:middle;">{{item.no}}</td>
                             <td>
-                                <md-autocomplete md-min-length="0" md-selected-item="item.product" md-search-text="productSearchText" md-items="item in getProductMatches(productSearchText)" md-item-text="item.name" class="form-control input-sm">
+                                <md-autocomplete id="productSearchText" md-min-length="0" md-selected-item="item.product" md-search-text="productSearchText" md-items="item in getProductMatches(productSearchText)" md-item-text="item.name" class="form-control input-sm">
                                     <span md-highlight-text="productSearchText">{{item.name}}</span>
                                 </md-autocomplete>
                                 <span ng-show="!item.product" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;"></span>
@@ -122,7 +133,13 @@
                                 <input type="number" ng-model="item.qty" min="0" style="text-align:right;max-width:none;" ng-validate="integer" class="form-control input-sm" placeholder="0" />
                             </td>
                             <td style="text-align:center;">
-                                {{item.product.unitType.name}}(<small>{{item.product.unitsPerPackageText}}</small>)
+                                <md-input-container style="margin:0px;margin-top:-5px;">
+                                    <md-select ng-model="item.product.unitType" ng-model-options="{trackBy: '$value.unitTypeID'}">
+                                        <md-option ng-repeat="unitType in data.unitTypeList" ng-value="unitType">
+                                            {{unitType.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
                             </td>
                             <td style="text-align:right;">
                                 <input type="number" ng-model="item.pricePerUnit" min="0" style="text-align:right;max-width:none;" ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />
@@ -140,17 +157,29 @@
                             </td>
                         </tr>
                         <tr style="background-color:#f9f9f9;">
-                            <td colspan="4">
-                                <textarea ng-model="newInvoice.notes" class="form-control col-xs-12" rows="3" style="min-width:100%;resize:none;" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
+                            <td colspan="6">
+                                <strong>หมายเหตุ</strong>&nbsp;
+                                <md-input-container style="margin:0px;">
+                                    <md-select ng-model="promotionSelected">
+                                        <md-option ng-repeat="promotion in data.promotionList" ng-value="promotion.name">
+                                            {{promotion.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                                <a href="#" class="btn btn-primary btn-xs" ng-click="addNotes()"><i class="glyphicon glyphicon-plus-sign"></i> เพิ่ม</a>
+                                <textarea ng-model="newInvoice.notes" maxlength="290" class="form-control col-xs-12" rows="3" style="min-width:100%;resize:none;" placeholder="กรอกหมายเหตุ(ถ้ามี)"></textarea>
                             </td>
-                            <td colspan="3" style="text-align:right;vertical-align:middle;">
+                            <td colspan="1" style="text-align:right;vertical-align:middle;" nowrap="true">
                                 <div>รวมเป็นเงิน</div>
-                                <div>Grand Total</div>
-                                <br />
-                                ({{calculateNetTotalText()}})
                             </td>
-                            <td style="text-align:right;vertical-align:middle;">{{calculateNetTotal() | currency: ''}}</td>
+                            <td style="text-align:right;vertical-align:middle;font-size:large;">{{calculateNetTotal() | currency: ''}}</td>
                         </tr>
+                        <tr>
+                            <td colspan="8" style="text-align:right;">
+                                <strong>({{calculateNetTotalText()}})</strong>
+                            </td>
+                        </tr>
+                        <!--
                         <tr style="background-color:white;">
                             <td colspan="5" style="padding:0px;">
                                 <div class="form-group row remove-bottom-margin">
@@ -232,22 +261,84 @@
                                 <div>
                                     -----/-----/-----
                                 </div>
-                                <!--
-                                <div class="input-group input-append date datepicker">
-                                    <input type="text" class="form-control input-sm" id="invoice-DueDate" placeholder="ลงวันที่" />
-                                    <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
-                                </div>
-                                -->
                             </td>
                         </tr>
+                        -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="remove-bottom-margin">
+            <div class="col-xs-3" style="padding:2px;">
+                <div class="rounded-div" style="min-height:150px;">
+                    <br/>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" style="min-width:80px">ผู้รับสินค้า</label>
+                        <input type="text" id="invoice-receivedByPerson" class="col-xs-8 form-control input-sm" ng-model="newInvoice.receivedByPerson" placeholder="ผู้รับสินค้า" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4" style="min-width:80px;">วันที่</label>
+                        <div class='datepicker input-group date col-xs-8' style="max-width:139px;">
+                            <input type='text' customdatepicker ng-model="newInvoice.receivedProductDate" class="form-control input-sm" style="max-width:100px;" placeholder="วันที่รับสินค้า" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-2" style="padding:2px;">
+                <div class="rounded-div" style="min-height:150px;text-align:center;">
+                    <div><strong>หจก.เจริญถาวร</strong></div>
+                    <br/>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" style="min-width:50px">ผู้ส่ง</label>
+                        <input type="text" id="invoice-deliveryByPerson" class="col-xs-8 form-control input-sm" style="width:120px;" ng-model="newInvoice.deliveryByPerson" placeholder="ชื่อผู้ส่งสินค้า" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3" style="padding:2px;">
+                <div class="rounded-div" style="min-height:150px;">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" style="min-width:80px">ชำระแล้ว:</label>
+                        <input type="checkbox" id="invoice-paid" class="col-xs-8 form-control input-sm" style="width:25px;height:25px;" ng-model="newInvoice.paid" />
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label" style="min-width:80px">ผู้รับเงิน</label>
+                        <input type="text" id="invoice-deliveryByPerson" class="col-xs-8 form-control input-sm" ng-model="newInvoice.paidCollector" placeholder="ชื่อผู้รับเงิน" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-4" style="min-width:80px;">วันที่รับ</label>
+                        <div class='datepicker input-group date col-xs-8' style="max-width:139px;">
+                            <input type='text' customdatepicker ng-model="newInvoice.paidCollectedDate" class="form-control input-sm" style="max-width:100px;" placeholder="วันที่รับเงิน" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-4" style="padding:2px;">
+                <div class="rounded-div" style="min-height:150px;">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="min-width:80px;">จำนวนเงิน:</label>
+                        <input type="text" id="invoice-paidAmount" class="col-xs-8 form-control input-sm" ng-model="newInvoice.paidAmount" placeholder="รับเงินเป็นจำนวน" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="min-width:80px;">ธนาคาร:</label>
+                        <input type="text" id="invoice-bank" class="col-xs-8 form-control input-sm" ng-model="newInvoice.bank" placeholder="ชื่อธนาคาร" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="min-width:80px;">เลขที่เช็ค:</label>
+                        <input type="text" id="invoice-chequeNumber" class="col-xs-8 form-control input-sm" ng-model="newInvoice.chequeNumber" placeholder="เลขที่เช็ค" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div ng-show="data.printMode && !data.printValueOnly" id="invoiceWithLine" style="min-width:800px;max-width:800px;font-size:15px;margin-left:15px;padding-right:30px;margin-top:-30px;margin-bottom:-30px;">
         <div class="form-group remove-bottom-margin" style="margin:0px;">
-            <div class="col-xs-8" style="padding:2px;">
+            <div class="col-xs-5" style="padding:2px;">
                 <div>
                     <div style="font-size:xx-large;"><strong>{{companyInfo.name}}</strong></div>
                     <div class="text-overflow">{{companyInfo.address}}</div>
@@ -255,7 +346,12 @@
                 </div>
             </div>
             <div class="col-xs-4" style="padding:2px;margin-top:15px;">
-                <div class="rounded-div">
+                <div class="rounded-div" ng-show="newInvoice.isTicket" style="vertical-align:central;height:68px;">
+                    <div class="text-center" style="font-size:xx-large;"><strong>ตั๋วปุ๋ย</strong></div>
+                </div>
+            </div>
+            <div class="col-xs-3" style="padding:2px;margin-top:15px;">
+                <div class="rounded-div" style="vertical-align:central;height:68px;">
                     <div class="text-center" style="font-size:large;"><strong>ใบส่งของชั่วคราว<br/>INVOICE</strong></div>
                 </div>
             </div>
@@ -265,8 +361,8 @@
                 <div class="rounded-div" style="min-height:140px;">
                     <div class="form-group row remove-bottom-margin">
                         <label class="control-label col-xs-2" style="min-width:80px;padding-top:0px;"><strong>ลูกค้า</strong><br /><small style="font-size:75%;">Customer</small></label>
-                        <div class='col-xs-9'>
-                            {{newInvoice.customer.name}}
+                        <div class='col-xs-9' style="font-size:x-large;">
+                            <strong>{{newInvoice.customer.name}}</strong>
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
@@ -310,7 +406,7 @@
                 </div>
             </div>
         </div>
-        <table class="table table-bordered">
+        <table class="table table-bordered" style="margin-bottom:2px;">
             <thead>
                 <tr>
                     <th width="30px" style="text-align:center;">#</th>
@@ -371,89 +467,75 @@
                     <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
                     <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
                 </tr>
-                <tr style="background-color:#f9f9f9;">
-                    <td colspan="3">
-                        <div style="white-space:pre-wrap">{{newInvoice.notes}}</div>
+                <tr style="background-color:#f9f9f9;height:100px;">
+                    <td colspan="4">
+                        <strong>หมายเหตุ</strong>&nbsp;&nbsp;{{newInvoice.notes}}
                     </td>
-                    <td colspan="3" style="text-align:right;vertical-align:middle;">
+                    <td colspan="2" style="text-align:right;vertical-align:middle;">
                         <div>รวมเป็นเงิน</div>
-                        <div>Grand Total</div>
-                        ({{calculateNetTotalText()}})
                     </td>
-                    <td style="text-align:right;vertical-align:middle;">{{calculateNetTotal() | currency: ''}}</td>
+                    <td style="text-align:right;vertical-align:middle;font-size:large;">{{calculateNetTotal() | currency: ''}}</td>
                 </tr>
-                <tr style="background-color:white;">
-                    <td colspan="3" style="padding:0px;">
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>ชำระ:</strong><br /><small style="font-size:75%;">PAID</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                <input type="checkbox" style="width:25px;height:25px;" ng-model="newInvoice.paid" disabled/>
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>ธนาคาร:</strong><br /><small style="font-size:75%;">BANK</small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.bank}}
-                            </div>
-                        </div>
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>สาขา:</strong><br /><small style="font-size:75%;">BRANCH</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                {{newInvoice.bankBranch}}
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>เช็ค:</strong><br /><small style="font-size:75%;">CHEQUE#</small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.chequeNumber}}
-                            </div>
-                        </div>
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>ลงวัน:</strong><br /><small style="font-size:75%;">DATE</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                {{newInvoice.paidDate | date: 'dd/MM/yyyy'}}
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>เงิน:</strong><br /><small style="font-size:75%;">AMOUNT</small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.paidAmount | currency: ''}}
-                            </div>
-                        </div>
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>วันรับ:</strong><br /><small style="font-size:75%;">DATE</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                {{newInvoice.paidCollectedDate | date: 'dd/MM/yyyy'}}
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>ผู้รับ:</strong><br /><small style="font-size:75%;"></small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.paidCollector}}
-                            </div>
-                        </div>
-                    </td>
-                    <td colspan="3" style="padding:0px;text-align:center;" align="center">
-                        <br />
-                        <div>-----------------------</div>
-                        <div>ผู้ส่งสินค้า</div>
-                        <br />
-                        <div>-----------------------</div>
-                        <div>ผู้รับสินค้า</div>
-                        <div>วันที่/<small>DATE</small></div>
-                        <br />
-                        <div>-------/-------/-------</div>
-                    </td>
-                    <td style="padding:0px;text-align:center;">
-                        <div>หจก.เจริญถาวร</div>
-                        <br />
-                        <br />
-                        <div>------------------</div>
-                        <div>ลายเซนต์/</div>
-                        <div>SIGNATURE</div>                        
-                        <div>วันที่/DATE</div>
-                        <br />
-                        <div>-----/-----/-----</div>
+                <tr>
+                    <td colspan="7" style="text-align:right;">
+                        <strong>({{calculateNetTotalText()}})</strong>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="7">
+                        ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้อง ผู้ซื้อจะมีสิทธิ์สมบูรณ์ในสินค้านี้ต่อเมื่อได้ชำระเงินโดยครบถ้วนแล้ว และอยู่ในสภาพเรียบร้อยทุกประการ
+                    </td>
+                </tr>                
             </tbody>
         </table>
+        <div class="form-group remove-bottom-margin">
+            <div class="col-xs-3" style="padding-right:2px;padding-top:2px;padding-bottom:2px;">
+                <div class="rounded-div" style="min-height:140px;text-align:center;">
+                    <br />
+                    <br />
+                    <div>__________________</div>
+                    <div>ผู้รับสินค้า</div>
+                    <br />
+                    <div>วันที่____/_____/____</div>
+                </div>
+            </div>
+            <div class="col-xs-2" style="padding:2px;">
+                <div class="rounded-div" style="min-height:140px;text-align:center;">
+                    <div><strong>หจก.เจริญถาวร</strong></div>
+                    <br />
+                    <br />
+                    <br />
+                    <div>_____________</div>
+                    <div>ผู้ส่งสินค้า</div>
+                </div>
+            </div>
+            <div class="col-xs-3" style="padding:2px;">
+                <div class="rounded-div" style="min-height:140px;">
+                    <div class="form-group" style="margin-bottom:2px;">
+                        <div class="control-label col-xs-6">ชำระแล้ว</div>
+                        <input type="checkbox" style="width:25px;height:25px;" disabled />
+                    </div>
+                    <br />
+                    <div>ผู้รับเงิน ___________</div>
+                    <br />
+                    <div>วันที่____/_____/____</div>
+                </div>
+            </div>
+            <div class="col-xs-4" style="padding-left:2px;padding-top:2px;padding-bottom:2px;">
+                <div class="rounded-div" style="min-height:140px;">
+                    <br />
+                    <div>จำนวนเงิน ________________</div>
+                    <br />
+                    <div>ธนาคาร __________________</div>
+                    <br />
+                    <div>เลขที่เช็ค _________________</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div ng-show="data.printMode && data.printValueOnly" id="invoicValueOnly" style="min-width:800px;max-width:800px;font-size:15px;margin-left:15px;padding-right:30px;margin-top:-30px;margin-bottom:-30px;">
         <div class="form-group remove-bottom-margin" style="margin:0px;">
-            <div class="col-xs-8" style="padding:2px;">
+            <div class="col-xs-5" style="padding:2px;">
                 <div>
                     <div style="font-size:xx-large;"><strong>&nbsp;</strong></div>
                     <div class="text-overflow">&nbsp;</div>
@@ -461,7 +543,12 @@
                 </div>
             </div>
             <div class="col-xs-4" style="padding:2px;margin-top:15px;">
-                <div class="rounded-div" style="border-color:white;">
+                <div class="rounded-div" style="border-color:white;vertical-align:central;height:68px;">
+                    <div ng-show="newInvoice.isTicket" class="text-center" style="font-size:xx-large;"><strong>ตั๋วปุ๋ย</strong></div>
+                </div>
+            </div>
+            <div class="col-xs-3" style="padding:2px;margin-top:15px;">
+                <div class="rounded-div" style="border-color:white;vertical-align:central;height:68px;">
                     <div class="text-center" style="font-size:large;"><strong>&nbsp;</strong></div>
                 </div>
             </div>
@@ -471,8 +558,8 @@
                 <div class="rounded-div" style="min-height:140px;border-color:white;">
                     <div class="form-group row remove-bottom-margin">
                         <label class="control-label col-xs-2" style="min-width:80px;padding-top:0px;"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                        <div class='col-xs-9'>
-                            {{newInvoice.customer.name}}
+                        <div class='col-xs-9' style="font-size:x-large;">
+                            <strong>{{newInvoice.customer.name}}</strong>
                         </div>
                     </div>
                     <div class="form-group row remove-bottom-margin">
@@ -516,7 +603,7 @@
                 </div>
             </div>
         </div>
-        <table class="table table-bordernocolor">
+        <table class="table table-bordernocolor" style="margin-bottom:2px;">
             <thead>
                 <tr>
                     <th width="30px" style="text-align:center;border-color:#FFF;">&nbsp;</th>
@@ -577,83 +664,25 @@
                     <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
                     <td style="border-top: none !important;border-bottom: none !important;">&nbsp;</td>
                 </tr>
-                <tr>
-                    <td colspan="3">
-                        <div style="white-space:pre-wrap">{{newInvoice.notes}}</div>
+                <tr style="height:100px;">
+                    <td colspan="4">
+                        <strong>หมายเหตุ</strong>&nbsp;&nbsp;{{newInvoice.notes}}
                     </td>
-                    <td colspan="3" style="text-align:right;vertical-align:middle;">
+                    <td colspan="2" style="text-align:right;vertical-align:middle;">
                         <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        ({{calculateNetTotalText()}})
                     </td>
-                    <td style="text-align:right;vertical-align:middle;">{{calculateNetTotal() | currency: ''}}</td>
+                    <td style="text-align:right;vertical-align:middle;font-size:large;">{{calculateNetTotal() | currency: ''}}</td>
                 </tr>
                 <tr>
-                    <td colspan="3" style="padding:0px;">
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                <!--<input type="checkbox" style="width:25px;height:25px;" ng-model="newInvoice.paid" disabled />-->
-                                <span ng-show="newInvoice.paid">ชำระแล้ว</span>
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.bank}}
-                            </div>
-                        </div>
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                {{newInvoice.bankBranch}}
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.chequeNumber}}
-                            </div>
-                        </div>
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                {{newInvoice.paidDate | date: 'dd/MM/yyyy'}}
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.paidAmount | currency: ''}}
-                            </div>
-                        </div>
-                        <div class="form-group row remove-bottom-margin">
-                            <label for="paymentType" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;">&nbsp;</small></label>
-                            <div class="col-xs-3" style="padding-top:10px;">
-                                {{newInvoice.paidCollectedDate | date: 'dd/MM/yyyy'}}
-                            </div>
-                            <label for="bank" class="col-xs-2 control-label"><strong>&nbsp;</strong><br /><small style="font-size:75%;"></small></label>
-                            <div class="col-xs-5" style="padding-top:10px;">
-                                {{newInvoice.paidCollector}}
-                            </div>
-                        </div>
+                    <td colspan="7" style="text-align:right;">
+                        <strong>({{calculateNetTotalText()}})</strong>
                     </td>
-                    <td colspan="3" style="padding:0px;text-align:center;" align="center">
-                        <br />
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <br />
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <div>&nbsp;<small>&nbsp;</small></div>
-                        <br />
-                        <div>&nbsp;</div>
-                    </td>
-                    <td style="padding:0px;text-align:center;">
-                        <div>&nbsp;</div>
-                        <br />
-                        <br />
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <div>&nbsp;</div>
-                        <br />
-                        <div>&nbsp;</div>
-                    </td>
+                </tr>
+                <tr colspan="7" style="height:60px;">
+                    <td>&nbsp;</td>
+                </tr>
+                <tr style="height:140px;">
+                    <td colspan="7">&nbsp;</td>
                 </tr>
             </tbody>
         </table>

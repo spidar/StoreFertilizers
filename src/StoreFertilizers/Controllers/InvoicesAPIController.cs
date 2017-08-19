@@ -106,13 +106,14 @@ namespace StoreFertilizers.Controllers
         }
 
         [HttpGet("CreateNewInvoice")]
-        public Invoice CreateNewInvoice(bool isTax)
+        public Invoice CreateNewInvoice(bool isTax, bool isTicket)
         {
             Invoice invoice = new Invoice();
             var lastInvoice = _context.Invoices.Where(i => i.IsTax == isTax).OrderByDescending(x => x.InvoiceID).FirstOrDefault();
             string yearString = (DateTime.Now.Year % 100).ToString("00");
             string monthString = DateTime.Now.Month.ToString("00");
             string prefixInvoice = "JT" + (DateTime.Now.Year % 100).ToString("00") + DateTime.Now.Month.ToString("00");
+            invoice.IsTicket = isTicket;
             if (lastInvoice != null)
             {
                 if (lastInvoice.InvoiceNumber.Contains("-"))
@@ -210,6 +211,7 @@ namespace StoreFertilizers.Controllers
                     Paid = invoice.Paid,
                     NetTotal = invoice.NetTotal,
                     IsTax = invoice.IsTax,
+                    IsTicket = invoice.IsTicket,
                     Notes = invoice.Notes
                 }).ToList();
             }
@@ -226,6 +228,7 @@ namespace StoreFertilizers.Controllers
                     Paid = invoice.Paid,
                     NetTotal = invoice.NetTotal,
                     IsTax = invoice.IsTax,
+                    IsTicket = invoice.IsTicket,
                     Notes = invoice.Notes
                 }).ToList();
             }
@@ -381,6 +384,7 @@ namespace StoreFertilizers.Controllers
             foreach (var item in addNews)
             {
                 item.IsTax = invoice.IsTax;
+                item.IsTicket = invoice.IsTicket;
                 if (invoice.IsTax == false)
                 {
                     #region "Handle Stock"
@@ -406,6 +410,10 @@ namespace StoreFertilizers.Controllers
                 }
                 invoice.InvoiceDetails.Remove(item);
                 item.CreatedDate = invoice.CreatedDate;
+                if(item.Product.UnitType != null)
+                {
+                    item.Product.UnitTypeID = item.Product.UnitType.UnitTypeID;
+                }
                 _context.InvoiceDetails.Add(item);
             }
             #endregion
@@ -455,6 +463,10 @@ namespace StoreFertilizers.Controllers
                     }
                     else
                     {
+                        if (item.Product.UnitType != null && item.Product.UnitTypeID != item.Product.UnitType.UnitTypeID)
+                        {
+                            _context.Entry(item.Product).State = EntityState.Modified;
+                        }
                         if (invoice.IsTax == false)
                         {
                             #region "Handle Stock"
@@ -494,7 +506,7 @@ namespace StoreFertilizers.Controllers
                                 purcahseItem.QtyRemain = item.Purchase.QtyRemain;// item.QtyRemain - item.Qty;
                                 _context.Entry(purcahseItem).State = EntityState.Modified;
                             }
-                        }
+                        }                        
                         _context.Entry(item).State = EntityState.Modified;
                     }
                 }

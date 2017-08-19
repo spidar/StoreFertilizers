@@ -79,8 +79,9 @@
                         }                                
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color: white;font-weight: bold;">ขายสินค้า <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a asp-controller="Invoices" asp-action="Create" asp-all-route-data='new Dictionary<string,string> { { "isTax", "false" } }'>ทั่วไป</a></li>
-                                    <li><a asp-controller="Invoices" asp-action="Create" asp-all-route-data='new Dictionary<string,string> { { "isTax", "true" } }'>บิลภาษี</a></li>
+                                    <li><a asp-controller="Invoices" asp-action="Create" asp-all-route-data='new Dictionary<string,string> { { "isTax", "false" }, { "isTicket","false" } }'>ใบส่งของชั่วคราว</a></li>
+                                    <li><a asp-controller="Invoices" asp-action="Create" asp-all-route-data='new Dictionary<string,string> { { "isTax", "true" }, { "isTicket","false" } }'>บิลภาษี</a></li>
+                                    <li><a asp-controller="Invoices" asp-action="Create" asp-all-route-data='new Dictionary<string,string> { { "isTax", "false" }, { "isTicket","true" } }'>ตั๋วปุ๋ย</a></li>
                                     <li><a asp-controller="Invoices" asp-action="Index">หน้าหลัก</a></li>
                                 </ul>
                             </li>
@@ -126,6 +127,7 @@
                                 <li><a asp-controller="Customers" asp-action="Index">ลูกค้า</a></li>
                                 <li><a asp-controller="Providers" asp-action="Index">ผู้จัดหา</a></li>
                                 <li><a asp-controller="UnitTypes" asp-action="Index">หน่วย</a></li>
+                                <li><a asp-controller="Promotions" asp-action="Index">ของแถม</a></li>
                             </ul>
                         </li>
                     </ul>

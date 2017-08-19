@@ -12,6 +12,7 @@ namespace StoreFertilizers.Models.ModelView
         public bool Paid { get; set; }
         public decimal NetTotal { get; set; }
         public bool IsTax { get; set; }
+        public bool? IsTicket { get; set; }
         public string Notes { get; set; }
     }
 }

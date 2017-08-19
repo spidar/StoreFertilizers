@@ -24,6 +24,7 @@
             var productAPI_GetProductsList = '/GetProductsList';
             var productTypesAPI = '/ProductTypesAPI';
             var unitTypeAPI = '/UnitTypesAPI';
+            var promotionAPI = '/PromotionsAPI';
             var bankAPI = '/BanksAPI';
             var paymentTypesAPI = '/PaymentTypesAPI';
 
@@ -189,6 +190,14 @@
             };
             servicesFactory.getUnitTypeByID = function (id) {
                 return $http.get(urlBase + unitTypeAPI + '/' + id);
+            };
+
+            /* Promotion */
+            servicesFactory.getPromotions = function () {
+                return $http.get(urlBase + promotionAPI);
+            };
+            servicesFactory.getPromotionByID = function (id) {
+                return $http.get(urlBase + promotionAPI + '/' + id);
             };
 
             /* Bank */

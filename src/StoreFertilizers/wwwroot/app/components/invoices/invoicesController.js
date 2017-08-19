@@ -17,6 +17,7 @@
             $scope.showLoading = false;
             $scope.isEditMode = false;
             $scope.expandme = true;
+            $scope.title = '';
             $scope.data = {
                 saved: false,
                 printMode: false,
@@ -26,13 +27,13 @@
                 employeeList: null,
                 productList: null,
                 unitTypeList: null,
+                promotionList: null,
                 //bankList: null,
                 //paymentTypeList: null,
                 purchaseList: [],
                 calTax: false
             };
-
-            $scope.invoices = {};
+            $scope.promotionSelected = {};
             $scope.blankInvoiceDetails = {};
 
             $scope.companyInfo = {
@@ -49,7 +50,9 @@
                 dueDate: '',
                 invoiceDetails: [],
                 netTotal: 0.00,
-                isTax: false
+                isTax: false,
+                isTicket: false,
+                notes: ''
             };
 
             $scope.getAllCustomer = function()  {
@@ -83,6 +86,15 @@
                 servicesFactory.getUnitTypes()
                 .then(function (response) {
                     $scope.data.unitTypeList = response.data;
+                }, function (error) {
+                    $scope.status = 'ไม่สามารถโหลดข้อมูลหน่วยได้: ' + error.statusText;
+                });
+            }
+
+            $scope.getAllPromotions = function () {
+                servicesFactory.getPromotions()
+                .then(function (response) {
+                    $scope.data.promotionList = response.data;
                 }, function (error) {
                     $scope.status = 'ไม่สามารถโหลดข้อมูลหน่วยได้: ' + error.statusText;
                 });
@@ -153,6 +165,19 @@
                     });
             }
 
+            $scope.addNotes = function () {
+                $scope.promotionSelected = (typeof $scope.promotionSelected === 'object') ? '' : $scope.promotionSelected;
+
+                if ($scope.newInvoice.notes !== null) {
+                    if ($scope.promotionSelected != '' && ($scope.newInvoice.notes.length + $scope.promotionSelected.length) < 290) {
+                        $scope.newInvoice.notes = $scope.newInvoice.notes + ' ' + $scope.promotionSelected;
+                    }
+                }else
+                {
+                    $scope.newInvoice.notes = $scope.promotionSelected;
+                }
+            }
+
             $scope.saveInvoice = function () {
                 if (!$scope.newInvoice.customer) {
                     $scope.status = 'กรุณาระบุลูกค้า';
@@ -202,8 +227,12 @@
             // Adds an item to the invoice's items
             $scope.addItem = function () {                
                 var newInvoiceDetail = { no: 0, invoiceDetailsID: 0, invoiceID: $scope.newInvoice.invoiceID, qty: 0, pricePerUnit: 0, discount: 0, amount: 0 };
-                $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
-                $scope.reindexItem();                
+                
+                if($scope.newInvoice.invoiceDetails.length < 12)
+                {
+                    $scope.newInvoice.invoiceDetails.push(newInvoiceDetail);
+                    $scope.reindexItem();
+                }
             }
 
             // Remotes an item from the invoice
@@ -460,7 +489,6 @@
                     return (angular.lowercase(item.name).indexOf(lowercaseQuery) >= 0);
                 };
             };
-
             $scope.getProductMatches = function (productSearchText) {
                 var results = productSearchText ? $scope.data.productList.filter($scope.createFilterFor(productSearchText)) : $scope.data.productList;
                 return results;
@@ -471,13 +499,25 @@
                 return results;
             };
 
+            $scope.getUnitTypeMatches = function (unitTypeSearchText) {
+                var results = unitTypeSearchText ? $scope.data.unitTypeList.filter($scope.createFilterFor(unitTypeSearchText)) : $scope.data.unitTypeList;
+                return results;
+            };
+
             $scope.reloadPageData = function () {
                 var absUrl = $location.absUrl();
                 var id = absUrl.substr(absUrl.lastIndexOf('/') + 1);
                 if (absUrl.indexOf('/Create') >= 0) {
                     var params = {
-                        isTax: false
+                        isTax: false,
+                        isTicket: false
                     };
+                    if (absUrl.indexOf('isTicket=true') >= 0) {
+                        params.isTicket = true;
+                        $scope.title = "ตั๋วปุ๋ย";
+                    } else {
+                        $scope.title = "ใบส่งของชั่วคราว";
+                    }
                     if (absUrl.indexOf('isTax=true') >= 0) {
                         params.isTax = true;
                         $scope.getAllPurchases();
@@ -513,6 +553,11 @@
                         $scope.data.calTax = ($scope.newInvoice.vat > 0);
                         $scope.isEditMode = true;
                         $scope.reindexItem();
+                        if (absUrl.indexOf('isTicket=true') >= 0) {
+                            $scope.title = "ตั๋วปุ๋ย";
+                        } else {
+                            $scope.title = "ใบส่งของชั่วคราว";
+                        }
                     }, function (error) {
                         $scope.status = 'ไม่สามารถโหลดข้อมูลใบส่งสินค้าได้ ' + error.statusText;
                     });
@@ -532,7 +577,8 @@
                 $scope.getAllCustomer();
                 //$scope.getAllEmployee();
                 $scope.getAllProducts();
-                //$scope.getAllUnitTypes();
+                $scope.getAllUnitTypes();
+                $scope.getAllPromotions();
                 //$scope.getAllBanks();
                 //$scope.getAllPaymentTypes();
                 $scope.reloadPageData();               

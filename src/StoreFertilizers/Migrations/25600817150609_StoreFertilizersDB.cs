@@ -82,6 +82,19 @@ namespace StoreFertilizers.Migrations
                     table.PrimaryKey("PK_ProductType", x => x.ProductTypeID);
                 });
             migrationBuilder.CreateTable(
+                name: "Promotion",
+                columns: table => new
+                {
+                    PromotionID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Descr = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Promotion", x => x.PromotionID);
+                });
+            migrationBuilder.CreateTable(
                 name: "Provider",
                 columns: table => new
                 {
@@ -217,6 +230,7 @@ namespace StoreFertilizers.Migrations
                     EmployeeName = table.Column<string>(nullable: true),
                     InvoiceNumber = table.Column<string>(nullable: true),
                     IsTax = table.Column<bool>(nullable: false),
+                    IsTicket = table.Column<bool>(nullable: true),
                     NetTotal = table.Column<decimal>(nullable: false),
                     Notes = table.Column<string>(nullable: true),
                     Paid = table.Column<bool>(nullable: false),
@@ -351,6 +365,7 @@ namespace StoreFertilizers.Migrations
                     InvoiceID = table.Column<int>(nullable: false),
                     IsDeleted = table.Column<bool>(nullable: true),
                     IsTax = table.Column<bool>(nullable: false),
+                    IsTicket = table.Column<bool>(nullable: true),
                     PricePerUnit = table.Column<decimal>(nullable: true),
                     ProductID = table.Column<int>(nullable: false),
                     PurchaseID = table.Column<int>(nullable: true),
@@ -399,6 +414,7 @@ namespace StoreFertilizers.Migrations
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
             migrationBuilder.DropTable("InvoiceDetails");
+            migrationBuilder.DropTable("Promotion");
             migrationBuilder.DropTable("Stock");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");

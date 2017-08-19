@@ -11,6 +11,8 @@ namespace StoreFertilizers.Models
 
         public bool IsTax { get; set; }
 
+        public bool? IsTicket { get; set; }
+
         public int? PurchaseID { get; set; }
         public virtual Purchase Purchase { get; set; }
 

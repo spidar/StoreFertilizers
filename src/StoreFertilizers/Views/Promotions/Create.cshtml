@@ -1,0 +1,44 @@
+@model StoreFertilizers.Models.Promotion
+
+@{
+    ViewData["Title"] = "สร้างรายการของแถม";
+}
+
+<h2>สร้าง</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>ของแถม</h4>
+        <hr />
+        <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label">ชื่อของแถม</label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger" />
+            </div>
+        </div>        
+        <div class="form-group">
+            <label asp-for="Descr" class="col-md-2 control-label">คำอธิบาย</label>
+            <div class="col-md-10">
+                <input asp-for="Descr" class="form-control" />
+                <span asp-validation-for="Descr" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="สร้าง" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">ย้อนกลับ</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

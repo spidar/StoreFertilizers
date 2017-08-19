@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
+using StoreFertilizers.Models;
 
 namespace StoreFertilizers.Models
 {
@@ -25,6 +26,7 @@ namespace StoreFertilizers.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<UnitType> UnitTypes { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
 
         //public DbSet<User> CustomUsers { get; set; }
     }

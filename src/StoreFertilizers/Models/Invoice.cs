@@ -15,6 +15,8 @@ namespace StoreFertilizers.Models
 
         public bool IsTax { get; set; }
 
+        public bool? IsTicket { get; set; }
+
         [Display(Name = "ใบกำกับสินค้าเลขที่")]
         public string InvoiceNumber { get; set; }
 
