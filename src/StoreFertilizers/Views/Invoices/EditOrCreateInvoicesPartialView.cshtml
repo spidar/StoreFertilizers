@@ -483,7 +483,7 @@
                 </tr>
                 <tr>
                     <td colspan="7">
-                        ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้อง ผู้ซื้อจะมีสิทธิ์สมบูรณ์ในสินค้านี้ต่อเมื่อได้ชำระเงินโดยครบถ้วนแล้ว และอยู่ในสภาพเรียบร้อยทุกประการ
+                        ได้รับสินค้าตามรายการข้างบนนี้ไว้ถูกต้อง ผู้ซื้อจะมีสิทธิ์สมบูรณ์ในสินค้านี้ต่อเมื่อได้ชำระเงินโดยครบถ้วนแล้ว
                     </td>
                 </tr>                
             </tbody>
@@ -689,10 +689,7 @@
     </div>
     <br class="noPrint"/>
     <hr class="noPrint"/>
-    <div ng-show="status!=''" class="alert alert-danger noPrint" role="alert">
-        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-        {{status}}
-    </div>
+    <span ng-show="status!=''" class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;font-size:xx-large;">{{status}}</span>
     <md-progress-linear ng-show="showLoading" md-mode="indeterminate"></md-progress-linear>
     <div class="form-group remove-bottom-margin noPrint">
         <div>

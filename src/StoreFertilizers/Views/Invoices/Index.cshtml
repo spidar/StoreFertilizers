@@ -133,14 +133,14 @@
                 <tbody>
                     <tr ng-repeat="item in invoices" ng-show="data.totalItems > 0">
                         <td class="noPrint" style="text-align:center;vertical-align:middle;">
-                            <a href="Invoices/Edit/{{item.invoiceID}}?isTax={{item.isTax}}&isTicket={{item.isTicket}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a target="_blank" href="Invoices/Edit/{{item.invoiceID}}?isTax={{item.isTax}}&isTicket={{item.isTicket}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
                             <a href="" class="btn btn-danger btn-xs" ng-click="removeInvoice(item)"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                         <td style="text-align:center;">{{item.createdDate | date: 'dd/MM/yyyy'}}</td>
                         <td style="text-align:center;">
                             <input type="checkbox" ng-disabled="true" ng-model="item.isTax">
                         </td>
-                        <td style="text-align:center;">{{item.invoiceNumber}}</td>
+                        <td style="text-align:center;">{{item.invoiceNumber}}<span ng-show="item.isTicket">&nbsp;(ตั๋วปุ๋ย)</span></td>
                         <td>{{item.customerName}}</td>
                         <td style="text-align:right;">{{item.netTotal | number:2}}</td>
                         <td style="text-align:center;">

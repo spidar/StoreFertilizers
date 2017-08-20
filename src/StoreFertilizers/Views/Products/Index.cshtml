@@ -75,8 +75,8 @@
                 <tbody>
                     <tr ng-repeat="item in products">
                         <td class="noPrint" style="text-align:center;vertical-align:middle;">
-                            <a href="Products/Edit/{{item.productID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
-                            <a href="Products/Delete/{{item.productID}}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a target="_blank" href="Products/Edit/{{item.productID}}" class="btn btn-warning btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
+                            <a target="_blank" href="Products/Delete/{{item.productID}}" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                         <td>{{item.productNumber}}</td>
                         <td>{{item.productTypeName}}</td>
