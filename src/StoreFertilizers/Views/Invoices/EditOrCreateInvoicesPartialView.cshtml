@@ -133,13 +133,7 @@
                                 <input type="number" ng-model="item.qty" min="0" style="text-align:right;max-width:none;" ng-validate="integer" class="form-control input-sm" placeholder="0" />
                             </td>
                             <td style="text-align:center;">
-                                <md-input-container style="margin:0px;margin-top:-5px;">
-                                    <md-select ng-model="item.product.unitType" ng-model-options="{trackBy: '$value.unitTypeID'}">
-                                        <md-option ng-repeat="unitType in data.unitTypeList" ng-value="unitType">
-                                            {{unitType.name}}
-                                        </md-option>
-                                    </md-select>
-                                </md-input-container>
+                                {{item.product.unitType.name}}<br/>(<small>{{item.product.unitsPerPackageText}}</small>)
                             </td>
                             <td style="text-align:right;">
                                 <input type="number" ng-model="item.pricePerUnit" min="0" style="text-align:right;max-width:none;" ng-validate="decimal" class="form-control input-sm" placeholder="0.00" />

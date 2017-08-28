@@ -410,10 +410,6 @@ namespace StoreFertilizers.Controllers
                 }
                 invoice.InvoiceDetails.Remove(item);
                 item.CreatedDate = invoice.CreatedDate;
-                if(item.Product.UnitType != null)
-                {
-                    item.Product.UnitTypeID = item.Product.UnitType.UnitTypeID;
-                }
                 _context.InvoiceDetails.Add(item);
             }
             #endregion
@@ -463,10 +459,6 @@ namespace StoreFertilizers.Controllers
                     }
                     else
                     {
-                        if (item.Product.UnitType != null && item.Product.UnitTypeID != item.Product.UnitType.UnitTypeID)
-                        {
-                            _context.Entry(item.Product).State = EntityState.Modified;
-                        }
                         if (invoice.IsTax == false)
                         {
                             #region "Handle Stock"
