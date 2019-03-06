@@ -154,59 +154,63 @@ namespace StoreFertilizers.Controllers
             if (purchase.Product.ProductID != purchase.OrgProductID)
             {
                 purchase.QtyRemain = purchase.Qty;
-
-                #region Handle stock
-                //Old one            
-                if (orgProductInStock != null)
+                if (purchase.IsTax == false)
                 {
-                    /*
-                    if(purchase.Qty >= purchase.OrgQty)
+                    #region Handle stock
+                    //Old one            
+                    if (orgProductInStock != null)
                     {
+                        /*
+                        if(purchase.Qty >= purchase.OrgQty)
+                        {
+                            orgProductInStock.Balance -= purchase.OrgQty;
+                        }
+                        else
+                        {
+                            orgProductInStock.Balance -= (purchase.OrgQty - purchase.Qty);
+                        }
+                        */
                         orgProductInStock.Balance -= purchase.OrgQty;
+                        orgProductInStock.LastUpdated = DateTime.Now;
+                        _context.Entry(orgProductInStock).State = EntityState.Modified;
+                    }
+                    //New one
+                    Stock newProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.Product.ProductID);
+                    if (newProductInStock != null)
+                    {
+                        newProductInStock.Balance += purchase.Qty;
+                        newProductInStock.LastUpdated = DateTime.Now;
+                        _context.Entry(newProductInStock).State = EntityState.Modified;
                     }
                     else
                     {
-                        orgProductInStock.Balance -= (purchase.OrgQty - purchase.Qty);
+                        Stock pInStock = new Stock()
+                        {
+                            ProductID = purchase.ProductID,
+                            Product = purchase.Product,
+                            Balance = purchase.Qty,
+                            AlertLowStock = true,
+                            LowCapStock = 1,
+                            LastUpdated = DateTime.Now
+                        };
+                        _context.Stocks.Add(pInStock);
                     }
-                    */
-                    orgProductInStock.Balance -= purchase.OrgQty;
-                    orgProductInStock.LastUpdated = DateTime.Now;
-                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                    #endregion
                 }
-                //New one
-                Stock newProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.Product.ProductID);
-                if (newProductInStock != null)
-                {
-                    newProductInStock.Balance += purchase.Qty;
-                    newProductInStock.LastUpdated = DateTime.Now;
-                    _context.Entry(newProductInStock).State = EntityState.Modified;
-                }
-                else
-                {
-                    Stock pInStock = new Stock()
-                    {
-                        ProductID = purchase.ProductID,
-                        Product = purchase.Product,
-                        Balance = purchase.Qty,
-                        AlertLowStock = true,
-                        LowCapStock = 1,
-                        LastUpdated = DateTime.Now
-                    };
-                    _context.Stocks.Add(pInStock);
-                }
-                #endregion
             }else
             {
                 purchase.QtyRemain += diffQty;
-
-                #region Handle stock            
-                if (orgProductInStock != null && diffQty != 0)
+                if (purchase.IsTax == false)
                 {
-                    orgProductInStock.Balance += diffQty;
-                    orgProductInStock.LastUpdated = DateTime.Now;
-                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                    #region Handle stock            
+                    if (orgProductInStock != null && diffQty != 0)
+                    {
+                        orgProductInStock.Balance += diffQty;
+                        orgProductInStock.LastUpdated = DateTime.Now;
+                        _context.Entry(orgProductInStock).State = EntityState.Modified;
+                    }
+                    #endregion
                 }
-                #endregion
             }
 
             purchase.Amount = purchase.Qty * purchase.PurchasePricePerUnit;
@@ -246,27 +250,29 @@ namespace StoreFertilizers.Controllers
 
             _context.Purchases.Add(purchase);
 
-            var productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
-            if (productInStock != null)
+            if (purchase.IsTax == false)
             {
-                productInStock.Balance += purchase.Qty;
-                productInStock.LastUpdated = DateTime.Now;
-                _context.Entry(productInStock).State = EntityState.Modified;
-            }
-            else
-            {
-                Stock newProductInStock = new Stock()
+                var productInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
+                if (productInStock != null)
                 {
-                    ProductID = purchase.ProductID,
-                    Product = purchase.Product,
-                    Balance = purchase.Qty,
-                    AlertLowStock = true,
-                    LowCapStock = 1,
-                    LastUpdated = DateTime.Now
-                };
-                _context.Stocks.Add(newProductInStock);
+                    productInStock.Balance += purchase.Qty;
+                    productInStock.LastUpdated = DateTime.Now;
+                    _context.Entry(productInStock).State = EntityState.Modified;
+                }
+                else
+                {
+                    Stock newProductInStock = new Stock()
+                    {
+                        ProductID = purchase.ProductID,
+                        Product = purchase.Product,
+                        Balance = purchase.Qty,
+                        AlertLowStock = true,
+                        LowCapStock = 1,
+                        LastUpdated = DateTime.Now
+                    };
+                    _context.Stocks.Add(newProductInStock);
+                }
             }
-
             try
             {
                 _context.SaveChanges();
@@ -301,15 +307,18 @@ namespace StoreFertilizers.Controllers
                 return HttpNotFound();
             }
 
-            #region Handle stock           
-            Stock orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
-            if (orgProductInStock != null)
+            if (purchase.IsTax == false)
             {
-                orgProductInStock.Balance -= purchase.Qty;
-                orgProductInStock.LastUpdated = DateTime.Now;
-                _context.Entry(orgProductInStock).State = EntityState.Modified;
+                #region Handle stock           
+                Stock orgProductInStock = _context.Stocks.SingleOrDefault(i => i.ProductID == purchase.ProductID);
+                if (orgProductInStock != null)
+                {
+                    orgProductInStock.Balance -= purchase.Qty;
+                    orgProductInStock.LastUpdated = DateTime.Now;
+                    _context.Entry(orgProductInStock).State = EntityState.Modified;
+                }
+                #endregion
             }
-            #endregion
 
             _context.Purchases.Remove(purchase);
             try

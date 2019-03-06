@@ -29,6 +29,7 @@
                 },
                 filterOptions: {
                     filterText: '',
+                    filterProduct: '',
                     filterTextDetails: '',
                     isTax: 'notax',
                     fromCreatedDate: dateOffset,
@@ -63,7 +64,9 @@
             // End Line Chart
 
             $scope.invoices = {};
-            $scope.invoiceDetails = {};
+            //$scope.invoiceDetails = {};
+            $scope.invoiceDetailsTemp = {};
+            $scope.invoiceDetails = [];
 
             $scope.sumInChange = function (item) {
                 var today = new Date($scope.data.filterOptions.toCreatedDate);
@@ -134,7 +137,7 @@
                 $scope.showLoading = true;
 
                 var params = {
-                    searchtext: $scope.data.filterOptions.filterText,
+                    searchtext: $scope.data.filterOptions.filterProduct,
                     fromCreatedDate: $scope.data.filterOptions.fromCreatedDate,
                     toCreatedDate: $scope.data.filterOptions.toCreatedDate,
                     isTax: $scope.data.filterOptions.isTax,
@@ -147,12 +150,31 @@
 
                 servicesFactory.getInvoiceDetails(params)
                 .then(function (response) {
-                    $scope.invoiceDetails = response.data.content;
+                    //$scope.invoiceDetails = response.data.content;
                     $scope.data.totalProductDetails = response.data.totalProducts;
                     $scope.data.totalNetAmountDetails = response.data.totalNetAmount;
                     $scope.data.totalItemsDetails = response.data.totalRecords;
                     $scope.data.totalPagesDetails = response.data.totalPages;
                     $scope.data.pagingOptions.currentPageDetails = response.data.currentPage;
+                    $scope.invoiceDetails = [];
+                    if ($scope.invoices != null) {
+                        for (var i = 0; i < response.data.content.length; i++) {
+                            var found = $scope.invoices.map(function (x) { return x.invoiceID; }).indexOf(response.data.content[i].invoiceID);
+                            if (found !== -1) {
+                                $scope.invoiceDetails.push(response.data.content[i]);
+                                //$scope.invoiceDetails.splice($scope.invoiceDetails[i], 1);
+                            }
+                        }
+                    }
+                    /*
+                    if ($scope.data.invoices != null && $scope.data.invoiceDetailsTemp != null) {
+                        for (var i = 0; i < $scope.data.invoiceDetailsTemp.length; i++) {
+                            for (var j = 0; j < $scope.data.invoices.length; j++) {
+
+                            }
+                        }
+                    }
+                    */
                     // Fill Chart
                     /*
                     for (var i = 0; i < $scope.invoices.length; i++) {

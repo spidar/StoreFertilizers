@@ -97,9 +97,11 @@ namespace StoreFertilizers.Controllers
             invoices_details_result = invoices_details_result.Skip((page - 1) * pageSize).Take(pageSize);
             if (groupping)
             {
+                /*
                 pagedRecord.Content = invoices_details_result.GroupBy(x => x.ProductName)
                     .Select(row => new
                     {
+                        InvoiceID = row.First().InvoiceID,
                         ProductID = row.First().ProductID,
                         ProductTypeName = row.First().ProductTypeName,
                         ProductName = row.First().ProductName,
@@ -108,6 +110,18 @@ namespace StoreFertilizers.Controllers
                         SumAmount = row.Sum(a => a.Amount),
                         FullDetails = row.ToList()
                     }).ToList().OrderBy("ProductName " + sortDirection);
+                */
+                pagedRecord.Content = invoices_details_result.Select(row => new
+                {
+                    InvoiceID = row.InvoiceID,
+                    ProductID = row.ProductID,
+                    ProductTypeName = row.ProductTypeName,
+                    ProductName = row.ProductName,
+                    ProductUnitTypeName = row.ProductUnitTypeName,
+                    SumQty = row.Qty,// row.Sum(q => q.Qty),
+                    SumAmount = row.Amount, //row.Sum(a => a.Amount),
+                    FullDetails = row //row row.ToList()
+                }).ToList().OrderBy("ProductName " + sortDirection);
             }
             else
             {
